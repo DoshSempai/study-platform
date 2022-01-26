@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from '../card/Сard';
 import './Content.css';
 
-const cardCount = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+const cardCount = [1, 1, 1, 1, 1, 1, 1, 1];
 
 export const Content = (): JSX.Element => (
 	<div className="content">
