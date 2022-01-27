@@ -7,7 +7,7 @@ const cardCount = [1, 1, 1, 1, 1, 1, 1, 1];
 export const Content = (): JSX.Element => (
 	<div className="content">
 		{cardCount.map((item) => (
-			<Card />
+			<Card key={item} />
 		))}
 	</div>
 );

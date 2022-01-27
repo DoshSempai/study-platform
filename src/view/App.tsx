@@ -1,26 +1,29 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { Dashboard } from './pages/dashboard/dashboard';
 import './App.css';
-import { Header } from './header/Header';
-import { Navigation } from './navigation/Navigation';
-import { Content } from './content/Content';
-import { Routes, Route, Link } from 'react-router-dom';
-
-const Temp = (): JSX.Element => (
-	<>
-		<Navigation />
-		<div className="app_right">
-			<Header />
-			<Content />
-		</div>
-	</>
-);
+import { Navigation } from './components/navigation/Navigation';
+import { Header } from './components/header/Header';
+import { Content } from './components/content/Content';
 
 const App = (): JSX.Element => (
 	<div className="app">
-		<Routes>
-			<Route path="/" element={<Temp />} />
-			<Route path="/add" element={<Temp />} />
-		</Routes>
+		<Navigation />
+		<div className="app_right">
+			<Header />
+			<Routes>
+				<Route path="/" element={<Content />} />
+				<Route path="/app" element={<Content />} />
+				<Route path="/about" element={<Content />} />
+				<Route element={<Content />} />
+			</Routes>
+		</div>
+		{/* <Routes>
+			<Route path="/" element={<Dashboard />} />
+			<Route path="/app" element={<Dashboard />} />
+			<Route path="/about" element={<Dashboard />} />
+			<Route element={<Dashboard />} />
+		</Routes> */}
 	</div>
 );
 

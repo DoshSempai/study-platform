@@ -5,11 +5,9 @@ import App from './view/App';
 import './reset.css';
 
 ReactDOM.render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
-	</React.StrictMode>,
+	<BrowserRouter>
+		<App />
+	</BrowserRouter>,
 	document.getElementById('app'),
 );
 
