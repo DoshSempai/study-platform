@@ -1,29 +1,20 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Dashboard } from './pages/dashboard/dashboard';
+// import { Dashboard } from './pages/dashboard/Dashboard';
+import { Dashboard } from './pages/dashboard/Dashboard';
 import './App.css';
 import { Navigation } from './components/navigation/Navigation';
 import { Header } from './components/header/Header';
 import { Content } from './components/content/Content';
+import { Exercise } from './pages/exercise/Exercise';
 
 const App = (): JSX.Element => (
 	<div className="app">
-		<Navigation />
-		<div className="app_right">
-			<Header />
-			<Routes>
-				<Route path="/" element={<Content />} />
-				<Route path="/app" element={<Content />} />
-				<Route path="/about" element={<Content />} />
-				<Route element={<Content />} />
-			</Routes>
-		</div>
-		{/* <Routes>
+		<Routes>
 			<Route path="/" element={<Dashboard />} />
-			<Route path="/app" element={<Dashboard />} />
-			<Route path="/about" element={<Dashboard />} />
+			<Route path="/exercise" element={<Exercise />} />
 			<Route element={<Dashboard />} />
-		</Routes> */}
+		</Routes>
 	</div>
 );
 
