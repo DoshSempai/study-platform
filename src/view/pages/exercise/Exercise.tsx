@@ -9,6 +9,7 @@ import { Navigation } from '../../components/navigation/Navigation';
 import { ProgressBar } from '../../components/progressbar/ProgressBar';
 
 export const Exercise = (): JSX.Element => {
+	const [userAnswer, setUserAnswer] = useState<String>();
 	const [exerciseArray, setExerciseArray] =
 		useState<Array<ITestButtonExercise>>(testButtonExercise);
 
@@ -26,20 +27,27 @@ export const Exercise = (): JSX.Element => {
 					<ExerciseWrap>
 						{currentExercise && (
 							<ExerciseButton
+								key={`${currentExercise.question}-${currentExercise.answer}`}
 								title={currentExercise.title}
 								answer={currentExercise.answer}
+								variants={currentExercise.variants}
 								question={currentExercise.question}
+								setUserAnswer={setUserAnswer}
 							/>
 						)}
 					</ExerciseWrap>
-					<CheckButton
-						text="Проверить"
-						isReadyToCheck
-						onCheck={(): void => {
-							const newExerciseArray = exerciseArray.slice(1);
-							setExerciseArray(newExerciseArray);
-						}}
-					/>
+					{currentExercise && (
+						<CheckButton
+							text="Проверить"
+							isReadyToCheck
+							onCheck={(): void => {
+								console.log(`userAnswer`, userAnswer);
+								console.log(`is Correct`, userAnswer === currentExercise.answer);
+								const newExerciseArray = exerciseArray.slice(1);
+								setExerciseArray(newExerciseArray);
+							}}
+						/>
+					)}
 				</Content>
 			</div>
 		</>

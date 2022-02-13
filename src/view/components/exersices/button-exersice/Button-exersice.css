@@ -34,3 +34,9 @@
     line-height: 24px!important;
     cursor: pointer;
 }
+
+.ex-button__button--active {
+    border: none;
+    color: var(--stplatform-white);
+    background: var(--stplatform-primary-80);
+}
