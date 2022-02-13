@@ -1,36 +1,41 @@
 import React, { useState } from 'react';
-// import classNames from 'classnames';
-// import Button from '@vkontakte/vkui/dist/components/Button/Button';
-// import LineWithTranslation from '../WordWithTranslation/LineWithTranslation';
+import cn from 'classnames';
 import './Button-exersice.css';
 
-const buttonData = ['Ответ 1', 'Ответ 2'];
-
 interface ExerciseButtonProps {
-	question: String;
 	title: String;
+	answer: String;
+	question: String;
+	variants: String[];
+	setUserAnswer: (userAnswer: String) => void;
 }
 
-// const BigButton = ({ data, setAnswer, setReadyToCheck, isCheckClicked, setCorrectAnswer }) => {
-export const ExerciseButton = ({ question, title }: ExerciseButtonProps): JSX.Element => {
-	// const { title, question, answer, variants, translations } = data;
-	// const [clickedButton, setClickedButton] = useState(-1);
-	// const [userAnswer, setUserAnswer] = useState('');
-	// const [hasCheckClicked, setHasCheckClicked] = useState(false);
+export const ExerciseButton = ({
+	question,
+	title,
+	answer,
+	variants,
+	setUserAnswer,
+}: ExerciseButtonProps): JSX.Element => {
+	const [chosenButtonIndex, setClickedButton] = useState(-1);
+
+	const handleClick = (index: number): void => {
+		setClickedButton(index);
+		setUserAnswer(variants[index]);
+	};
 
 	return (
 		<div className="ex-button">
 			<div className="ex-button__title">{title}</div>
 			<div className="ex-button__question">{question}</div>
 			<div className="ex-button__body-wrap">
-				{buttonData.map((el: any, idx: number) => (
+				{variants.map((el: any, idx: number) => (
 					<button
-						key={`BigButton-${idx}`}
-						className="ex-button__button"
-						// mode="outline"
-						// size="xl"
-						// data-id={idx}
-						// onClick={handleClick}
+						key={`exButton-${idx}`}
+						className={cn('ex-button__button', {
+							'ex-button__button--active': chosenButtonIndex === idx,
+						})}
+						onClick={(): void => handleClick(idx)}
 					>
 						{el}
 					</button>

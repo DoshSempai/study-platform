@@ -1,24 +1,127 @@
-import React from 'react';
-import { Content } from '../../components/content/Content';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import cn from 'classnames';
+import { ITestButtonExercise, testButtonExercise } from '../../../data/test-exercise';
+import { CheckButton } from '../../components/checkbutton/CheckButton';
 import { ExerciseButton } from '../../components/exersices/button-exersice/Button-exersice';
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
-import { Header } from '../../components/header/Header';
-import { Navigation } from '../../components/navigation/Navigation';
 import { ProgressBar } from '../../components/progressbar/ProgressBar';
+import { CommonLayout } from '../common/CommonLayout';
+import { ResultHint } from '../../components/resultHint/ResultHint';
 
-const Exercise = (): JSX.Element => (
-	<>
-		<Navigation />
-		<div className="app_right">
-			<Header />
-			<Content>
-				<ProgressBar progressPercent={0.6} />
-				<ExerciseWrap>
-					<ExerciseButton title={'Выберите правильный ответ'} question={'question'} />
-				</ExerciseWrap>
-			</Content>
+type TestMode = 'test' | 'train';
+
+// TODO: remove
+const CAN_DO_TEST_TEMP = true;
+const CAN_DO_TRAIN_TEMP = true;
+
+export const Exercise = (): JSX.Element => {
+	const [mode, setMode] = useState<TestMode>();
+	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
+	const [userAnswer, setUserAnswer] = useState<String>();
+	const [hintVisible, showHint] = useState<boolean>(false);
+	const [exerciseArray, setExerciseArray] =
+		useState<Array<ITestButtonExercise>>(testButtonExercise);
+
+	const currentExercise = exerciseArray[0] ?? null;
+	const progressValue =
+		(testButtonExercise.length - exerciseArray.length) / testButtonExercise.length;
+
+	const handleCheckAnswer = (): void => {
+		if (mode === 'train') {
+			showHint(true);
+			return;
+		}
+
+		const isCorrect = userAnswer === currentExercise.answer;
+		isCorrect && setNumberOfCorrect(numberOfCorrect + 1);
+		const newExerciseArray = exerciseArray.slice(1);
+		setExerciseArray(newExerciseArray);
+		setUserAnswer(undefined);
+	};
+
+	const handleHintNextExercise = (): void => {
+		const isCorrect = userAnswer === currentExercise.answer;
+		const newExerciseArray = isCorrect
+			? exerciseArray.slice(1)
+			: [...exerciseArray.slice(1), exerciseArray[0]];
+		setExerciseArray(newExerciseArray);
+		setUserAnswer(undefined);
+		showHint(false);
+	};
+
+	const modeSelectionNode = (): JSX.Element => (
+		<div>
+			<div className="ex-button__title">Выберите режим:</div>
+			<button
+				className={cn('ex-button__button', {
+					'ex-button__button--disabled': !CAN_DO_TEST_TEMP,
+				})}
+				disabled={!CAN_DO_TEST_TEMP}
+				onClick={(): void => setMode('test')}
+			>
+				Тестирование
+			</button>
+			<button
+				className={cn('ex-button__button', {
+					'ex-button__button--disabled': !CAN_DO_TRAIN_TEMP,
+				})}
+				disabled={!CAN_DO_TRAIN_TEMP}
+				onClick={(): void => setMode('train')}
+			>
+				Тренировка
+			</button>
 		</div>
-	</>
-);
+	);
 
-export { Exercise };
+	return (
+		<CommonLayout>
+			{mode && <ProgressBar progressPercent={progressValue} />}
+			<ExerciseWrap disabled={hintVisible}>
+				{!mode && modeSelectionNode()}
+				{mode && currentExercise && (
+					<ExerciseButton
+						key={`${currentExercise.question}-${currentExercise.answer}`}
+						title={currentExercise.title}
+						answer={currentExercise.answer}
+						variants={currentExercise.variants}
+						question={currentExercise.question}
+						setUserAnswer={setUserAnswer}
+					/>
+				)}
+				{mode && !currentExercise && (
+					<div className="ex-button__title">
+						{mode === 'test'
+							? `Результат: ${numberOfCorrect} / ${testButtonExercise.length}`
+							: 'Тренировка выполнена'}
+					</div>
+				)}
+			</ExerciseWrap>
+			{mode && currentExercise && (
+				<CheckButton
+					text={mode === 'test' ? 'Продолжить' : 'Проверить'}
+					isReadyToCheck={!!userAnswer}
+					onCheck={handleCheckAnswer}
+				/>
+			)}
+			{mode === 'train' && currentExercise && hintVisible && (
+				<ResultHint
+					isAnswerCorrect={userAnswer === currentExercise.answer}
+					correctAnswer={currentExercise.answer}
+					onNextHandler={handleHintNextExercise}
+				/>
+			)}
+			{mode && !currentExercise && (
+				<Link to="/" className="stplatform-link">
+					<CheckButton
+						text="На главную"
+						isReadyToCheck
+						onCheck={(): void => {
+							/* noop */
+						}}
+					/>
+				</Link>
+			)}
+		</CommonLayout>
+	);
+};
