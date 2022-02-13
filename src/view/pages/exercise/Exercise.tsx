@@ -13,7 +13,8 @@ import { ProgressBar } from '../../components/progressbar/ProgressBar';
 type TestMode = 'test' | 'train';
 
 export const Exercise = (): JSX.Element => {
-	const [testMode, setTestMode] = useState<TestMode>();
+	const [mode, setMode] = useState<TestMode>();
+	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
 	const [userAnswer, setUserAnswer] = useState<String>();
 	const [exerciseArray, setExerciseArray] =
 		useState<Array<ITestButtonExercise>>(testButtonExercise);
@@ -22,38 +23,52 @@ export const Exercise = (): JSX.Element => {
 	const progressValue =
 		(testButtonExercise.length - exerciseArray.length) / testButtonExercise.length;
 
+	const handleCheckAnswer = (): void => {
+		const isCorrect = userAnswer === currentExercise.answer;
+		console.log(`userAnswer (${isCorrect})`, userAnswer);
+
+		if (mode === 'test') {
+			isCorrect && setNumberOfCorrect(numberOfCorrect + 1);
+			const newExerciseArray = exerciseArray.slice(1);
+			setExerciseArray(newExerciseArray);
+			setUserAnswer(undefined);
+		}
+	};
+
+	const modeSelectionNode = (): JSX.Element => (
+		<div>
+			<div className="ex-button__title">Выберите режим:</div>
+			<button
+				className={cn('ex-button__button', {
+					'ex-button__button--disabled': false,
+				})}
+				disabled={false}
+				onClick={(): void => setMode('test')}
+			>
+				Тестирование
+			</button>
+			<button
+				className={cn('ex-button__button', {
+					'ex-button__button--disabled': true,
+				})}
+				disabled={true}
+				onClick={(): void => setMode('train')}
+			>
+				Тренировка
+			</button>
+		</div>
+	);
+
 	return (
 		<>
 			<Navigation />
 			<div className="app_right">
 				<Header />
 				<Content>
-					{testMode && <ProgressBar progressPercent={progressValue} />}
+					{mode && <ProgressBar progressPercent={progressValue} />}
 					<ExerciseWrap>
-						{!testMode && (
-							<div>
-								<div className="ex-button__title">Выберите режим:</div>
-								<button
-									className={cn('ex-button__button', {
-										'ex-button__button--disabled': false,
-									})}
-									disabled={false}
-									onClick={(): void => setTestMode('test')}
-								>
-									Тестирование
-								</button>
-								<button
-									className={cn('ex-button__button', {
-										'ex-button__button--disabled': true,
-									})}
-									disabled={true}
-									onClick={(): void => setTestMode('train')}
-								>
-									Тренировка
-								</button>
-							</div>
-						)}
-						{testMode && currentExercise && (
+						{!mode && modeSelectionNode()}
+						{mode && currentExercise && (
 							<ExerciseButton
 								key={`${currentExercise.question}-${currentExercise.answer}`}
 								title={currentExercise.title}
@@ -63,21 +78,20 @@ export const Exercise = (): JSX.Element => {
 								setUserAnswer={setUserAnswer}
 							/>
 						)}
+						{mode && !currentExercise && (
+							<div className="ex-button__title">
+								Результат: {numberOfCorrect} / {testButtonExercise.length}
+							</div>
+						)}
 					</ExerciseWrap>
-					{testMode && currentExercise && (
+					{mode && currentExercise && (
 						<CheckButton
-							text="Проверить"
+							text={mode === 'test' ? 'Продолжить' : 'Проверить'}
 							isReadyToCheck={!!userAnswer}
-							onCheck={(): void => {
-								console.log(`userAnswer`, userAnswer);
-								console.log(`is Correct`, userAnswer === currentExercise.answer);
-								const newExerciseArray = exerciseArray.slice(1);
-								setExerciseArray(newExerciseArray);
-								setUserAnswer(undefined);
-							}}
+							onCheck={handleCheckAnswer}
 						/>
 					)}
-					{testMode && !currentExercise && (
+					{mode && !currentExercise && (
 						<Link to="/" className="stplatform-link">
 							<CheckButton
 								text="На главную"
