@@ -32,6 +32,12 @@ export const Exercise = (): JSX.Element => {
 			const newExerciseArray = exerciseArray.slice(1);
 			setExerciseArray(newExerciseArray);
 			setUserAnswer(undefined);
+		} else {
+			const newExerciseArray = isCorrect
+				? exerciseArray.slice(1)
+				: [...exerciseArray.slice(1), exerciseArray[0]];
+			setExerciseArray(newExerciseArray);
+			setUserAnswer(undefined);
 		}
 	};
 
@@ -49,9 +55,9 @@ export const Exercise = (): JSX.Element => {
 			</button>
 			<button
 				className={cn('ex-button__button', {
-					'ex-button__button--disabled': true,
+					'ex-button__button--disabled': false,
 				})}
-				disabled={true}
+				disabled={false}
 				onClick={(): void => setMode('train')}
 			>
 				Тренировка
@@ -80,7 +86,9 @@ export const Exercise = (): JSX.Element => {
 						)}
 						{mode && !currentExercise && (
 							<div className="ex-button__title">
-								Результат: {numberOfCorrect} / {testButtonExercise.length}
+								{mode === 'test'
+									? `Результат: ${numberOfCorrect} / ${testButtonExercise.length}`
+									: 'Тренировка выполнена'}
 							</div>
 						)}
 					</ExerciseWrap>
