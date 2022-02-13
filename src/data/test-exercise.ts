@@ -1,9 +1,9 @@
 export interface ITestButtonExercise {
 	type: 'button';
-	title: String;
-	question: String;
-	answer: String;
-	variants: Array<String>;
+	title: string;
+	question: string;
+	answer: string;
+	variants: Array<string>;
 }
 
 export const testButtonExercise: Array<ITestButtonExercise> = [

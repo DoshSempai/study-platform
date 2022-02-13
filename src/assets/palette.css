@@ -6,4 +6,11 @@
   --stplatform-primary: #56D1BB;
   --stplatform-primary-80: rgba(86, 209, 187, 0.8);
   --stplatform-primary-50: rgba(86, 209, 187, 0.5);
+
+  --stplatform-hint-bg-correct: #D0FFCF;
+  --stplatform-hint-bg-wrong: #FFCFCF;
+  --stplatform-hint-title-correct: #54D852;
+  --stplatform-hint-title-wrong: #FF5F5F;
+  --stplatform-hint-button-correct: linear-gradient(180deg, #84E782 0%, #85DE83 100%);
+  --stplatform-hint-button-wrong: linear-gradient(180deg, #FF7373 0%, #F15E5E 100%);
 }
