@@ -2,5 +2,7 @@
   --stplatform-white: #ffffff;
   --stplatform-black: #000000;
 
-  --stplatform-primary: #4986cc;
+  --stplatform-primary: #56D1BB;
+  --stplatform-primary-80: rgba(86, 209, 187, 0.8);
+  --stplatform-primary-50: rgba(86, 209, 187, 0.5);
 }

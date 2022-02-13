@@ -1,6 +1,7 @@
+@import '../../../../assets/palette.css';
 
 .ex-button__title {
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
@@ -16,16 +17,20 @@
 }
 
 .ex-button__button {
-    border-radius: 10px;
     display: block;
+    width: 100%;
     margin: 20px 0!important;
-    background: #ffffff;
-    color: rgb(107 83 255 / 80%);
-    border-color: rgb(107 83 255 / 50%);
-    font-family: Roboto;
+    padding: 5px;
+
+    border-radius: 10px;
+    border-color: var(--stplatform-primary-50);
+    background: var(--stplatform-white);
+    color: var(--stplatform-primary-80);
+
+    font-family: 'Roboto', sans-serif;
     font-style: normal!important;
     font-weight: 300!important;
     font-size: 16px!important;
     line-height: 24px!important;
-
+    cursor: pointer;
 }

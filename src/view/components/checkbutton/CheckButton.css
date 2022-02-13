@@ -1,0 +1,44 @@
+@import '../../../assets/palette.css';
+
+.ex-check {
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px 30px 14px;
+  background: var(--stplatform-white);
+  z-index: 4;
+}
+
+.ex-check__button button, .ex-hint__button button {
+  padding: 18px 20px 14px;
+  width: 100%;
+
+  border: none;
+  border-radius: 24px;
+  outline: none;
+
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: 0.05em;
+
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ex-check__button--not-ready button {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: var(--stplatform-white);
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.ex-check__button--ready button {
+  background: var(--stplatform-primary-80);
+  border: none;
+  color: rgba(255, 255, 255, 0.9);
+}

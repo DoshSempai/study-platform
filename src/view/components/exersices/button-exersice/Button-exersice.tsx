@@ -7,12 +7,13 @@ import './Button-exersice.css';
 const buttonData = ['Ответ 1', 'Ответ 2'];
 
 interface ExerciseButtonProps {
-	question: String;
 	title: String;
+	answer: String;
+	question: String;
 }
 
 // const BigButton = ({ data, setAnswer, setReadyToCheck, isCheckClicked, setCorrectAnswer }) => {
-export const ExerciseButton = ({ question, title }: ExerciseButtonProps): JSX.Element => {
+export const ExerciseButton = ({ question, title, answer }: ExerciseButtonProps): JSX.Element => {
 	// const { title, question, answer, variants, translations } = data;
 	// const [clickedButton, setClickedButton] = useState(-1);
 	// const [userAnswer, setUserAnswer] = useState('');
