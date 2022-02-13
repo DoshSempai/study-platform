@@ -1,12 +1,11 @@
-.app {
+.app {  
     height: 100vh;
     display: flex;
     background: #ffffff;
 }
 
-.app_right {
+.app_right { 
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    background-color: blueviolet;
 }
