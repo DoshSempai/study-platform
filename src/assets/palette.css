@@ -1,6 +1,7 @@
 :root {
   --stplatform-white: #ffffff;
   --stplatform-black: #000000;
+  --stplatform-black-20: rgba(0, 0, 0, 0.2);
 
   --stplatform-primary: #56D1BB;
   --stplatform-primary-80: rgba(86, 209, 187, 0.8);

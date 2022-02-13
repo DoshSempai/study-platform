@@ -35,7 +35,6 @@ export const ExerciseButton = ({
 						className={cn('ex-button__button', {
 							'ex-button__button--active': chosenButtonIndex === idx,
 						})}
-						data-id={idx}
 						onClick={(): void => handleClick(idx)}
 					>
 						{el}
