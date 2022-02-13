@@ -1,0 +1,26 @@
+@import '../../../assets/palette.css';
+
+.progress-bar-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  box-sizing: border-box;
+  padding: 10px 0;
+  background: var(--stplatform-white);
+  z-index: 4;
+}
+
+.progress-bar-outer {
+  width: 100%;
+  height: 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.progress-bar {
+  height: 16px;
+  background: var(--stplatform-primary);
+  border-radius: 12px;
+}

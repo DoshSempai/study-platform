@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Content } from '../../components/content/Content';
 import { Header } from '../../components/header/Header';
 import { Navigation } from '../../components/navigation/Navigation';
@@ -12,7 +13,9 @@ const Dashboard = (): JSX.Element => (
 			<Header />
 			<Content>
 				{dashboardCardData.map((title) => (
-					<Card key={title} title={title} />
+					<Link key={title} to="/exercise" className="stplatform-link">
+						<Card title={title} />
+					</Link>
 				))}
 			</Content>
 		</div>

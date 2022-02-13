@@ -4,6 +4,7 @@ import { ExerciseButton } from '../../components/exersices/button-exersice/Butto
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
 import { Header } from '../../components/header/Header';
 import { Navigation } from '../../components/navigation/Navigation';
+import { ProgressBar } from '../../components/progressbar/ProgressBar';
 
 const Exercise = (): JSX.Element => (
 	<>
@@ -11,6 +12,7 @@ const Exercise = (): JSX.Element => (
 		<div className="app_right">
 			<Header />
 			<Content>
+				<ProgressBar progressPercent={0.6} />
 				<ExerciseWrap>
 					<ExerciseButton title={'Выберите правильный ответ'} question={'question'} />
 				</ExerciseWrap>
