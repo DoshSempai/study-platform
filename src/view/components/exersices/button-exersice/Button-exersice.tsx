@@ -4,7 +4,6 @@ import './Button-exersice.css';
 
 interface ExerciseButtonProps {
 	title: String;
-	answer: String;
 	question: String;
 	variants: String[];
 	setUserAnswer: (userAnswer: String) => void;
@@ -13,7 +12,6 @@ interface ExerciseButtonProps {
 export const ExerciseButton = ({
 	question,
 	title,
-	answer,
 	variants,
 	setUserAnswer,
 }: ExerciseButtonProps): JSX.Element => {
@@ -25,9 +23,9 @@ export const ExerciseButton = ({
 	};
 
 	return (
-		<div className="ex-button">
-			<div className="ex-button__title">{title}</div>
-			<div className="ex-button__question">{question}</div>
+		<div className="exercise">
+			<div className="exercise__title">{title}</div>
+			<div className="exercise__question">{question}</div>
 			<div className="ex-button__body-wrap">
 				{variants.map((el: any, idx: number) => (
 					<button

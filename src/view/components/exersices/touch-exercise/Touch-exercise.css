@@ -1,0 +1,15 @@
+@import '../../../../assets/palette.css';
+
+.ex-touch__body-wrap {
+  position: relative;
+}
+.ex-touch__lines {
+  margin: 10px 0 50px;
+}
+.ex-touch__line {
+  width: 100%;
+  height: 46px;
+  border-bottom: 1px solid var(--stplatform-ex-touch-line);
+}
+
+

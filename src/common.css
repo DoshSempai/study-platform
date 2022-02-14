@@ -7,3 +7,19 @@
 .stplatform-link, .stplatform-link:visited, .stplatform-link:hover, .stplatform-link:active {
   color: inherit;
 }
+
+.exercise__title {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 26px;
+  color: rgba(0,0,0,0.8);
+}
+
+.exercise__question {
+  margin-top: 16px;
+  font-family: "Open Sans";
+  font-size: 16px;
+  line-height: 22px;
+}

@@ -13,4 +13,6 @@
   --stplatform-hint-title-wrong: #FF5F5F;
   --stplatform-hint-button-correct: linear-gradient(180deg, #84E782 0%, #85DE83 100%);
   --stplatform-hint-button-wrong: linear-gradient(180deg, #FF7373 0%, #F15E5E 100%);
+
+  --stplatform-ex-touch-line: rgba(0, 0, 0, 0.16);
 }

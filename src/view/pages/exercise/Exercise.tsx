@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
-import { ITestButtonExercise, testButtonExercise } from '../../../data/test-exercise';
+import { testButtonExercise } from '../../../data/test-exercise';
 import { CheckButton } from '../../components/checkbutton/CheckButton';
 import { ExerciseButton } from '../../components/exersices/button-exersice/Button-exersice';
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
 import { ProgressBar } from '../../components/progressbar/ProgressBar';
 import { CommonLayout } from '../common/CommonLayout';
 import { ResultHint } from '../../components/resultHint/ResultHint';
+import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
+import { ExerciseTouch } from '../../components/exersices/touch-exercise/Touch-exercise';
 
 type TestMode = 'test' | 'train';
 
@@ -20,8 +22,7 @@ export const Exercise = (): JSX.Element => {
 	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
 	const [userAnswer, setUserAnswer] = useState<String>();
 	const [hintVisible, showHint] = useState<boolean>(false);
-	const [exerciseArray, setExerciseArray] =
-		useState<Array<ITestButtonExercise>>(testButtonExercise);
+	const [exerciseArray, setExerciseArray] = useState<Array<ITestExerciseAll>>(testButtonExercise);
 
 	const currentExercise = exerciseArray[0] ?? null;
 	const progressValue =
@@ -52,7 +53,7 @@ export const Exercise = (): JSX.Element => {
 
 	const modeSelectionNode = (): JSX.Element => (
 		<div>
-			<div className="ex-button__title">Выберите режим:</div>
+			<div className="exercise__title">Выберите режим:</div>
 			<button
 				className={cn('ex-button__button', {
 					'ex-button__button--disabled': !CAN_DO_TEST_TEMP,
@@ -74,23 +75,37 @@ export const Exercise = (): JSX.Element => {
 		</div>
 	);
 
+	const getExerciseItem = (): JSX.Element => {
+		switch (currentExercise.type) {
+			case ExerciseType.button:
+				return (
+					<ExerciseButton
+						key={`${currentExercise.question}-${currentExercise.answer}`}
+						title={currentExercise.title}
+						variants={currentExercise.variants}
+						question={currentExercise.question}
+						setUserAnswer={setUserAnswer}
+					/>
+				);
+			case ExerciseType.touch:
+				return (
+					<ExerciseTouch
+						key={`${currentExercise.answer}`}
+						title={currentExercise.title}
+						answer={currentExercise.answer}
+					/>
+				);
+		}
+	};
+
 	return (
 		<CommonLayout>
 			{mode && <ProgressBar progressPercent={progressValue} />}
 			<ExerciseWrap disabled={hintVisible}>
 				{!mode && modeSelectionNode()}
-				{mode && currentExercise && (
-					<ExerciseButton
-						key={`${currentExercise.question}-${currentExercise.answer}`}
-						title={currentExercise.title}
-						answer={currentExercise.answer}
-						variants={currentExercise.variants}
-						question={currentExercise.question}
-						setUserAnswer={setUserAnswer}
-					/>
-				)}
+				{mode && currentExercise && getExerciseItem()}
 				{mode && !currentExercise && (
-					<div className="ex-button__title">
+					<div className="exercise__title">
 						{mode === 'test'
 							? `Результат: ${numberOfCorrect} / ${testButtonExercise.length}`
 							: 'Тренировка выполнена'}
