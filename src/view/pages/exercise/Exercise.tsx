@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
-import { testButtonExercise } from '../../../data/test-exercise';
+import { testButtonExercise, testTouchExercise } from '../../../data/test-exercise';
 import { CheckButton } from '../../components/checkbutton/CheckButton';
 import { ExerciseButton } from '../../components/exersices/button-exersice/Button-exersice';
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
@@ -18,15 +18,17 @@ const CAN_DO_TEST_TEMP = true;
 const CAN_DO_TRAIN_TEMP = true;
 
 export const Exercise = (): JSX.Element => {
+	const initialExerciseList = testTouchExercise;
+
 	const [mode, setMode] = useState<TestMode>();
 	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
 	const [userAnswer, setUserAnswer] = useState<String>();
 	const [hintVisible, showHint] = useState<boolean>(false);
-	const [exerciseArray, setExerciseArray] = useState<Array<ITestExerciseAll>>(testButtonExercise);
+	const [exerciseArray, setExerciseArray] = useState<Array<ITestExerciseAll>>(initialExerciseList);
 
 	const currentExercise = exerciseArray[0] ?? null;
 	const progressValue =
-		(testButtonExercise.length - exerciseArray.length) / testButtonExercise.length;
+		(initialExerciseList.length - exerciseArray.length) / initialExerciseList.length;
 
 	const handleCheckAnswer = (): void => {
 		if (mode === 'train') {
@@ -107,7 +109,7 @@ export const Exercise = (): JSX.Element => {
 				{mode && !currentExercise && (
 					<div className="exercise__title">
 						{mode === 'test'
-							? `Результат: ${numberOfCorrect} / ${testButtonExercise.length}`
+							? `Результат: ${numberOfCorrect} / ${initialExerciseList.length}`
 							: 'Тренировка выполнена'}
 					</div>
 				)}
