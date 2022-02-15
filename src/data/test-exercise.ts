@@ -1,6 +1,7 @@
 import {
 	ExerciseType,
 	ITestExercise,
+	ITestExerciseAll,
 	ITestExerciseButton,
 	ITestExerciseTouch,
 } from './exercise-types';
