@@ -2,6 +2,9 @@
 
 .ex-touch__body-wrap {
   position: relative;
+  background-color: silver;
+  min-height: 60px;
+  margin: 20px 0;
 }
 .ex-touch__lines {
   margin: 10px 0 50px;
@@ -12,4 +15,60 @@
   border-bottom: 1px solid var(--stplatform-ex-touch-line);
 }
 
+.ex-touch__blocks {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ex-touch__blocks--answers {
+  position: absolute;
+  top: 3px;
+}
+.ex-touch__block-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 14px;
+  margin-bottom: 14px;
+  padding: 2px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.16);
+}
+.ex-touch__block {
+  padding: 6px 16px;
+  border-radius: 8px;
+  background: var(--stplatform-white);
+  /* border: 3px solid rgba(0, 0, 0, 0.16); */
 
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 25px;
+  text-align: center;
+  color: var(--stplatform-black-80);
+
+  cursor: pointer;
+}
+.ex-touch__block--hidden {
+  visibility: hidden;
+}
+
+.ex-touch__answer_template_line {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ex-touch__answer-span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 30px;
+  min-height: 30px;
+  background-color: gold;
+  border-bottom: 1px solid var(--stplatform-black-80);
+  margin: 0 1px;
+}
+
+.ex-touch__answer-span-sign {
+  margin: 0 5px;
+}

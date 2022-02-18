@@ -30,6 +30,28 @@ export const testButtonExercise: Array<ITestExerciseAll> = [
 	},
 ];
 
+// type ChemicalItem = {
+// 	base: string;
+// 	index: number;
+// };
+
+// type ChemicalMolecule = {
+// 	number?: number;
+// 	parts: Array<ChemicalItem>;
+// };
+
+// const molecule: ChemicalMolecule = {
+// 	number: 2,
+// 	parts: [
+// 		{
+// 			base: 'H',
+// 			index: 2,
+// 		},
+// 	],
+// };
+
+// const chemicalElementData = {};
+
 export const testTouchExercise: Array<ITestExerciseTouch> = [
 	{
 		type: ExerciseType.touch,
