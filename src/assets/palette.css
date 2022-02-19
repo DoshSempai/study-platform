@@ -23,6 +23,7 @@
   --stplatform-primary: #56D1BB;
   --stplatform-primary-80: rgba(86, 209, 187, 0.8);
   --stplatform-primary-50: rgba(86, 209, 187, 0.5);
+  --stplatform-primary-20: rgba(86, 209, 187, 0.2);
 
   --stplatform-hint-bg-correct: #D0FFCF;
   --stplatform-hint-bg-wrong: #FFCFCF;
