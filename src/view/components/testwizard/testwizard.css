@@ -1,0 +1,104 @@
+@import '../../../assets/palette.css';
+
+.testwizard-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: var(--stplatform-black-60);
+  z-index: 6;
+}
+
+.testwizard {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--stplatform-white);
+  border-radius: 10px;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.testwizard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+}
+.testwizard__title {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+}
+.testwizard__close {
+  position: relative;
+  padding: 12px;
+  cursor: pointer;
+}
+.testwizard__close::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 18px;
+  height: 2px;
+  background-color: var(--stplatform-black-80);
+  border-radius: 2px;
+}
+.testwizard__close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 18px;
+  height: 2px;
+  background-color: var(--stplatform-black-80);
+  border-radius: 2px;
+}
+.testwizard__close:hover::before, .testwizard__close:hover::after {
+  background-color: var(--stplatform-black-50);
+}
+
+.testwizard__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.testwizard__action {
+  padding: 10px;
+  /* background-color: var(--stplatform-black-50); */
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  cursor: pointer;
+}
+.testwizard__action-cancel {
+  color: var(--stplatform-black-60);
+}
+.testwizard__action-cancel:hover {
+  color: var(--stplatform-black-80);
+}
+.testwizard__action-create {
+  background-color: var(--stplatform-primary-80);
+  color: var(--stplatform-white);
+}
+.testwizard__action-create:hover {
+  background-color: var(--stplatform-primary);
+}
+
+.testwizard__content {
+  flex-grow: 1;
+  background: lightblue;
+}

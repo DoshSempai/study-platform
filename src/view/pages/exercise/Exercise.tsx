@@ -151,7 +151,7 @@ export const Exercise = (): JSX.Element => {
 					onNextHandler={handleHintNextExercise}
 				/>
 			)}
-			{mode && !currentExercise && (
+			{(!mode || (mode && !currentExercise)) && (
 				<Link to="/" className="stplatform-link">
 					<CheckButton
 						text="На главную"
