@@ -1,9 +1,0 @@
-@import '../../../assets/palette.css';
-
-.testwizard__data {
-  width: 100%;
-  flex-grow: 2;
-  margin-bottom: 5px;
-  box-sizing: border-box;
-  border: 2px solid var(--stplatform-black-16);
-}

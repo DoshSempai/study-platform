@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 import { Checkbox } from '../formparts/checkbox/checkbox';
+import { Input } from '../formparts/textinput/textinput';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
 import { exerciseList } from '../../../data/test-exercise';
 import { truncateString } from '../../../utils';
-import './testwizard.css';
-import './testwizard.header.css';
-import './testwizard.footer.css';
-import './testwizard.content.css';
-import './testwizard.tasklist.css';
-import './testwizard.settings.css';
-import './testwizard.data.css';
-import './testwizard.preview.css';
-import { Input } from '../formparts/textinput/textinput';
+import './styles/testwizard.css';
+import './styles/testwizard.header.css';
+import './styles/testwizard.footer.css';
+import './styles/testwizard.content.css';
+import './styles/testwizard.tasklist.css';
+import './styles/testwizard.settings.css';
+import './styles/testwizard.data.css';
+import './styles/testwizard.preview.css';
+import { TestWizardPreview } from './testwizard.preview';
 
 interface ITestWizard {
 	onCloseModal?: () => void;
@@ -31,6 +32,7 @@ const typeOptions = [
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
+	const tempCurrentTask = tasks[1];
 
 	const onCreateNewTask = (): void => {
 		/* todo */
@@ -132,8 +134,13 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 								/>
 							</div>
 						</div>
-						<div className="testwizard__data"></div>
-						<div className="testwizard__preview"></div>
+						<div className="testwizard__data">
+							<div className="testwizard__setting_part-title">Настройка данных задания</div>
+						</div>
+						<div className="testwizard__preview">
+							<div className="testwizard__setting_part-title">Превью задания</div>
+							{tempCurrentTask && <TestWizardPreview task={tempCurrentTask} />}
+						</div>
 					</div>
 				</div>
 				<div className="testwizard__footer">

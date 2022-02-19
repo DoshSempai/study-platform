@@ -1,4 +1,4 @@
-@import '../../../assets/palette.css';
+@import '../../../../assets/palette.css';
 
 .testwizard__setting {
   width: 100%;
@@ -26,4 +26,5 @@
 
 .testwizard__setting_checkbox {
   margin-bottom: 5px;
+  color: var(--stplatform-black-80);
 }

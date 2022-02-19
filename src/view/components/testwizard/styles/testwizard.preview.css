@@ -1,0 +1,21 @@
+@import '../../../../assets/palette.css';
+
+.testwizard__preview {
+  width: 100%;
+  flex-grow: 2;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 2px solid var(--stplatform-black-16);
+}
+
+.testwizard__preview-task-wrap {
+  padding: 5px;
+}
+
+.testwizard__preview-task {
+  padding: 5px;
+  max-width: 90%;
+  margin: auto;
+  box-sizing: border-box;
+  border: 1px solid var(--stplatform-black-16);
+}
