@@ -8,3 +8,23 @@
   box-sizing: border-box;
   border: 2px solid var(--stplatform-black-16);
 }
+
+.testwizard__data_button {
+
+}
+.testwizard__data_button-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.testwizard__data_button-row-label {
+  margin-right: 5px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+}
+.testwizard__data_button-row-control {
+  width: 100%;
+}
