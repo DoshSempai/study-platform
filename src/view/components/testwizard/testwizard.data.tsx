@@ -44,11 +44,11 @@ export const TestWizardDataButton = (): JSX.Element => {
 
 	const titleBlock = (): JSX.Element => (
 		<div className="testwizard__data_button-row">
-			<div className="testwizard__data_button-row-label">Заголовок</div>
+			<div className="testwizard__data_button-row-label">Вопрос</div>
 			<Input
 				className="testwizard__data_button-row-control"
 				value={''}
-				placeholder="Заголовок"
+				placeholder="Вопрос"
 				onChange={(e): void => {
 					console.log(`input`, e);
 				}}
