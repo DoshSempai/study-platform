@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 import './Touch-exercise.css';
-import { IChemicalReaction, reaction, reactionF } from '../../../../subjects/chemistry/types';
+import { IChemicalReaction } from '../../../../subjects/chemistry/types';
 import {
-	createReactionLine,
 	generateAnswerTemplateArray,
 	getListOfReactionParts,
 	shuffleChemArray,
@@ -12,19 +11,24 @@ import {
 interface ExerciseTouchProps {
 	title: String;
 	answer: String;
+	question: IChemicalReaction;
+	setUserAnswer: (userAnswer: string) => void;
 }
 
 type ChosenElementsType = { el: string; index: string };
 
-export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Element => {
-	const currentReaction = reactionF; // reactionF
+export const ExerciseTouch = ({
+	title,
+	question,
+	setUserAnswer,
+}: ExerciseTouchProps): JSX.Element => {
+	const currentReaction = question; // reactionF
 	const [initStableShuffle] = useState<Array<{ el: JSX.Element; index: string }>>(
 		shuffleChemArray(
 			getListOfReactionParts(currentReaction).map((el, idx) => ({ el: el, index: `${idx}` })),
-			// ['+', '='],
 		),
 	);
-	const [userAnswer, setUserAnswer] = useState<ChosenElementsType[]>(
+	const [userAnswer, updateUserAnswer] = useState<ChosenElementsType[]>(
 		generateAnswerTemplateArray(currentReaction).map((el) => ({ el: el, index: `${-1}` })),
 	);
 	const [chosenElements, setChosenElements] = useState<string[]>(
@@ -46,15 +50,15 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 		userAnswerCopy[userAnswerIdx] = { el: '', index: `${-1}` };
 		chosenElementsCopy[Number(userAnswerEl.index)] = '';
 		setChosenElements(chosenElementsCopy);
-		setUserAnswer(userAnswerCopy);
+		updateUserAnswer(userAnswerCopy);
 	};
 
 	const answerBloc = (): JSX.Element => (
 		<div className="ex-touch__blocks ex-touch__blocks--answers">
 			{userAnswer.map((item, idx) => {
-				const { el, index: elIndex } = item;
+				const { el } = item;
 				const numberPart: string | undefined = (el.match(/\d+/g) || [])[0];
-				const letterPart: string | undefined = (el.match(/[a-zA-Z]+/g) || [])[0];
+				const letterPart: string | undefined = (el.match(/\D+/g) || [])[0];
 				const elView =
 					el === '+' || el === '=' ? (
 						el // signs
@@ -100,7 +104,14 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 		chosenElementsCopy[idx] = key;
 		setChosenElements(chosenElementsCopy);
 		// ---------------------------
-		setUserAnswer(userAnswerCopy);
+		updateUserAnswer(userAnswerCopy);
+
+		// ===========================
+		if (!chosenElementsCopy.includes('')) {
+			setUserAnswer(
+				`${chosenElementsCopy.join('') === userAnswerCopy.map((el) => el.el).join('')}`,
+			);
+		}
 	};
 
 	const questionBlocks = (): JSX.Element => (

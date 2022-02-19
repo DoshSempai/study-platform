@@ -61,11 +61,15 @@
   min-height: 30px;
   border-bottom: 1px solid var(--stplatform-black-60);
   margin: 0 1px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
   cursor: pointer;
 }
 
 .ex-touch__answer-span--no-border {
   border-color: transparent !important;
+  cursor: default !important;
 }
 
 .ex-touch__answer-span--onhover:hover {

@@ -3,10 +3,10 @@ import cn from 'classnames';
 import './Button-exersice.css';
 
 interface ExerciseButtonProps {
-	title: String;
-	question: String;
-	variants: String[];
-	setUserAnswer: (userAnswer: String) => void;
+	title: string;
+	question: string;
+	variants: string[];
+	setUserAnswer: (userAnswer: string) => void;
 }
 
 export const ExerciseButton = ({

@@ -1,10 +1,5 @@
-import {
-	ExerciseType,
-	ITestExercise,
-	ITestExerciseAll,
-	ITestExerciseButton,
-	ITestExerciseTouch,
-} from './exercise-types';
+import { createReactionLine } from '../subjects/chemistry/controls_ex_touch';
+import { ExerciseType, ITestExerciseAll, ITestExerciseTouch } from './exercise-types';
 
 export const testButtonExercise: Array<ITestExerciseAll> = [
 	{
@@ -30,37 +25,56 @@ export const testButtonExercise: Array<ITestExerciseAll> = [
 	},
 ];
 
-// type ChemicalItem = {
-// 	base: string;
-// 	index: number;
-// };
-
-// type ChemicalMolecule = {
-// 	number?: number;
-// 	parts: Array<ChemicalItem>;
-// };
-
-// const molecule: ChemicalMolecule = {
-// 	number: 2,
-// 	parts: [
-// 		{
-// 			base: 'H',
-// 			index: 2,
-// 		},
-// 	],
-// };
-
-// const chemicalElementData = {};
-
 export const testTouchExercise: Array<ITestExerciseTouch> = [
 	{
 		type: ExerciseType.touch,
 		title: 'Составьте реакцию',
-		answer: '2-H#2 + O#2 = 2-H#2-O',
+		answer: '',
+		uId: '1',
+		getAnwerElement: createReactionLine,
+		question: {
+			reactants: [
+				{
+					number: 2,
+					parts: [{ base: 'H', index: 2 }],
+				},
+				{
+					parts: [{ base: 'O', index: 2 }],
+				},
+			],
+			products: [
+				{
+					number: 2,
+					parts: [{ base: 'H', index: 2 }, { base: 'O' }],
+				},
+			],
+		},
 	},
 	{
 		type: ExerciseType.touch,
 		title: 'Составьте реакцию',
-		answer: 'H#2 + S-O#4 = H#2-S-O#4',
+		answer: '',
+		uId: '2',
+		getAnwerElement: createReactionLine,
+		question: {
+			reactants: [
+				{
+					parts: [
+						{ base: 'Fe', index: 2 },
+						{ base: 'O', index: 3 },
+					],
+				},
+				{
+					number: 3,
+					parts: [{ base: 'H', index: 2 }, { base: 'O' }],
+				},
+			],
+			products: [
+				{
+					number: 2,
+					parts: [{ base: 'Fe' }, { base: 'OH', index: 3 }],
+				},
+			],
+		},
 	},
 ];

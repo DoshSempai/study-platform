@@ -9,7 +9,7 @@ export const generateAnswerTemplateArray = (reaction: IChemicalReaction): string
 			if (molecule.number) {
 				arr.push('');
 			}
-			molecule.parts.forEach((_) => arr.push(''));
+			molecule.parts.forEach(() => arr.push(''));
 			if (data.length - outerIdx > 1) {
 				arr.push('+');
 			}
@@ -61,7 +61,7 @@ const createReactionPart = (data: IChemicalMolecule[]): JSX.Element => (
 					{/* ---- 1 ---- */}
 					{molecule.number ? molecule.number : <></>}
 					{/* ==== 1 ==== */}
-					{molecule.parts.map((item, idx) => {
+					{molecule.parts.map((item) => {
 						const baseText =
 							item.base.length > 1 && item.base.charAt(1) === item.base.charAt(1).toUpperCase()
 								? `(${item.base})`

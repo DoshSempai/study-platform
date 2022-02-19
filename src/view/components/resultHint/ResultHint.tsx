@@ -4,7 +4,7 @@ import './ResultHint.css';
 
 interface IResultHint {
 	onNextHandler: () => void;
-	correctAnswer: string;
+	correctAnswer: string | JSX.Element;
 	isAnswerCorrect: boolean;
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
-import { testButtonExercise, testTouchExercise } from '../../../data/test-exercise';
+import { testTouchExercise } from '../../../data/test-exercise';
 import { CheckButton } from '../../components/checkbutton/CheckButton';
 import { ExerciseButton } from '../../components/exersices/button-exersice/Button-exersice';
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
@@ -22,7 +22,7 @@ export const Exercise = (): JSX.Element => {
 
 	const [mode, setMode] = useState<TestMode>();
 	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
-	const [userAnswer, setUserAnswer] = useState<String>();
+	const [userAnswer, setUserAnswer] = useState<string>();
 	const [hintVisible, showHint] = useState<boolean>(false);
 	const [exerciseArray, setExerciseArray] = useState<Array<ITestExerciseAll>>(initialExerciseList);
 
@@ -36,7 +36,7 @@ export const Exercise = (): JSX.Element => {
 			return;
 		}
 
-		const isCorrect = userAnswer === currentExercise.answer;
+		const isCorrect = getIsAnswerCorrect();
 		isCorrect && setNumberOfCorrect(numberOfCorrect + 1);
 		const newExerciseArray = exerciseArray.slice(1);
 		setExerciseArray(newExerciseArray);
@@ -44,7 +44,7 @@ export const Exercise = (): JSX.Element => {
 	};
 
 	const handleHintNextExercise = (): void => {
-		const isCorrect = userAnswer === currentExercise.answer;
+		const isCorrect = getIsAnswerCorrect();
 		const newExerciseArray = isCorrect
 			? exerciseArray.slice(1)
 			: [...exerciseArray.slice(1), exerciseArray[0]];
@@ -92,11 +92,31 @@ export const Exercise = (): JSX.Element => {
 			case ExerciseType.touch:
 				return (
 					<ExerciseTouch
-						key={`${currentExercise.answer}`}
+						key={`${currentExercise.uId}`}
 						title={currentExercise.title}
 						answer={currentExercise.answer}
+						question={currentExercise.question}
+						setUserAnswer={setUserAnswer}
 					/>
 				);
+		}
+	};
+
+	const getIsAnswerCorrect = (): boolean => {
+		switch (currentExercise.type) {
+			case ExerciseType.button:
+				return userAnswer === currentExercise.answer;
+			case ExerciseType.touch:
+				return JSON.parse(userAnswer ?? 'false') as boolean;
+		}
+	};
+
+	const getCorrectAnswer = (): string | JSX.Element => {
+		switch (currentExercise.type) {
+			case ExerciseType.button:
+				return currentExercise.answer;
+			case ExerciseType.touch:
+				return currentExercise.getAnwerElement(currentExercise.question);
 		}
 	};
 
@@ -123,8 +143,8 @@ export const Exercise = (): JSX.Element => {
 			)}
 			{mode === 'train' && currentExercise && hintVisible && (
 				<ResultHint
-					isAnswerCorrect={userAnswer === currentExercise.answer}
-					correctAnswer={currentExercise.answer}
+					isAnswerCorrect={getIsAnswerCorrect()}
+					correctAnswer={getCorrectAnswer()}
 					onNextHandler={handleHintNextExercise}
 				/>
 			)}
