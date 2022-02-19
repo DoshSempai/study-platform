@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import cn from 'classnames';
 import './Touch-exercise.css';
 import { IChemicalReaction, reaction, reactionF } from '../../../../subjects/chemistry/types';
@@ -15,13 +15,42 @@ interface ExerciseTouchProps {
 
 type ChosenElementsType = { el: string; index: string };
 
+const shuffleArray = <T,>(arr: Array<T>): Array<T> => {
+	// Тасование Фишера — Йетса
+	const array = arr.slice();
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+};
+
+const shuffleArray2 = (
+	arr: Array<{ el: JSX.Element; index: string }>,
+	fixedEls: Array<string>,
+): Array<{ el: JSX.Element; index: string }> => {
+	const array = arr.slice();
+	for (let i = array.length - 1; i > 0; i--) {
+		if (fixedEls.includes(array[i].el.key as string)) continue;
+		let j;
+		do {
+			j = Math.floor(Math.random() * (i + 1));
+		} while (fixedEls.includes(array[j].el.key as string));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+};
+
 export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Element => {
+	const [initStableShuffle] = useState<Array<{ el: JSX.Element; index: string }>>(
+		shuffleArray2(
+			getListOfReactionParts(reaction).map((el, idx) => ({ el: el, index: `${idx}` })),
+			['+', '='],
+		),
+	);
 	const [userAnswer, setUserAnswer] = useState<ChosenElementsType[]>(
 		generateAnswerTemplateArray(reaction).map((el) => ({ el: el, index: `${-1}` })),
 	);
-	// const [chosenElements, setChosenElements] = useState<ChosenElementsType>(
-	// 	generateAnswerTemplateArray(reaction).map((el) => ({ el: el, index: `${-1}` })),
-	// );
 	const [chosenElements, setChosenElements] = useState<string[]>(
 		generateAnswerTemplateArray(reaction),
 	);
@@ -97,18 +126,19 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 
 	const questionBlocks = (reaction: IChemicalReaction): JSX.Element => (
 		<div className="ex-touch__blocks">
-			{getListOfReactionParts(reaction).map((el, idx) => {
+			{initStableShuffle.map((item, idx) => {
+				const { el, index: elIndex } = item;
 				if (el.key === '+' || el.key === '=') return null;
 				return (
-					<div key={`ex-touch__block-wrap--${idx}`} className="ex-touch__block-wrap">
+					<div key={`ex-touch__block-wrap--${elIndex}`} className="ex-touch__block-wrap">
 						<div
 							className={cn('ex-touch__block', {
-								'ex-touch__block--hidden': chosenElements[idx] !== '', //!arrayOfActiveBottomBlocks[idx],
+								'ex-touch__block--hidden': chosenElements[Number(elIndex)] !== '', //!arrayOfActiveBottomBlocks[idx],
 							})}
 							// data-isactive={arrayOfActiveBottomBlocks[idx]}
 							data-text={el.key}
-							data-index={idx}
-							onClick={(): void => onClickQuestionBlock(idx, el.key as string)}
+							data-index={elIndex}
+							onClick={(): void => onClickQuestionBlock(Number(elIndex), el.key as string)}
 						>
 							{el}
 						</div>
