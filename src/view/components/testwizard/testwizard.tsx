@@ -73,6 +73,14 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 		<div className="testwizard__setting">
 			<div className="testwizard__setting_part">
 				<div className="testwizard__setting_part-title">Общие настройки теста</div>
+				<Input
+					className="testwizard__setting_checkbox"
+					value={''}
+					placeholder="Название теста"
+					onChange={(e): void => {
+						console.log(`input`, e);
+					}}
+				/>
 				<Checkbox
 					className="testwizard__setting_checkbox"
 					checked={false}
