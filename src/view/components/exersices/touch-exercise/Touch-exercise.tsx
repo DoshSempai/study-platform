@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import './Touch-exercise.css';
 import { IChemicalReaction, reaction, reactionF } from '../../../../subjects/chemistry/types';
@@ -6,6 +6,7 @@ import {
 	createReactionLine,
 	generateAnswerTemplateArray,
 	getListOfReactionParts,
+	shuffleChemArray,
 } from '../../../../subjects/chemistry/controls_ex_touch';
 
 interface ExerciseTouchProps {
@@ -15,49 +16,24 @@ interface ExerciseTouchProps {
 
 type ChosenElementsType = { el: string; index: string };
 
-const shuffleArray = <T,>(arr: Array<T>): Array<T> => {
-	// Тасование Фишера — Йетса
-	const array = arr.slice();
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * (i + 1));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
-	return array;
-};
-
-const shuffleArray2 = (
-	arr: Array<{ el: JSX.Element; index: string }>,
-	fixedEls: Array<string>,
-): Array<{ el: JSX.Element; index: string }> => {
-	const array = arr.slice();
-	for (let i = array.length - 1; i > 0; i--) {
-		if (fixedEls.includes(array[i].el.key as string)) continue;
-		let j;
-		do {
-			j = Math.floor(Math.random() * (i + 1));
-		} while (fixedEls.includes(array[j].el.key as string));
-		[array[i], array[j]] = [array[j], array[i]];
-	}
-	return array;
-};
-
 export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Element => {
+	const currentReaction = reactionF; // reactionF
 	const [initStableShuffle] = useState<Array<{ el: JSX.Element; index: string }>>(
-		shuffleArray2(
-			getListOfReactionParts(reaction).map((el, idx) => ({ el: el, index: `${idx}` })),
-			['+', '='],
+		shuffleChemArray(
+			getListOfReactionParts(currentReaction).map((el, idx) => ({ el: el, index: `${idx}` })),
+			// ['+', '='],
 		),
 	);
 	const [userAnswer, setUserAnswer] = useState<ChosenElementsType[]>(
-		generateAnswerTemplateArray(reaction).map((el) => ({ el: el, index: `${-1}` })),
+		generateAnswerTemplateArray(currentReaction).map((el) => ({ el: el, index: `${-1}` })),
 	);
 	const [chosenElements, setChosenElements] = useState<string[]>(
-		generateAnswerTemplateArray(reaction),
+		generateAnswerTemplateArray(currentReaction),
 	);
 
-	const generateContentTemplateLine = (reaction: IChemicalReaction): JSX.Element => {
-		return createReactionLine(reaction);
-	};
+	// const generateContentTemplateLine = (): JSX.Element => {
+	// 	return createReactionLine(currentReaction);
+	// };
 
 	const onClickAnswerBlock = (userAnswerIdx: number, userAnswerEl: ChosenElementsType): void => {
 		if (userAnswerEl.el === '+' || userAnswerEl.el === '=' || userAnswerEl.el === '') {
@@ -95,7 +71,10 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 				return (
 					<div
 						key={`${idx}${el}`}
-						className="ex-touch__answer-span"
+						className={cn('ex-touch__answer-span', {
+							'ex-touch__answer-span--onhover': el !== '+' && el !== '=',
+							'ex-touch__answer-span--no-border': el === '+' || el === '=',
+						})}
 						onClick={(): void => onClickAnswerBlock(idx, item)}
 					>
 						{elView}
@@ -124,20 +103,17 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 		setUserAnswer(userAnswerCopy);
 	};
 
-	const questionBlocks = (reaction: IChemicalReaction): JSX.Element => (
+	const questionBlocks = (): JSX.Element => (
 		<div className="ex-touch__blocks">
-			{initStableShuffle.map((item, idx) => {
+			{initStableShuffle.map((item) => {
 				const { el, index: elIndex } = item;
 				if (el.key === '+' || el.key === '=') return null;
 				return (
 					<div key={`ex-touch__block-wrap--${elIndex}`} className="ex-touch__block-wrap">
 						<div
 							className={cn('ex-touch__block', {
-								'ex-touch__block--hidden': chosenElements[Number(elIndex)] !== '', //!arrayOfActiveBottomBlocks[idx],
+								'ex-touch__block--hidden': chosenElements[Number(elIndex)] !== '',
 							})}
-							// data-isactive={arrayOfActiveBottomBlocks[idx]}
-							data-text={el.key}
-							data-index={elIndex}
 							onClick={(): void => onClickQuestionBlock(Number(elIndex), el.key as string)}
 						>
 							{el}
@@ -151,22 +127,10 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 	return (
 		<div className="exercise">
 			<div className="exercise__title">{title}</div>
-			<div className="exercise__question">{answer}</div>
-			<div className="exercise__question">
-				2H<sub>2</sub> + O<sub>2</sub> = 2H<sub>2</sub>O
-			</div>
-			<div className="exercise__question">{generateContentTemplateLine(reaction)}</div>
-			{/* <div className="exercise__question">{generateContentTemplateLine(reactionF)}</div> */}
 			<div className="ex-touch__body-wrap">
-				{/* <div className="ex-touch__lines">
-					<div className="ex-touch__line"></div>
-					<div className="ex-touch__line"></div>
-					<div className="ex-touch__line"></div>
-				</div> */}
 				<div className="ex-touch__answer_template_line">{answerBloc()}</div>
 			</div>
-			{questionBlocks(reaction)}
-			{/* {questionBlocks(reactionF)} */}
+			{questionBlocks()}
 		</div>
 	);
 };

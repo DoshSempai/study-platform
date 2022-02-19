@@ -92,3 +92,19 @@ export const createReactionLine = (reaction: IChemicalReaction): JSX.Element => 
 		</>
 	);
 };
+
+export const shuffleChemArray = (
+	arr: Array<{ el: JSX.Element; index: string }>,
+	fixedEls: Array<string> = ['+', '='],
+): Array<{ el: JSX.Element; index: string }> => {
+	const array = arr.slice();
+	for (let i = array.length - 1; i > 0; i--) {
+		if (fixedEls.includes(array[i].el.key as string)) continue;
+		let j;
+		do {
+			j = Math.floor(Math.random() * (i + 1));
+		} while (fixedEls.includes(array[j].el.key as string));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+};

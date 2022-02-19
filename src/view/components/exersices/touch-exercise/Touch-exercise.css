@@ -1,10 +1,10 @@
 @import '../../../../assets/palette.css';
 
 .ex-touch__body-wrap {
-  position: relative;
-  background-color: silver;
-  min-height: 60px;
   margin: 20px 0;
+  padding: 4px;
+  border: 2px solid var(--stplatform-black-16);
+  border-radius: 8px;
 }
 .ex-touch__lines {
   margin: 10px 0 50px;
@@ -19,10 +19,6 @@
   display: flex;
   flex-wrap: wrap;
 }
-.ex-touch__blocks--answers {
-  position: absolute;
-  top: 3px;
-}
 .ex-touch__block-wrap {
   display: flex;
   justify-content: center;
@@ -31,13 +27,12 @@
   margin-bottom: 14px;
   padding: 2px;
   border-radius: 8px;
-  background: rgba(0, 0, 0, 0.16);
+  background: var(--stplatform-black-16);
 }
 .ex-touch__block {
   padding: 6px 16px;
   border-radius: 8px;
   background: var(--stplatform-white);
-  /* border: 3px solid rgba(0, 0, 0, 0.16); */
 
   font-family: 'Open Sans';
   font-style: normal;
@@ -64,10 +59,17 @@
   align-items: center;
   min-width: 30px;
   min-height: 30px;
-  background-color: gold;
-  border-bottom: 1px solid var(--stplatform-black-80);
+  border-bottom: 1px solid var(--stplatform-black-60);
   margin: 0 1px;
   cursor: pointer;
+}
+
+.ex-touch__answer-span--no-border {
+  border-color: transparent !important;
+}
+
+.ex-touch__answer-span--onhover:hover {
+  background-color: var(--stplatform-red-10);
 }
 
 .ex-touch__answer-span-sign {
