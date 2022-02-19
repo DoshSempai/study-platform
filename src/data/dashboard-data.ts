@@ -21,6 +21,12 @@ export const dashboardCardData: IDashboardCardData[] = [
 	{
 		title: 'Button & Touch',
 		testId: '3',
+		isTestActive: true,
+		isTrainActive: true,
+	},
+	{
+		title: 'Disabled',
+		testId: '4',
 		isTestActive: false,
 		isTrainActive: false,
 	},

@@ -1,5 +1,5 @@
 .card {
-    width: 300px;
+    max-width: 300px;
     height: 180px;
     display: flex;
     justify-content: center;
@@ -16,8 +16,8 @@
     padding: 20px;
 }
 
-.card__title {
-    
+.card_wrap {
+    flex-grow: 1;
 }
 
 .card__navigation {

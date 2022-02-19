@@ -18,8 +18,9 @@ export const Exercise = (): JSX.Element => {
 	const { state } = useLocation();
 	const locationData = (state as any).data as IDashboardCardData;
 	const { testId, isTestActive, isTrainActive } = locationData;
-	const initialExerciseList = exerciseList[testId];
+	const initialExerciseList = exerciseList[testId] || [];
 
+	const [counter, setCounter] = useState<number>(0);
 	const [mode, setMode] = useState<TestMode>();
 	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
 	const [userAnswer, setUserAnswer] = useState<string>();
@@ -39,6 +40,7 @@ export const Exercise = (): JSX.Element => {
 		const isCorrect = getIsAnswerCorrect();
 		isCorrect && setNumberOfCorrect(numberOfCorrect + 1);
 		const newExerciseArray = exerciseArray.slice(1);
+		setCounter(counter + 1);
 		setExerciseArray(newExerciseArray);
 		setUserAnswer(undefined);
 	};
@@ -48,6 +50,7 @@ export const Exercise = (): JSX.Element => {
 		const newExerciseArray = isCorrect
 			? exerciseArray.slice(1)
 			: [...exerciseArray.slice(1), exerciseArray[0]];
+		setCounter(counter + 1);
 		setExerciseArray(newExerciseArray);
 		setUserAnswer(undefined);
 		showHint(false);
@@ -82,7 +85,7 @@ export const Exercise = (): JSX.Element => {
 			case ExerciseType.button:
 				return (
 					<ExerciseButton
-						key={`${currentExercise.question}-${currentExercise.answer}`}
+						key={`${currentExercise.question}-${currentExercise.answer}-${counter}`}
 						title={currentExercise.title}
 						variants={currentExercise.variants}
 						question={currentExercise.question}
@@ -92,7 +95,7 @@ export const Exercise = (): JSX.Element => {
 			case ExerciseType.touch:
 				return (
 					<ExerciseTouch
-						key={`${currentExercise.uId}`}
+						key={`${currentExercise.type}-${counter}`}
 						title={currentExercise.title}
 						answer={currentExercise.answer}
 						question={currentExercise.question}

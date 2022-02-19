@@ -11,7 +11,7 @@ const Dashboard = (): JSX.Element => (
 				key={cardData.title}
 				to="/exercise"
 				state={{ data: cardData }}
-				className="stplatform-link"
+				className="stplatform-link card_wrap"
 			>
 				<Card title={cardData.title} />
 			</Link>

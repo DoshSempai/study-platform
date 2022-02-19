@@ -82,5 +82,5 @@ const testTouchExercise: Array<ITestExerciseAll> = [
 export const exerciseList: { [k: string]: ITestExerciseAll[] } = {
 	'1': testButtonExercise,
 	'2': testTouchExercise,
-	'3': [],
+	'3': [testButtonExercise[0], testTouchExercise[0]],
 };
