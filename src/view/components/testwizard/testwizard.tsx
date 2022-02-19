@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ITestExerciseAll } from '../../../data/exercise-types';
+import Select from 'react-select';
+import { Checkbox } from '../formparts/checkbox/checkbox';
+import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
 import { exerciseList } from '../../../data/test-exercise';
 import { truncateString } from '../../../utils';
 import './testwizard.css';
@@ -10,10 +12,21 @@ import './testwizard.tasklist.css';
 import './testwizard.settings.css';
 import './testwizard.data.css';
 import './testwizard.preview.css';
+import { Input } from '../formparts/textinput/textinput';
 
 interface ITestWizard {
 	onCloseModal?: () => void;
 }
+
+const typeMapper = {
+	[ExerciseType.button]: 'Кнопки',
+	[ExerciseType.touch]: 'Конструктор',
+};
+
+const typeOptions = [
+	{ value: ExerciseType.button, label: 'Кнопки' },
+	{ value: ExerciseType.touch, label: 'Конструктор' },
+];
 
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
@@ -52,7 +65,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 											<div className="testwizard__list-item-title">
 												{truncateString(task.title, 16)}
 											</div>
-											<div className="testwizard__list-item-type">{task.type}</div>
+											<div className="testwizard__list-item-type">{typeMapper[task.type]}</div>
 										</div>
 										<div
 											className="testwizard__list-item-remove"
@@ -64,7 +77,61 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 						</div>
 					</div>
 					<div className="testwizard__right">
-						<div className="testwizard__setting"></div>
+						<div className="testwizard__setting">
+							<div className="testwizard__setting_part">
+								<div className="testwizard__setting_part-title">Общие настройки теста</div>
+								<Checkbox
+									className="testwizard__setting_checkbox"
+									checked={false}
+									label="Разрешить режим тестирования"
+									onChange={(e): void => {
+										console.log(`check`, e);
+									}}
+								/>
+								<Checkbox
+									className="testwizard__setting_checkbox"
+									checked={false}
+									label="Разрешить режим тренировки"
+									onChange={(e): void => {
+										console.log(`check`, e);
+									}}
+								/>
+								<Checkbox
+									className="testwizard__setting_checkbox"
+									checked={false}
+									label="Закрыть доступ паролем"
+									onChange={(e): void => {
+										console.log(`check`, e);
+									}}
+								/>
+								<Input
+									value={'as'}
+									placeholder="Пароль"
+									onChange={(e): void => {
+										console.log(`input`, e);
+									}}
+								/>
+							</div>
+							<div className="testwizard__setting_part">
+								<div className="testwizard__setting_part-title">Настройки задания</div>
+								<Select
+									placeholder="Тип задания"
+									options={typeOptions}
+									// value={}
+									onChange={(val): void => {
+										console.log(`val`, val);
+									}}
+									styles={{
+										// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+										control: (provided, state) => ({
+											...provided,
+											borderColor: state.isFocused ? '#56D1BB !important' : '#cccccc',
+											boxShadow: state.isFocused ? '0 0 0 1px #56D1BB' : 'none',
+										}),
+									}}
+								/>
+							</div>
+						</div>
 						<div className="testwizard__data"></div>
 						<div className="testwizard__preview"></div>
 					</div>

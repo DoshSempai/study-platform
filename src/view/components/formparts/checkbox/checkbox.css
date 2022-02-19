@@ -1,0 +1,9 @@
+.st-checkbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.st-checkbox__input {
+  margin-right: 5px;
+}
