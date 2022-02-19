@@ -13,17 +13,41 @@ interface ExerciseTouchProps {
 	answer: String;
 }
 
+type ChosenElementsType = { el: string; index: string };
+
 export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Element => {
-	const [userAnswer, setUserAnswer] = useState<string[]>(generateAnswerTemplateArray(reaction));
+	const [userAnswer, setUserAnswer] = useState<ChosenElementsType[]>(
+		generateAnswerTemplateArray(reaction).map((el) => ({ el: el, index: `${-1}` })),
+	);
+	// const [chosenElements, setChosenElements] = useState<ChosenElementsType>(
+	// 	generateAnswerTemplateArray(reaction).map((el) => ({ el: el, index: `${-1}` })),
+	// );
+	const [chosenElements, setChosenElements] = useState<string[]>(
+		generateAnswerTemplateArray(reaction),
+	);
 
 	const generateContentTemplateLine = (reaction: IChemicalReaction): JSX.Element => {
-		console.log(`generateAnswerTemplateArray`, generateAnswerTemplateArray(reaction));
 		return createReactionLine(reaction);
+	};
+
+	const onClickAnswerBlock = (userAnswerIdx: number, userAnswerEl: ChosenElementsType): void => {
+		if (userAnswerEl.el === '+' || userAnswerEl.el === '=' || userAnswerEl.el === '') {
+			return;
+		}
+
+		const userAnswerCopy = [...userAnswer];
+		const chosenElementsCopy = [...chosenElements];
+
+		userAnswerCopy[userAnswerIdx] = { el: '', index: `${-1}` };
+		chosenElementsCopy[Number(userAnswerEl.index)] = '';
+		setChosenElements(chosenElementsCopy);
+		setUserAnswer(userAnswerCopy);
 	};
 
 	const answerBloc = (): JSX.Element => (
 		<div className="ex-touch__blocks ex-touch__blocks--answers">
-			{userAnswer.map((el, idx) => {
+			{userAnswer.map((item, idx) => {
+				const { el, index: elIndex } = item;
 				const numberPart: string | undefined = (el.match(/\d+/g) || [])[0];
 				const letterPart: string | undefined = (el.match(/[a-zA-Z]+/g) || [])[0];
 				const elView =
@@ -40,13 +64,36 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 						<>{letterPart}</>
 					);
 				return (
-					<div key={`${idx}${el}`} className="ex-touch__answer-span">
+					<div
+						key={`${idx}${el}`}
+						className="ex-touch__answer-span"
+						onClick={(): void => onClickAnswerBlock(idx, item)}
+					>
 						{elView}
 					</div>
 				);
 			})}
 		</div>
 	);
+
+	const onClickQuestionBlock = (idx: number, key: string): void => {
+		const userAnswerCopy = [...userAnswer];
+		// ---------------------------
+		let targetIndex = -1;
+		userAnswerCopy.forEach((item, i) => {
+			const el = item.el;
+			if (targetIndex === -1 && el !== '+' && el !== '=' && el === '') {
+				targetIndex = i;
+			}
+		});
+		userAnswerCopy[targetIndex] = { el: key, index: `${idx}` };
+
+		const chosenElementsCopy = [...chosenElements];
+		chosenElementsCopy[idx] = key;
+		setChosenElements(chosenElementsCopy);
+		// ---------------------------
+		setUserAnswer(userAnswerCopy);
+	};
 
 	const questionBlocks = (reaction: IChemicalReaction): JSX.Element => (
 		<div className="ex-touch__blocks">
@@ -56,16 +103,12 @@ export const ExerciseTouch = ({ title, answer }: ExerciseTouchProps): JSX.Elemen
 					<div key={`ex-touch__block-wrap--${idx}`} className="ex-touch__block-wrap">
 						<div
 							className={cn('ex-touch__block', {
-								'ex-touch__block--hidden': userAnswer[idx] !== '', //!arrayOfActiveBottomBlocks[idx],
+								'ex-touch__block--hidden': chosenElements[idx] !== '', //!arrayOfActiveBottomBlocks[idx],
 							})}
 							// data-isactive={arrayOfActiveBottomBlocks[idx]}
 							data-text={el.key}
 							data-index={idx}
-							onClick={(): void => {
-								const userAnswerCopy = [...userAnswer];
-								userAnswerCopy[idx] = el.key as string;
-								setUserAnswer(userAnswerCopy);
-							}}
+							onClick={(): void => onClickQuestionBlock(idx, el.key as string)}
 						>
 							{el}
 						</div>

@@ -67,6 +67,7 @@
   background-color: gold;
   border-bottom: 1px solid var(--stplatform-black-80);
   margin: 0 1px;
+  cursor: pointer;
 }
 
 .ex-touch__answer-span-sign {
