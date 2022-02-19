@@ -100,5 +100,49 @@
 
 .testwizard__content {
   flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.testwizard__left {
+  margin-left: 5px;
+  padding: 5px;
+  height: 100%;
+  flex-grow: 1;
+}
+
+.testwizard__right {
+  margin-right: 5px;
+  padding: 5px;
+  height: 100%;
+  flex-grow: 3;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.testwizard__exircise_list {
+  width: 100%;
+  height: 100%;
+  background: lightblue;
+}
+
+.testwizard__setting {
+  width: 100%;
+  flex-grow: 1;
+  margin-bottom: 5px;
+  background: lightblue;
+}
+.testwizard__data {
+  width: 100%;
+  flex-grow: 2;
+  margin-bottom: 5px;
+  background: lightblue;
+}
+.testwizard__preview {
+  width: 100%;
+  flex-grow: 2;
   background: lightblue;
 }

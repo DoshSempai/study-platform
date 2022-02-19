@@ -14,7 +14,16 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 					<div className="testwizard__title">Создание нового теста</div>
 					<div className="testwizard__close" onClick={onCloseModal}></div>
 				</div>
-				<div className="testwizard__content"></div>
+				<div className="testwizard__content">
+					<div className="testwizard__left">
+						<div className="testwizard__exircise_list"></div>
+					</div>
+					<div className="testwizard__right">
+						<div className="testwizard__setting"></div>
+						<div className="testwizard__data"></div>
+						<div className="testwizard__preview"></div>
+					</div>
+				</div>
 				<div className="testwizard__footer">
 					<div className="testwizard__action testwizard__action-cancel" onClick={onCloseModal}>
 						Отмена
