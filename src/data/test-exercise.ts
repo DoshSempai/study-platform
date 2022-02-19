@@ -1,7 +1,7 @@
 import { createReactionLine } from '../subjects/chemistry/controls_ex_touch';
-import { ExerciseType, ITestExerciseAll, ITestExerciseTouch } from './exercise-types';
+import { ExerciseType, ITestExerciseAll } from './exercise-types';
 
-export const testButtonExercise: Array<ITestExerciseAll> = [
+const testButtonExercise: Array<ITestExerciseAll> = [
 	{
 		type: ExerciseType.button,
 		title: 'Выберите правильный ответ',
@@ -25,7 +25,7 @@ export const testButtonExercise: Array<ITestExerciseAll> = [
 	},
 ];
 
-export const testTouchExercise: Array<ITestExerciseTouch> = [
+const testTouchExercise: Array<ITestExerciseAll> = [
 	{
 		type: ExerciseType.touch,
 		title: 'Составьте реакцию',
@@ -78,3 +78,9 @@ export const testTouchExercise: Array<ITestExerciseTouch> = [
 		},
 	},
 ];
+
+export const exerciseList: { [k: string]: ITestExerciseAll[] } = {
+	'1': testButtonExercise,
+	'2': testTouchExercise,
+	'3': [],
+};

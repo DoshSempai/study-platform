@@ -6,6 +6,9 @@
 
 .stplatform-link, .stplatform-link:visited, .stplatform-link:hover, .stplatform-link:active {
   color: inherit;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
 }
 
 .exercise__title {

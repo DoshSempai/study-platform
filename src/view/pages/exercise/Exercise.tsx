@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
-import { testTouchExercise } from '../../../data/test-exercise';
+import { exerciseList } from '../../../data/test-exercise';
 import { CheckButton } from '../../components/checkbutton/CheckButton';
 import { ExerciseButton } from '../../components/exersices/button-exersice/Button-exersice';
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
@@ -10,15 +10,15 @@ import { CommonLayout } from '../common/CommonLayout';
 import { ResultHint } from '../../components/resultHint/ResultHint';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
 import { ExerciseTouch } from '../../components/exersices/touch-exercise/Touch-exercise';
+import { IDashboardCardData } from '../../../data/dashboard-data';
 
 type TestMode = 'test' | 'train';
 
-// TODO: remove
-const CAN_DO_TEST_TEMP = true;
-const CAN_DO_TRAIN_TEMP = true;
-
 export const Exercise = (): JSX.Element => {
-	const initialExerciseList = testTouchExercise;
+	const { state } = useLocation();
+	const locationData = (state as any).data as IDashboardCardData;
+	const { testId, isTestActive, isTrainActive } = locationData;
+	const initialExerciseList = exerciseList[testId];
 
 	const [mode, setMode] = useState<TestMode>();
 	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
@@ -58,18 +58,18 @@ export const Exercise = (): JSX.Element => {
 			<div className="exercise__title">Выберите режим:</div>
 			<button
 				className={cn('ex-button__button', {
-					'ex-button__button--disabled': !CAN_DO_TEST_TEMP,
+					'ex-button__button--disabled': !isTestActive,
 				})}
-				disabled={!CAN_DO_TEST_TEMP}
+				disabled={!isTestActive}
 				onClick={(): void => setMode('test')}
 			>
 				Тестирование
 			</button>
 			<button
 				className={cn('ex-button__button', {
-					'ex-button__button--disabled': !CAN_DO_TRAIN_TEMP,
+					'ex-button__button--disabled': !isTrainActive,
 				})}
-				disabled={!CAN_DO_TRAIN_TEMP}
+				disabled={!isTrainActive}
 				onClick={(): void => setMode('train')}
 			>
 				Тренировка
