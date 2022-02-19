@@ -13,6 +13,10 @@ export const CheckButton = ({
 	onCheck,
 	isReadyToCheck,
 }: ICheckButton): JSX.Element => {
+	const onClick = (): void => {
+		if (!isReadyToCheck) return;
+		onCheck();
+	};
 	return (
 		<div className="ex-check">
 			<div
@@ -21,7 +25,7 @@ export const CheckButton = ({
 					'ex-check__button--not-ready': isReadyToCheck === false,
 				})}
 			>
-				<button onClick={onCheck}>{text}</button>
+				<button onClick={onClick}>{text}</button>
 			</div>
 		</div>
 	);

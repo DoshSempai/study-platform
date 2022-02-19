@@ -16,10 +16,6 @@
     padding: 20px;
 }
 
-.card__title {
-    
-}
-
 .card__navigation {
     position: relative;
     width: 34px;
@@ -51,4 +47,17 @@
     width: 4px;
     height: 16px;
     border-radius: 2px;
+}
+
+@media screen and (max-width: 480px) {
+    .card_wrap {
+        flex-grow: 1;
+        margin: 10px;
+    }
+    .card {
+        width: 100%;
+        max-width: 300px;
+        min-width: 260px;
+        margin: 0;
+    }
 }

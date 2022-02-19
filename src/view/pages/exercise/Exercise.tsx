@@ -1,31 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
-import { ITestButtonExercise, testButtonExercise } from '../../../data/test-exercise';
+import { exerciseList } from '../../../data/test-exercise';
 import { CheckButton } from '../../components/checkbutton/CheckButton';
 import { ExerciseButton } from '../../components/exersices/button-exersice/Button-exersice';
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
 import { ProgressBar } from '../../components/progressbar/ProgressBar';
 import { CommonLayout } from '../common/CommonLayout';
 import { ResultHint } from '../../components/resultHint/ResultHint';
+import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
+import { ExerciseTouch } from '../../components/exersices/touch-exercise/Touch-exercise';
+import { IDashboardCardData } from '../../../data/dashboard-data';
 
 type TestMode = 'test' | 'train';
 
-// TODO: remove
-const CAN_DO_TEST_TEMP = true;
-const CAN_DO_TRAIN_TEMP = true;
-
 export const Exercise = (): JSX.Element => {
+	const { state } = useLocation();
+	const locationData = (state as any).data as IDashboardCardData;
+	const { testId, isTestActive, isTrainActive } = locationData;
+	const initialExerciseList = exerciseList[testId] || [];
+
+	const [counter, setCounter] = useState<number>(0);
 	const [mode, setMode] = useState<TestMode>();
 	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
-	const [userAnswer, setUserAnswer] = useState<String>();
+	const [userAnswer, setUserAnswer] = useState<string>();
 	const [hintVisible, showHint] = useState<boolean>(false);
-	const [exerciseArray, setExerciseArray] =
-		useState<Array<ITestButtonExercise>>(testButtonExercise);
+	const [exerciseArray, setExerciseArray] = useState<Array<ITestExerciseAll>>(initialExerciseList);
 
 	const currentExercise = exerciseArray[0] ?? null;
 	const progressValue =
-		(testButtonExercise.length - exerciseArray.length) / testButtonExercise.length;
+		(initialExerciseList.length - exerciseArray.length) / initialExerciseList.length;
 
 	const handleCheckAnswer = (): void => {
 		if (mode === 'train') {
@@ -33,18 +37,20 @@ export const Exercise = (): JSX.Element => {
 			return;
 		}
 
-		const isCorrect = userAnswer === currentExercise.answer;
+		const isCorrect = getIsAnswerCorrect();
 		isCorrect && setNumberOfCorrect(numberOfCorrect + 1);
 		const newExerciseArray = exerciseArray.slice(1);
+		setCounter(counter + 1);
 		setExerciseArray(newExerciseArray);
 		setUserAnswer(undefined);
 	};
 
 	const handleHintNextExercise = (): void => {
-		const isCorrect = userAnswer === currentExercise.answer;
+		const isCorrect = getIsAnswerCorrect();
 		const newExerciseArray = isCorrect
 			? exerciseArray.slice(1)
 			: [...exerciseArray.slice(1), exerciseArray[0]];
+		setCounter(counter + 1);
 		setExerciseArray(newExerciseArray);
 		setUserAnswer(undefined);
 		showHint(false);
@@ -52,21 +58,21 @@ export const Exercise = (): JSX.Element => {
 
 	const modeSelectionNode = (): JSX.Element => (
 		<div>
-			<div className="ex-button__title">Выберите режим:</div>
+			<div className="exercise__title">Выберите режим:</div>
 			<button
 				className={cn('ex-button__button', {
-					'ex-button__button--disabled': !CAN_DO_TEST_TEMP,
+					'ex-button__button--disabled': !isTestActive,
 				})}
-				disabled={!CAN_DO_TEST_TEMP}
+				disabled={!isTestActive}
 				onClick={(): void => setMode('test')}
 			>
 				Тестирование
 			</button>
 			<button
 				className={cn('ex-button__button', {
-					'ex-button__button--disabled': !CAN_DO_TRAIN_TEMP,
+					'ex-button__button--disabled': !isTrainActive,
 				})}
-				disabled={!CAN_DO_TRAIN_TEMP}
+				disabled={!isTrainActive}
 				onClick={(): void => setMode('train')}
 			>
 				Тренировка
@@ -74,25 +80,59 @@ export const Exercise = (): JSX.Element => {
 		</div>
 	);
 
+	const getExerciseItem = (): JSX.Element => {
+		switch (currentExercise.type) {
+			case ExerciseType.button:
+				return (
+					<ExerciseButton
+						key={`${currentExercise.question}-${currentExercise.answer}-${counter}`}
+						title={currentExercise.title}
+						variants={currentExercise.variants}
+						question={currentExercise.question}
+						setUserAnswer={setUserAnswer}
+					/>
+				);
+			case ExerciseType.touch:
+				return (
+					<ExerciseTouch
+						key={`${currentExercise.type}-${counter}`}
+						title={currentExercise.title}
+						answer={currentExercise.answer}
+						question={currentExercise.question}
+						setUserAnswer={setUserAnswer}
+					/>
+				);
+		}
+	};
+
+	const getIsAnswerCorrect = (): boolean => {
+		switch (currentExercise.type) {
+			case ExerciseType.button:
+				return userAnswer === currentExercise.answer;
+			case ExerciseType.touch:
+				return JSON.parse(userAnswer ?? 'false') as boolean;
+		}
+	};
+
+	const getCorrectAnswer = (): string | JSX.Element => {
+		switch (currentExercise.type) {
+			case ExerciseType.button:
+				return currentExercise.answer;
+			case ExerciseType.touch:
+				return currentExercise.getAnwerElement(currentExercise.question);
+		}
+	};
+
 	return (
 		<CommonLayout>
 			{mode && <ProgressBar progressPercent={progressValue} />}
 			<ExerciseWrap disabled={hintVisible}>
 				{!mode && modeSelectionNode()}
-				{mode && currentExercise && (
-					<ExerciseButton
-						key={`${currentExercise.question}-${currentExercise.answer}`}
-						title={currentExercise.title}
-						answer={currentExercise.answer}
-						variants={currentExercise.variants}
-						question={currentExercise.question}
-						setUserAnswer={setUserAnswer}
-					/>
-				)}
+				{mode && currentExercise && getExerciseItem()}
 				{mode && !currentExercise && (
-					<div className="ex-button__title">
+					<div className="exercise__title">
 						{mode === 'test'
-							? `Результат: ${numberOfCorrect} / ${testButtonExercise.length}`
+							? `Результат: ${numberOfCorrect} / ${initialExerciseList.length}`
 							: 'Тренировка выполнена'}
 					</div>
 				)}
@@ -106,8 +146,8 @@ export const Exercise = (): JSX.Element => {
 			)}
 			{mode === 'train' && currentExercise && hintVisible && (
 				<ResultHint
-					isAnswerCorrect={userAnswer === currentExercise.answer}
-					correctAnswer={currentExercise.answer}
+					isAnswerCorrect={getIsAnswerCorrect()}
+					correctAnswer={getCorrectAnswer()}
 					onNextHandler={handleHintNextExercise}
 				/>
 			)}

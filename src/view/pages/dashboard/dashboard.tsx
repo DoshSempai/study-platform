@@ -6,9 +6,14 @@ import { CommonLayout } from '../common/CommonLayout';
 
 const Dashboard = (): JSX.Element => (
 	<CommonLayout>
-		{dashboardCardData.map((title) => (
-			<Link key={title} to="/exercise" className="stplatform-link">
-				<Card title={title} />
+		{dashboardCardData.map((cardData) => (
+			<Link
+				key={cardData.title}
+				to="/exercise"
+				state={{ data: cardData }}
+				className="stplatform-link card_wrap"
+			>
+				<Card title={cardData.title} />
 			</Link>
 		))}
 	</CommonLayout>

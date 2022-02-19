@@ -16,10 +16,10 @@ module.exports = {
                 test: /\.css$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
-            {
-                test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader'],
-            },
+            // {
+            //     test: /\.scss$/,
+            //     use: [MiniCssExtractPlugin.loader, 'css-loader'],
+            // },
             {
                 test: /\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,

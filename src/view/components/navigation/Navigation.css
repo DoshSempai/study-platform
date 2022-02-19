@@ -12,3 +12,9 @@
     border-radius: 50%;
     background: linear-gradient(0deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
 }
+
+@media screen and (max-width: 480px) {
+    .navigation {
+        display: none;
+    }
+}
