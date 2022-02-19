@@ -1,0 +1,24 @@
+.testwizard__content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.testwizard__left {
+  margin-left: 5px;
+  padding: 5px;
+  height: 100%;
+  /* flex-grow: 1; */
+}
+
+.testwizard__right {
+  margin-right: 5px;
+  padding: 5px;
+  height: 100%;
+  flex-grow: 4;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

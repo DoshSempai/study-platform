@@ -1,0 +1,45 @@
+@import '../../../assets/palette.css';
+
+.testwizard__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.testwizard__title {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+}
+.testwizard__close {
+  position: relative;
+  padding: 12px;
+  cursor: pointer;
+}
+.testwizard__close::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 18px;
+  height: 2px;
+  background-color: var(--stplatform-black-80);
+  border-radius: 2px;
+}
+.testwizard__close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 18px;
+  height: 2px;
+  background-color: var(--stplatform-black-80);
+  border-radius: 2px;
+}
+.testwizard__close:hover::before, .testwizard__close:hover::after {
+  background-color: var(--stplatform-black-50);
+}

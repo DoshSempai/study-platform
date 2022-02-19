@@ -3,6 +3,13 @@ import { ITestExerciseAll } from '../../../data/exercise-types';
 import { exerciseList } from '../../../data/test-exercise';
 import { truncateString } from '../../../utils';
 import './testwizard.css';
+import './testwizard.header.css';
+import './testwizard.footer.css';
+import './testwizard.content.css';
+import './testwizard.tasklist.css';
+import './testwizard.settings.css';
+import './testwizard.data.css';
+import './testwizard.preview.css';
 
 interface ITestWizard {
 	onCloseModal?: () => void;
@@ -10,7 +17,7 @@ interface ITestWizard {
 
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
-	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['1']);
+	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
 
 	const onCreateNewTask = (): void => {
 		/* todo */
