@@ -69,7 +69,7 @@
 
 .ex-hint__button button {
   margin-top: 26px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--stplatform-white-90);
 }
 .ex-hint__button--correct button {
   background: var(--stplatform-hint-button-correct);

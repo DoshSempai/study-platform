@@ -1,8 +1,10 @@
+@import '../assets/palette.css';
+
 .app {  
     position: relative;
     height: 100vh;
     display: flex;
-    background: #ffffff;
+    background: var(--stplatform-white);
 }
 
 .app_right { 

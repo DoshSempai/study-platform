@@ -16,7 +16,7 @@
   width: 100%;
   height: 16px;
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.06);
+  background: var(--stplatform-black-06);
 }
 
 .progress-bar {

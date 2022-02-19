@@ -1,5 +1,6 @@
 :root {
   --stplatform-white: #ffffff;
+  --stplatform-white-90: rgba(255, 255, 255, 0.9);
   --stplatform-white-80: rgba(255, 255, 255, 0.8);
   --stplatform-white-50: rgba(255, 255, 255, 0.5);
   --stplatform-white-30: rgba(255, 255, 255, 0.3);
@@ -8,10 +9,16 @@
   --stplatform-black-80: rgba(0, 0, 0, 0.8);
   --stplatform-black-60: rgba(0, 0, 0, 0.6);
   --stplatform-black-50: rgba(0, 0, 0, 0.5);
+  --stplatform-black-30: rgba(0, 0, 0, 0.3);
+  --stplatform-black-25: rgba(0, 0, 0, 0.25);
   --stplatform-black-20: rgba(0, 0, 0, 0.2);
   --stplatform-black-16: rgba(0, 0, 0, 0.16);
+  --stplatform-black-08: rgba(0, 0, 0, 0.08);
+  --stplatform-black-06: rgba(0, 0, 0, 0.06);
 
   --stplatform-red-10: rgba(255,0,0,0.1);
+
+  --stplatform-header-title: #41B9A4;
 
   --stplatform-primary: #56D1BB;
   --stplatform-primary-80: rgba(86, 209, 187, 0.8);
