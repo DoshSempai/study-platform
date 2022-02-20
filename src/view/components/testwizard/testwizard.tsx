@@ -28,6 +28,7 @@ const typeMapper = {
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
 	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
+	const [currentTask, setCurrentTask] = useState<ITestExerciseAll>();
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
 	const tempCurrentTask = tasks[0];
 
@@ -75,7 +76,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const taskButtonBlock = (): JSX.Element => {
 		switch (currentTaskType) {
 			case ExerciseType.button:
-				return <TestWizardDataButton />;
+				return <TestWizardDataButton setTestData={setCurrentTask} />;
 			case ExerciseType.touch:
 				return <TestWizardDataTouch />;
 			default:
@@ -101,7 +102,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 						</div>
 						<div className="testwizard__preview">
 							<div className="testwizard__setting_part-title">Превью задания</div>
-							{tempCurrentTask && <TestWizardPreview task={tempCurrentTask} />}
+							{currentTask && <TestWizardPreview task={currentTask} />}
 						</div>
 					</div>
 				</div>

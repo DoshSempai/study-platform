@@ -2,6 +2,12 @@ import React, { useState, KeyboardEventHandler } from 'react';
 import CreatableSelect from 'react-select/creatable';
 import Select, { OnChangeValue } from 'react-select';
 import { Input } from '../formparts/textinput/textinput';
+import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
+import { Button } from '../formparts/button/button';
+
+interface ITestWizardDataButton {
+	setTestData: (data: ITestExerciseAll) => void;
+}
 
 interface Option {
 	readonly label: string;
@@ -13,16 +19,37 @@ const createOption = (label: string): Option => ({
 	value: label,
 });
 
-export const TestWizardDataButton = (): JSX.Element => {
+export const TestWizardDataButton = ({ setTestData }: ITestWizardDataButton): JSX.Element => {
+	const [question, setQuestion] = useState<string>('');
 	const [variantsInputValue, setVariantsInputValue] = useState<string>('');
 	const [variantsValue, setVariantsValue] = useState<readonly Option[]>([]);
+	const [answerValue, setAnswerValue] = useState<Option>();
+	const [errorMessage, setErrorMessage] = useState<string>();
 
-	const handleChange = (val: OnChangeValue<Option, true>): void => {
+	const handleVariantsChange = (val: OnChangeValue<Option, true>): void => {
+		errorMessage && setErrorMessage(undefined);
 		setVariantsValue(val);
 	};
 
-	const handleInputChange = (input: string): void => {
+	const handleVariantsInputChange = (input: string): void => {
+		errorMessage && setErrorMessage(undefined);
 		setVariantsInputValue(input);
+	};
+
+	const handlePreviewClick = (): void => {
+		if (!question || !variantsValue.length || !answerValue) {
+			console.log('gg');
+			setErrorMessage('Заполните все поля');
+			return;
+		}
+		console.log('yay');
+		setTestData({
+			type: ExerciseType.button,
+			title: 'Выберите правильный ответ',
+			question: question,
+			answer: answerValue.value,
+			variants: variantsValue.map((el) => el.value),
+		});
 	};
 
 	const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -38,15 +65,16 @@ export const TestWizardDataButton = (): JSX.Element => {
 		}
 	};
 
-	const titleBlock = (): JSX.Element => (
+	const questionBlock = (): JSX.Element => (
 		<div className="testwizard__data_block-row">
 			<div className="testwizard__data_block-row-label">Вопрос</div>
 			<Input
 				className="testwizard__data_block-row-control"
-				value={''}
+				value={question}
 				placeholder="Вопрос"
 				onChange={(e): void => {
-					console.log(`input`, e);
+					errorMessage && setErrorMessage(undefined);
+					setQuestion(e.target.value);
 				}}
 			/>
 		</div>
@@ -64,8 +92,8 @@ export const TestWizardDataButton = (): JSX.Element => {
 				isClearable
 				isMulti
 				menuIsOpen={false}
-				onChange={handleChange}
-				onInputChange={handleInputChange}
+				onChange={handleVariantsChange}
+				onInputChange={handleVariantsInputChange}
 				onKeyDown={handleKeyDown}
 				placeholder="Наберите вариант и нажмите Enter для добавления в список"
 				value={variantsValue}
@@ -97,9 +125,11 @@ export const TestWizardDataButton = (): JSX.Element => {
 				placeholder="Выберите ответ"
 				isDisabled={!variantsValue.length}
 				options={variantsValue}
-				// value={}
+				value={answerValue}
 				onChange={(val): void => {
-					console.log(`val`, val);
+					if (!val) return;
+					errorMessage && setErrorMessage(undefined);
+					setAnswerValue(val);
 				}}
 				styles={{
 					// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -121,11 +151,29 @@ export const TestWizardDataButton = (): JSX.Element => {
 		</div>
 	);
 
+	const actionBlock = (): JSX.Element => (
+		<div className="testwizard__data_block-row testwizard__data_block-row--end">
+			{errorMessage ? (
+				<div className="testwizard__data_block-row__error">{errorMessage}</div>
+			) : (
+				<></>
+			)}
+			<Button text="Превью" onClick={handlePreviewClick} />
+			<Button
+				text="Сохранить задание в тесте"
+				onClick={(e) => {
+					console.log(`click`, e);
+				}}
+			/>
+		</div>
+	);
+
 	return (
 		<div className="testwizard__data_block">
-			{titleBlock()}
+			{questionBlock()}
 			{variantsBlock()}
 			{answerBlock()}
+			{actionBlock()}
 		</div>
 	);
 };

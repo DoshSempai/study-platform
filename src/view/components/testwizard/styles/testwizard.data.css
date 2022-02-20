@@ -9,14 +9,25 @@
   border: 2px solid var(--stplatform-black-16);
 }
 
-.testwizard__data_button {
-
-}
 .testwizard__data_block-row {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 5px;
+}
+.testwizard__data_block-row--end {
+  justify-content: flex-end;
+}
+.testwizard__data_block-row--top-margin {
+  margin-top: 10px;
+}
+.testwizard__data_block-row__error {
+  margin-right: 5px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  color: var(--stplatform-hint-title-wrong);
 }
 .testwizard__data_block-row-label {
   margin-right: 5px;
