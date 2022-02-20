@@ -2,7 +2,7 @@
 
 .testwizard__data {
   width: 100%;
-  flex-grow: 2;
+  /* flex-grow: 2; */
   margin-bottom: 5px;
   padding: 5px;
   box-sizing: border-box;

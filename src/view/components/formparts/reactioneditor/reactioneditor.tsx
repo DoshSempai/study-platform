@@ -10,12 +10,14 @@ interface IReactionEditor {
 
 export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element => {
 	const text = useRef(placeholder);
+	const copyText = useRef('');
 	const [isFocused, setFocused] = useState<boolean>(false);
 	const [editorAction, setEditorAction] = useState<number>(0);
 
 	const handleFocus = (): void => {
+		console.log(`handleFocus`, copyText.current);
 		setFocused(true);
-		if (text.current === placeholder) {
+		if (text.current === placeholder && copyText.current === '') {
 			text.current = '';
 		}
 	};
@@ -29,6 +31,7 @@ export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element =>
 	};
 	const handleChange = (event: ContentEditableEvent): void => {
 		text.current = event.target.value;
+		copyText.current = event.target.value;
 		setEditorAction(editorAction + 1);
 	};
 
@@ -43,9 +46,9 @@ export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element =>
 	return (
 		<div className="st-reaction-editor-wrap">
 			<ContentEditable
-				// innerRef={this.contentEditable}
 				className={cn('st-reaction-editor', {
-					'st-reaction-editor__placeholder': !isFocused && text.current === placeholder,
+					'st-reaction-editor__placeholder':
+						!isFocused && text.current === placeholder && copyText.current === '',
 				})}
 				tagName="pre"
 				html={text.current}

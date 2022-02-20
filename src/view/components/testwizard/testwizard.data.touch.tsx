@@ -5,7 +5,7 @@ export const TestWizardDataTouch = (): JSX.Element => {
 	return (
 		<div className="testwizard__data_block">
 			<div className="testwizard__data_block-row-label">Уравнение</div>
-			<ReactionEditor placeholder="Введите реакцию" />
+			<ReactionEditor placeholder="2H<sub>2</sub> + O<sub>2</sub> = 2H<sub>2</sub>O" />
 		</div>
 	);
 };
