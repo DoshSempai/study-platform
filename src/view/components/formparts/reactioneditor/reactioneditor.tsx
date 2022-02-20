@@ -1,8 +1,8 @@
 import React, { useState, useRef, KeyboardEventHandler } from 'react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import cn from 'classnames';
-import './reactioneditor.css';
 import { TriangleDown, TriangleUp } from '../../../../assets/svg';
+import './reactioneditor.css';
 
 interface IReactionEditor {
 	placeholder: string;

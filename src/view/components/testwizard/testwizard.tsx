@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
-import { Checkbox } from '../formparts/checkbox/checkbox';
-import { Input } from '../formparts/textinput/textinput';
+import { TestWizardSettingsCommon } from './testwizard.settings.common';
+import { TestWizardSettingsTask } from './testwizard.settings.task';
+import { TestWizardDataButton } from './testwizard.data.button';
+import { TestWizardDataTouch } from './testwizard.data.touch';
+import { TestWizardPreview } from './testwizard.preview';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
 import { exerciseList } from '../../../data/test-exercise';
 import { truncateString } from '../../../utils';
@@ -13,9 +15,6 @@ import './styles/testwizard.tasklist.css';
 import './styles/testwizard.settings.css';
 import './styles/testwizard.data.css';
 import './styles/testwizard.preview.css';
-import { TestWizardPreview } from './testwizard.preview';
-import { TestWizardDataButton } from './testwizard.data.button';
-import { TestWizardDataTouch } from './testwizard.data.touch';
 
 interface ITestWizard {
 	onCloseModal?: () => void;
@@ -26,15 +25,11 @@ const typeMapper = {
 	[ExerciseType.touch]: 'Конструктор',
 };
 
-const typeOptions = [
-	{ value: ExerciseType.button, label: 'Кнопки' },
-	{ value: ExerciseType.touch, label: 'Конструктор' },
-];
-
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
+	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
-	const tempCurrentTask = tasks[1];
+	const tempCurrentTask = tasks[0];
 
 	const onCreateNewTask = (): void => {
 		/* todo */
@@ -72,80 +67,13 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 
 	const settingsBlock = (): JSX.Element => (
 		<div className="testwizard__setting">
-			<div className="testwizard__setting_part">
-				<div className="testwizard__setting_part-title">Общие настройки теста</div>
-				<Input
-					className="testwizard__setting_checkbox"
-					value={''}
-					placeholder="Название теста"
-					onChange={(e): void => {
-						console.log(`input`, e);
-					}}
-				/>
-				<Checkbox
-					className="testwizard__setting_checkbox"
-					checked={false}
-					label="Разрешить режим тестирования"
-					onChange={(e): void => {
-						console.log(`check`, e);
-					}}
-				/>
-				<Checkbox
-					className="testwizard__setting_checkbox"
-					checked={false}
-					label="Разрешить режим тренировки"
-					onChange={(e): void => {
-						console.log(`check`, e);
-					}}
-				/>
-				<Checkbox
-					className="testwizard__setting_checkbox"
-					checked={false}
-					label="Закрыть доступ паролем"
-					onChange={(e): void => {
-						console.log(`check`, e);
-					}}
-				/>
-				<Input
-					value={''}
-					placeholder="Пароль"
-					onChange={(e): void => {
-						console.log(`input`, e);
-					}}
-				/>
-			</div>
-			<div className="testwizard__setting_part">
-				<div className="testwizard__setting_part-title">Настройки задания</div>
-				<Select
-					placeholder="Тип задания"
-					options={typeOptions}
-					// value={}
-					onChange={(val): void => {
-						console.log(`val`, val);
-					}}
-					styles={{
-						// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-						control: (provided, state) => ({
-							...provided,
-							borderColor: state.isFocused ? '#56D1BB !important' : '#cccccc',
-							boxShadow: state.isFocused ? '0 0 0 1px #56D1BB' : 'none',
-						}),
-						// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-						valueContainer: (provider) => ({
-							...provider,
-							fontFamily: 'Open Sans',
-							fontSize: '13px',
-							fontStyle: 'normal',
-							fontWeight: 'normal',
-						}),
-					}}
-				/>
-			</div>
+			<TestWizardSettingsCommon />
+			<TestWizardSettingsTask setType={setCurrentTaskType} />
 		</div>
 	);
 
 	const taskButtonBlock = (): JSX.Element => {
-		switch (tempCurrentTask.type) {
+		switch (currentTaskType) {
 			case ExerciseType.button:
 				return <TestWizardDataButton />;
 			case ExerciseType.touch:
