@@ -27,6 +27,7 @@ const typeMapper = {
 
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
+	const [counter, setCounter] = useState<number>(0);
 	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
 	const [currentTask, setCurrentTask] = useState<ITestExerciseAll>();
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
@@ -40,6 +41,11 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 		const tasksCopy = [...tasks];
 		tasksCopy.splice(index, 1);
 		setTasks(tasksCopy);
+	};
+
+	const onSetTypeInSettings = (type: ExerciseType): void => {
+		setCurrentTask(undefined);
+		setCurrentTaskType(type);
 	};
 
 	const listOfTasks = (): JSX.Element => (
@@ -69,16 +75,21 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const settingsBlock = (): JSX.Element => (
 		<div className="testwizard__setting">
 			<TestWizardSettingsCommon />
-			<TestWizardSettingsTask setType={setCurrentTaskType} />
+			<TestWizardSettingsTask setType={onSetTypeInSettings} />
 		</div>
 	);
+
+	const setTestDataHandler = (data: ITestExerciseAll): void => {
+		setCounter(counter + 1);
+		setCurrentTask(data);
+	};
 
 	const taskButtonBlock = (): JSX.Element => {
 		switch (currentTaskType) {
 			case ExerciseType.button:
-				return <TestWizardDataButton setTestData={setCurrentTask} />;
+				return <TestWizardDataButton setTestData={setTestDataHandler} />;
 			case ExerciseType.touch:
-				return <TestWizardDataTouch />;
+				return <TestWizardDataTouch setTestData={setTestDataHandler} />;
 			default:
 				return <></>;
 		}
@@ -102,7 +113,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 						</div>
 						<div className="testwizard__preview">
 							<div className="testwizard__setting_part-title">Превью задания</div>
-							{currentTask && <TestWizardPreview task={currentTask} />}
+							{currentTask && <TestWizardPreview key={`${counter}`} task={currentTask} />}
 						</div>
 					</div>
 				</div>

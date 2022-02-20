@@ -6,24 +6,28 @@ import './reactioneditor.css';
 
 interface IReactionEditor {
 	placeholder: string;
+	onFocusHandler: () => void;
+	onInputHandler: (value: string) => void;
 }
 
-export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element => {
+export const ReactionEditor = ({
+	placeholder,
+	onFocusHandler,
+	onInputHandler,
+}: IReactionEditor): JSX.Element => {
 	const text = useRef(placeholder);
 	const copyText = useRef('');
 	const [isFocused, setFocused] = useState<boolean>(false);
 	const [editorAction, setEditorAction] = useState<number>(0);
 
 	const handleFocus = (): void => {
-		console.log(`handleFocus`, copyText.current);
 		setFocused(true);
+		onFocusHandler();
 		if (text.current === placeholder && copyText.current === '') {
 			text.current = '';
 		}
 	};
 	const handleBlur = (): void => {
-		/* todo */
-		console.log(`blur:`, text.current);
 		if (text.current === '') {
 			text.current = placeholder;
 		}
@@ -33,12 +37,12 @@ export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element =>
 		text.current = event.target.value;
 		copyText.current = event.target.value;
 		setEditorAction(editorAction + 1);
+		onInputHandler(event.target.value);
 	};
 
 	const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
 		if (event.ctrlKey && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
 			event.preventDefault();
-			console.log('bingo down');
 			document.execCommand('subscript', false);
 		}
 	};
