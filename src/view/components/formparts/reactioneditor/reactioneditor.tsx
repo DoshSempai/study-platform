@@ -2,6 +2,7 @@ import React, { useState, useRef, KeyboardEventHandler } from 'react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import cn from 'classnames';
 import './reactioneditor.css';
+import { TriangleDown, TriangleUp } from '../../../../assets/svg';
 
 interface IReactionEditor {
 	placeholder: string;
@@ -21,6 +22,9 @@ export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element =>
 	const handleBlur = (): void => {
 		/* todo */
 		console.log(`blur:`, text.current);
+		if (text.current === '') {
+			text.current = placeholder;
+		}
 		setFocused(false);
 	};
 	const handleChange = (event: ContentEditableEvent): void => {
@@ -28,8 +32,16 @@ export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element =>
 		setEditorAction(editorAction + 1);
 	};
 
+	const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+		if (event.ctrlKey && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+			event.preventDefault();
+			console.log('bingo down');
+			document.execCommand('subscript', false);
+		}
+	};
+
 	return (
-		<>
+		<div className="st-reaction-editor-wrap">
 			<ContentEditable
 				// innerRef={this.contentEditable}
 				className={cn('st-reaction-editor', {
@@ -41,23 +53,37 @@ export const ReactionEditor = ({ placeholder }: IReactionEditor): JSX.Element =>
 				onChange={handleChange}
 				onFocus={handleFocus}
 				onBlur={handleBlur}
+				onKeyDown={handleKeyDown}
 			/>
-			<EditButton cmd="subscript" name="subscript" />
-		</>
+			<div className="st-editbutton-wrap">
+				<EditButton cmd="subscript" mode="down" />
+				<EditButton cmd="subscript" mode="up" />
+			</div>
+		</div>
 	);
 };
 
-function EditButton({ cmd, arg, name }: { cmd: string; arg?: string; name?: string }): JSX.Element {
+function EditButton({ cmd, mode }: { cmd: string; mode: 'up' | 'down' }): JSX.Element {
 	return (
-		<button
-			className="editbutton"
+		<div
+			className="st-editbutton"
 			key={cmd}
 			onMouseDown={(evt): void => {
 				evt.preventDefault(); // Avoids loosing focus from the editable area
-				document.execCommand(cmd, false, arg); // Send the command to the browser
+				document.execCommand(cmd, false); // Send the command to the browser
 			}}
 		>
-			{name || cmd}
-		</button>
+			{mode === 'down' ? (
+				<>
+					<TriangleDown />
+					<div className="st-editbutton__text">(Ctrl + &#8595;) подстрочный режим ввода</div>
+				</>
+			) : (
+				<>
+					<TriangleUp />
+					<div className="st-editbutton__text">(Ctrl + &#8593;) обычный режим ввода</div>
+				</>
+			)}
+		</div>
 	);
 }
