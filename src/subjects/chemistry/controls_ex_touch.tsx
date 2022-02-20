@@ -63,7 +63,7 @@ const createReactionPart = (data: IChemicalMolecule[]): JSX.Element => (
 					{/* ==== 1 ==== */}
 					{molecule.parts.map((item) => {
 						const baseText =
-							item.base.length > 1 && item.base.charAt(1) === item.base.charAt(1).toUpperCase()
+							item.base.length > 1 && (item.base.charAt(item.base.length - 1) === item.base.charAt(item.base.length - 1).toUpperCase() || !isNaN(Number(item.base.charAt(item.base.length - 1))))
 								? `(${item.base})`
 								: item.base;
 						return (
