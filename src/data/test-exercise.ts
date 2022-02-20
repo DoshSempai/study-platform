@@ -1,4 +1,3 @@
-import { createReactionLine } from '../subjects/chemistry/controls_ex_touch';
 import { ExerciseType, ITestExerciseAll } from './exercise-types';
 import { testSalt1 } from '../subjects/chemistry/testdata/test-salt';
 import { testBase1 } from '../subjects/chemistry/testdata/test-base';
@@ -33,8 +32,6 @@ const testTouchExercise: Array<ITestExerciseAll> = [
 		type: ExerciseType.touch,
 		title: 'Составьте реакцию',
 		answer: '',
-		uId: '1',
-		getAnwerElement: createReactionLine,
 		question: {
 			reactants: [
 				{
@@ -57,8 +54,6 @@ const testTouchExercise: Array<ITestExerciseAll> = [
 		type: ExerciseType.touch,
 		title: 'Составьте реакцию',
 		answer: '',
-		uId: '2',
-		getAnwerElement: createReactionLine,
 		question: {
 			reactants: [
 				{

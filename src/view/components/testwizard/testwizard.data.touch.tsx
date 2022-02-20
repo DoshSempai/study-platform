@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
-import { createReactionLine } from '../../../subjects/chemistry/controls_ex_touch';
 import { parseHTMLReaction } from '../../../subjects/chemistry/parser';
 import { Button } from '../formparts/button/button';
 import { ReactionEditor } from '../formparts/reactioneditor/reactioneditor';
@@ -23,7 +22,6 @@ export const TestWizardDataTouch = ({ setTestData }: ITestWizardDataTouch): JSX.
 			type: ExerciseType.touch,
 			title: 'Составьте реакцию',
 			answer: '',
-			getAnwerElement: createReactionLine,
 			question: resReaction,
 		});
 		console.log('preview', resReaction);
