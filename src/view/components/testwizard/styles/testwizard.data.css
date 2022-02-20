@@ -12,19 +12,19 @@
 .testwizard__data_button {
 
 }
-.testwizard__data_button-row {
+.testwizard__data_block-row {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   margin-bottom: 5px;
 }
-.testwizard__data_button-row-label {
+.testwizard__data_block-row-label {
   margin-right: 5px;
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: normal;
   font-size: 13px;
 }
-.testwizard__data_button-row-control {
+.testwizard__data_block-row-control {
   width: 100%;
 }

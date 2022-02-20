@@ -14,7 +14,8 @@ import './styles/testwizard.settings.css';
 import './styles/testwizard.data.css';
 import './styles/testwizard.preview.css';
 import { TestWizardPreview } from './testwizard.preview';
-import { TestWizardDataButton } from './testwizard.data';
+import { TestWizardDataButton } from './testwizard.data.button';
+import { TestWizardDataTouch } from './testwizard.data.touch';
 
 interface ITestWizard {
 	onCloseModal?: () => void;
@@ -33,7 +34,7 @@ const typeOptions = [
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
-	const tempCurrentTask = tasks[0];
+	const tempCurrentTask = tasks[1];
 
 	const onCreateNewTask = (): void => {
 		/* todo */
@@ -106,7 +107,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 					}}
 				/>
 				<Input
-					value={'as'}
+					value={''}
 					placeholder="Пароль"
 					onChange={(e): void => {
 						console.log(`input`, e);
@@ -129,13 +130,30 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 							borderColor: state.isFocused ? '#56D1BB !important' : '#cccccc',
 							boxShadow: state.isFocused ? '0 0 0 1px #56D1BB' : 'none',
 						}),
+						// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+						valueContainer: (provider) => ({
+							...provider,
+							fontFamily: 'Open Sans',
+							fontSize: '13px',
+							fontStyle: 'normal',
+							fontWeight: 'normal',
+						}),
 					}}
 				/>
 			</div>
 		</div>
 	);
 
-	const taskButtonDataBlock = (): JSX.Element => <TestWizardDataButton />;
+	const taskButtonBlock = (): JSX.Element => {
+		switch (tempCurrentTask.type) {
+			case ExerciseType.button:
+				return <TestWizardDataButton />;
+			case ExerciseType.touch:
+				return <TestWizardDataTouch />;
+			default:
+				return <></>;
+		}
+	};
 
 	return (
 		<>
@@ -151,7 +169,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 						{settingsBlock()}
 						<div className="testwizard__data">
 							<div className="testwizard__setting_part-title">Настройка данных задания</div>
-							{taskButtonDataBlock()}
+							{taskButtonBlock()}
 						</div>
 						<div className="testwizard__preview">
 							<div className="testwizard__setting_part-title">Превью задания</div>

@@ -1,6 +1,6 @@
 import React, { useState, KeyboardEventHandler } from 'react';
 import CreatableSelect from 'react-select/creatable';
-import Select, { ActionMeta, OnChangeValue } from 'react-select';
+import Select, { OnChangeValue } from 'react-select';
 import { Input } from '../formparts/textinput/textinput';
 
 interface Option {
@@ -17,11 +17,7 @@ export const TestWizardDataButton = (): JSX.Element => {
 	const [variantsInputValue, setVariantsInputValue] = useState<string>('');
 	const [variantsValue, setVariantsValue] = useState<readonly Option[]>([]);
 
-	const handleChange = (val: OnChangeValue<Option, true>, actionMeta: ActionMeta<Option>): void => {
-		// console.group('Value Changed');
-		// console.log(val);
-		// console.log(`action: ${actionMeta.action}`);
-		// console.groupEnd();
+	const handleChange = (val: OnChangeValue<Option, true>): void => {
 		setVariantsValue(val);
 	};
 
@@ -43,10 +39,10 @@ export const TestWizardDataButton = (): JSX.Element => {
 	};
 
 	const titleBlock = (): JSX.Element => (
-		<div className="testwizard__data_button-row">
-			<div className="testwizard__data_button-row-label">Вопрос</div>
+		<div className="testwizard__data_block-row">
+			<div className="testwizard__data_block-row-label">Вопрос</div>
 			<Input
-				className="testwizard__data_button-row-control"
+				className="testwizard__data_block-row-control"
 				value={''}
 				placeholder="Вопрос"
 				onChange={(e): void => {
@@ -57,10 +53,10 @@ export const TestWizardDataButton = (): JSX.Element => {
 	);
 
 	const variantsBlock = (): JSX.Element => (
-		<div className="testwizard__data_button-row">
-			<div className="testwizard__data_button-row-label">Варианты</div>
+		<div className="testwizard__data_block-row">
+			<div className="testwizard__data_block-row-label">Варианты</div>
 			<CreatableSelect
-				className="testwizard__data_button-row-control"
+				className="testwizard__data_block-row-control"
 				components={{
 					DropdownIndicator: null,
 				}}
@@ -80,16 +76,24 @@ export const TestWizardDataButton = (): JSX.Element => {
 						borderColor: state.isFocused ? '#56D1BB !important' : '#cccccc',
 						boxShadow: state.isFocused ? '0 0 0 1px #56D1BB' : 'none',
 					}),
+					// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+					valueContainer: (provider) => ({
+						...provider,
+						fontFamily: 'Open Sans',
+						fontSize: '13px',
+						fontStyle: 'normal',
+						fontWeight: 'normal',
+					}),
 				}}
 			/>
 		</div>
 	);
 
 	const answerBlock = (): JSX.Element => (
-		<div className="testwizard__data_button-row">
-			<div className="testwizard__data_button-row-label">Ответ</div>
+		<div className="testwizard__data_block-row">
+			<div className="testwizard__data_block-row-label">Ответ</div>
 			<Select
-				className="testwizard__data_button-row-control"
+				className="testwizard__data_block-row-control"
 				placeholder="Выберите ответ"
 				isDisabled={!variantsValue.length}
 				options={variantsValue}
@@ -104,13 +108,21 @@ export const TestWizardDataButton = (): JSX.Element => {
 						borderColor: state.isFocused ? '#56D1BB !important' : '#cccccc',
 						boxShadow: state.isFocused ? '0 0 0 1px #56D1BB' : 'none',
 					}),
+					// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+					valueContainer: (provider) => ({
+						...provider,
+						fontFamily: 'Open Sans',
+						fontSize: '13px',
+						fontStyle: 'normal',
+						fontWeight: 'normal',
+					}),
 				}}
 			/>
 		</div>
 	);
 
 	return (
-		<div className="testwizard__data_button">
+		<div className="testwizard__data_block">
 			{titleBlock()}
 			{variantsBlock()}
 			{answerBlock()}

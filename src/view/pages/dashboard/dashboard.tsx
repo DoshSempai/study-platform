@@ -6,7 +6,7 @@ import { CommonLayout } from '../common/CommonLayout';
 import { TestWizard } from '../../components/testwizard/testwizard';
 
 const Dashboard = (): JSX.Element => {
-	const [showTestWIzardModal, setShowTestWizardModal] = useState<boolean>(false);
+	const [showTestWIzardModal, setShowTestWizardModal] = useState<boolean>(true);
 	return (
 		<>
 			<CommonLayout onCreateTestClick={(): void => setShowTestWizardModal(true)}>
