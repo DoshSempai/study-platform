@@ -26,15 +26,15 @@ const typeMapper = {
 };
 
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
-	// const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
 	const [counter, setCounter] = useState<number>(0);
 	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
 	const [currentTask, setCurrentTask] = useState<ITestExerciseAll>();
-	const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
-	const tempCurrentTask = tasks[0];
+	// const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
+	const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
 
 	const onCreateNewTask = (): void => {
-		/* todo */
+		setCurrentTask(undefined);
+		setCurrentTaskType(undefined);
 	};
 
 	const onRemoveTask = (index: number): void => {
@@ -46,6 +46,14 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const onSetTypeInSettings = (type: ExerciseType): void => {
 		setCurrentTask(undefined);
 		setCurrentTaskType(type);
+	};
+
+	const onAddTaskToTest = (): boolean => {
+		if (!currentTask) {
+			return false;
+		}
+		setTasks([...tasks, currentTask]);
+		return true;
 	};
 
 	const listOfTasks = (): JSX.Element => (
@@ -87,9 +95,9 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const taskButtonBlock = (): JSX.Element => {
 		switch (currentTaskType) {
 			case ExerciseType.button:
-				return <TestWizardDataButton setTestData={setTestDataHandler} />;
+				return <TestWizardDataButton setTestData={setTestDataHandler} addTask={onAddTaskToTest} />;
 			case ExerciseType.touch:
-				return <TestWizardDataTouch setTestData={setTestDataHandler} />;
+				return <TestWizardDataTouch setTestData={setTestDataHandler} addTask={onAddTaskToTest} />;
 			default:
 				return <></>;
 		}

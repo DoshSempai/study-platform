@@ -6,9 +6,13 @@ import { ReactionEditor } from '../formparts/reactioneditor/reactioneditor';
 
 interface ITestWizardDataTouch {
 	setTestData: (data: ITestExerciseAll) => void;
+	addTask: () => boolean;
 }
 
-export const TestWizardDataTouch = ({ setTestData }: ITestWizardDataTouch): JSX.Element => {
+export const TestWizardDataTouch = ({
+	setTestData,
+	addTask,
+}: ITestWizardDataTouch): JSX.Element => {
 	const [errorMessage, setErrorMessage] = useState<string>();
 	const [reactionHTML, setReactionHTML] = useState<string>('');
 
@@ -27,6 +31,13 @@ export const TestWizardDataTouch = ({ setTestData }: ITestWizardDataTouch): JSX.
 		console.log('preview', resReaction);
 	};
 
+	const handleAddTaskToTest = (): void => {
+		const result = addTask();
+		if (!result) {
+			setErrorMessage('Заполните корректно все поля');
+		}
+	};
+
 	const actionBlock = (): JSX.Element => (
 		<div className="testwizard__data_block-row testwizard__data_block-row--end testwizard__data_block-row--top-margin">
 			{errorMessage ? (
@@ -35,12 +46,7 @@ export const TestWizardDataTouch = ({ setTestData }: ITestWizardDataTouch): JSX.
 				<></>
 			)}
 			<Button text="Превью" onClick={handlePreviewClick} />
-			<Button
-				text="Сохранить задание в тесте"
-				onClick={(e) => {
-					console.log(`click`, e);
-				}}
-			/>
+			<Button text="Сохранить задание в тесте" onClick={handleAddTaskToTest} />
 		</div>
 	);
 
@@ -52,8 +58,7 @@ export const TestWizardDataTouch = ({ setTestData }: ITestWizardDataTouch): JSX.
 					setReactionHTML(value);
 				}}
 				onFocusHandler={(): void => setErrorMessage(undefined)}
-				// placeholder="2H<sub>2</sub> + O<sub>2</sub> = 2H<sub>2</sub>O"
-				placeholder="Fe<sub>2</sub>O<sub>3</sub> + 3H<sub>2</sub>O = 2Fe(OH)<sub>3</sub>"
+				placeholder="2H<sub>2</sub> + O<sub>2</sub> = 2H<sub>2</sub>O"
 			/>
 			{actionBlock()}
 		</div>

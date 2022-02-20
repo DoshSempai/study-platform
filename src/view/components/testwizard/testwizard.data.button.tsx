@@ -7,6 +7,7 @@ import { Button } from '../formparts/button/button';
 
 interface ITestWizardDataButton {
 	setTestData: (data: ITestExerciseAll) => void;
+	addTask: () => boolean;
 }
 
 interface Option {
@@ -19,7 +20,10 @@ const createOption = (label: string): Option => ({
 	value: label,
 });
 
-export const TestWizardDataButton = ({ setTestData }: ITestWizardDataButton): JSX.Element => {
+export const TestWizardDataButton = ({
+	setTestData,
+	addTask,
+}: ITestWizardDataButton): JSX.Element => {
 	const [question, setQuestion] = useState<string>('');
 	const [variantsInputValue, setVariantsInputValue] = useState<string>('');
 	const [variantsValue, setVariantsValue] = useState<readonly Option[]>([]);
@@ -50,6 +54,13 @@ export const TestWizardDataButton = ({ setTestData }: ITestWizardDataButton): JS
 			answer: answerValue.value,
 			variants: variantsValue.map((el) => el.value),
 		});
+	};
+
+	const handleAddTaskToTest = (): void => {
+		const result = addTask();
+		if (!result) {
+			setErrorMessage('Заполните корректно все поля');
+		}
 	};
 
 	const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -159,12 +170,7 @@ export const TestWizardDataButton = ({ setTestData }: ITestWizardDataButton): JS
 				<></>
 			)}
 			<Button text="Превью" onClick={handlePreviewClick} />
-			<Button
-				text="Сохранить задание в тесте"
-				onClick={(e) => {
-					console.log(`click`, e);
-				}}
-			/>
+			<Button text="Сохранить задание в тесте" onClick={handleAddTaskToTest} />
 		</div>
 	);
 
