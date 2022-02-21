@@ -1,31 +1,40 @@
 import React, { useState } from 'react';
+import { ITestCommonData } from '../../../data/dashboard-data';
 import { Checkbox } from '../formparts/checkbox/checkbox';
 import { Input } from '../formparts/textinput/textinput';
 
-export interface ITestCommonSettingsData {
-	title: string;
-	testMode: boolean;
-	trainMode: boolean;
-	parole?: string;
+interface ITestWizardSettingsCommon {
+	settingsError?: boolean;
+	removeError?: () => void;
+	testSettings: ITestCommonData;
+	setTestSettings: (data: ITestCommonData) => void;
 }
 
-// interface ITestWizardSettingsCommon {}
-
-export const TestWizardSettingsCommon = (): JSX.Element => {
+export const TestWizardSettingsCommon = ({
+	settingsError,
+	removeError,
+	testSettings,
+	setTestSettings,
+}: ITestWizardSettingsCommon): JSX.Element => {
 	const [testName, setTestName] = useState<string>('');
 	const [modeTestActive, setModeTestActive] = useState<boolean>(true);
 	const [modeTrainActive, setModeTrainActive] = useState<boolean>(false);
 	const [hasParole, setHasParole] = useState<boolean>(false);
 	const [parole, setParole] = useState<string>('');
+
 	return (
 		<div className="testwizard__setting_part">
 			<div className="testwizard__setting_part-title">Общие настройки теста</div>
 			<Input
 				className="testwizard__setting_checkbox"
 				value={testName}
+				error={settingsError}
 				placeholder="Название теста"
 				onChange={(e): void => {
-					setTestName(e.target.value);
+					const title = e.target.value;
+					setTestName(title);
+					removeError?.();
+					setTestSettings({ ...testSettings, title: title });
 				}}
 			/>
 			<Checkbox
@@ -33,8 +42,9 @@ export const TestWizardSettingsCommon = (): JSX.Element => {
 				checked={modeTestActive}
 				label="Разрешить режим тестирования"
 				onChange={(e): void => {
-					console.log(`test check`, e.target.checked);
-					setModeTestActive(e.target.checked);
+					const checked = e.target.checked;
+					setModeTestActive(checked);
+					setTestSettings({ ...testSettings, testMode: checked });
 				}}
 			/>
 			<Checkbox
@@ -42,8 +52,9 @@ export const TestWizardSettingsCommon = (): JSX.Element => {
 				checked={modeTrainActive}
 				label="Разрешить режим тренировки"
 				onChange={(e): void => {
-					console.log(`train check`, e.target.checked);
-					setModeTrainActive(e.target.checked);
+					const checked = e.target.checked;
+					setModeTrainActive(checked);
+					setTestSettings({ ...testSettings, trainMode: checked });
 				}}
 			/>
 			<Checkbox
@@ -51,8 +62,11 @@ export const TestWizardSettingsCommon = (): JSX.Element => {
 				checked={hasParole}
 				label="Закрыть доступ паролем"
 				onChange={(e): void => {
-					console.log(`check`, e);
-					setHasParole(e.target.checked);
+					const isParole = e.target.checked;
+					setHasParole(isParole);
+
+					const paroleInSetting = isParole && parole ? parole : undefined;
+					setTestSettings({ ...testSettings, parole: paroleInSetting });
 				}}
 			/>
 			<Input
@@ -60,7 +74,10 @@ export const TestWizardSettingsCommon = (): JSX.Element => {
 				placeholder="Пароль"
 				disabled={!hasParole}
 				onChange={(e): void => {
-					setParole(e.target.value);
+					const paroleVal = e.target.value;
+					setParole(paroleVal);
+					const paroleInSetting = hasParole && paroleVal ? paroleVal : undefined;
+					setTestSettings({ ...testSettings, parole: paroleInSetting });
 				}}
 			/>
 		</div>

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../components/card/Сard';
-import { dashboardTestLocalData } from '../../../data/dashboard-data';
+import { dashboardTestLocalData, ITestData } from '../../../data/dashboard-data';
 import { CommonLayout } from '../common/CommonLayout';
 import { TestWizard } from '../../components/testwizard/testwizard';
 
 const Dashboard = (): JSX.Element => {
 	const [showTestWIzardModal, setShowTestWizardModal] = useState<boolean>(true);
+	const onCreateTest = (data: ITestData): void => {
+		console.log('onCreateTest', data);
+	};
 	return (
 		<>
 			<CommonLayout onCreateTestClick={(): void => setShowTestWizardModal(true)}>
@@ -22,7 +25,10 @@ const Dashboard = (): JSX.Element => {
 				))}
 			</CommonLayout>
 			{showTestWIzardModal && (
-				<TestWizard onCloseModal={(): void => setShowTestWizardModal(false)} />
+				<TestWizard
+					onCreateTest={onCreateTest}
+					onCloseModal={(): void => setShowTestWizardModal(false)}
+				/>
 			)}
 		</>
 	);

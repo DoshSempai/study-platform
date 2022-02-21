@@ -14,9 +14,11 @@ import './styles/testwizard.tasklist.css';
 import './styles/testwizard.settings.css';
 import './styles/testwizard.data.css';
 import './styles/testwizard.preview.css';
+import { ITestCommonData, ITestData } from '../../../data/dashboard-data';
 
 interface ITestWizard {
 	onCloseModal?: () => void;
+	onCreateTest: (data: ITestData) => void;
 }
 
 const typeMapper = {
@@ -24,12 +26,36 @@ const typeMapper = {
 	[ExerciseType.touch]: 'Конструктор',
 };
 
-export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
+export const TestWizard = ({ onCloseModal, onCreateTest }: ITestWizard): JSX.Element => {
 	const [counter, setCounter] = useState<number>(0);
-	// const [testSettings, setTestSettings] = useState
+	const [testSettings, setTestSettings] = useState<ITestCommonData>({
+		title: '',
+		testMode: true,
+		trainMode: false,
+	});
+	const [settingsError, setSettingsError] = useState<boolean>();
 	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
 	const [currentTask, setCurrentTask] = useState<ITestExerciseAll>();
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
+
+	const handleCreateTest = (): void => {
+		console.log('- tasks & testSettings', tasks.length, testSettings);
+		if (!testSettings || !testSettings.title) {
+			setSettingsError(true);
+			return;
+		}
+		if (!tasks.length) {
+			return;
+		}
+
+		console.log('testSettings', testSettings);
+		console.log('tasks', tasks);
+
+		onCreateTest({
+			...testSettings,
+			test: tasks,
+		});
+	};
 
 	const onCreateNewTask = (): void => {
 		setCurrentTask(undefined);
@@ -93,7 +119,12 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 
 	const settingsBlock = (): JSX.Element => (
 		<div className="testwizard__setting">
-			<TestWizardSettingsCommon />
+			<TestWizardSettingsCommon
+				settingsError={settingsError}
+				removeError={(): void => setSettingsError(false)}
+				testSettings={testSettings}
+				setTestSettings={setTestSettings}
+			/>
 			<TestWizardSettingsTask key={`${counter}`} setType={onSetTypeInSettings} />
 		</div>
 	);
@@ -140,7 +171,9 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 					<div className="testwizard__action testwizard__action-cancel" onClick={onCloseModal}>
 						Отмена
 					</div>
-					<div className="testwizard__action testwizard__action-create">Создать</div>
+					<div className="testwizard__action testwizard__action-create" onClick={handleCreateTest}>
+						Создать
+					</div>
 				</div>
 			</div>
 		</>

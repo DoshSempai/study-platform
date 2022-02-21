@@ -7,6 +7,7 @@ interface IInput {
 	placeholder?: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	label?: string;
+	error?: boolean;
 	disabled?: boolean;
 	className?: string;
 }
@@ -16,6 +17,7 @@ export const Input = ({
 	onChange,
 	label,
 	disabled,
+	error = false,
 	className = '',
 	placeholder = '',
 }: IInput): JSX.Element => {
@@ -23,7 +25,9 @@ export const Input = ({
 		<div className={cn('st-input-wrap', className)}>
 			{label && <label htmlFor={label}>{label}</label>}
 			<input
-				className="st-input"
+				className={cn('st-input', {
+					'st-input--error': error,
+				})}
 				type="text"
 				value={value}
 				onChange={onChange}

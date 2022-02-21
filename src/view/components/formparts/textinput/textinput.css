@@ -15,3 +15,8 @@
   border-color: var(--stplatform-primary);
   outline: 1px solid var(--stplatform-primary);
 }
+
+.st-input--error {
+  border-color: var(--stplatform-hint-title-wrong);
+  outline: 1px solid var(--stplatform-hint-title-wrong);
+}
