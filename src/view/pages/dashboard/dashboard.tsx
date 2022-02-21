@@ -9,6 +9,7 @@ const Dashboard = (): JSX.Element => {
 	const [showTestWIzardModal, setShowTestWizardModal] = useState<boolean>(true);
 	const onCreateTest = (data: ITestData): void => {
 		console.log('onCreateTest', data);
+		console.log('onCreateTest', JSON.stringify(data));
 	};
 	return (
 		<>

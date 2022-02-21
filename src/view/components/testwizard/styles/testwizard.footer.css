@@ -26,3 +26,13 @@
 .testwizard__action-create:hover {
   background-color: var(--stplatform-primary);
 }
+
+.testwizard__action-create--disabled {
+  background-color: var(--stplatform-primary-30) !important;
+  color: var(--stplatform-white) !important;
+  cursor: not-allowed;
+}
+.testwizard__action-create--disabled:hover {
+  background-color: var(--stplatform-primary-30) !important;
+  color: var(--stplatform-white) !important;
+}

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import { TestWizardSettingsCommon } from './testwizard.settings.common';
 import { TestWizardSettingsTask } from './testwizard.settings.task';
 import { TestWizardDataButton } from './testwizard.data.button';
 import { TestWizardDataTouch } from './testwizard.data.touch';
 import { TestWizardPreview } from './testwizard.preview';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
+import { ITestCommonData, ITestData } from '../../../data/dashboard-data';
 import { truncateString } from '../../../utils';
 import './styles/testwizard.css';
 import './styles/testwizard.header.css';
@@ -14,7 +16,6 @@ import './styles/testwizard.tasklist.css';
 import './styles/testwizard.settings.css';
 import './styles/testwizard.data.css';
 import './styles/testwizard.preview.css';
-import { ITestCommonData, ITestData } from '../../../data/dashboard-data';
 
 interface ITestWizard {
 	onCloseModal?: () => void;
@@ -39,17 +40,13 @@ export const TestWizard = ({ onCloseModal, onCreateTest }: ITestWizard): JSX.Ele
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
 
 	const handleCreateTest = (): void => {
+		if (!tasks.length) return;
+
 		console.log('- tasks & testSettings', tasks.length, testSettings);
 		if (!testSettings || !testSettings.title) {
 			setSettingsError(true);
 			return;
 		}
-		if (!tasks.length) {
-			return;
-		}
-
-		console.log('testSettings', testSettings);
-		console.log('tasks', tasks);
 
 		onCreateTest({
 			...testSettings,
@@ -171,7 +168,12 @@ export const TestWizard = ({ onCloseModal, onCreateTest }: ITestWizard): JSX.Ele
 					<div className="testwizard__action testwizard__action-cancel" onClick={onCloseModal}>
 						Отмена
 					</div>
-					<div className="testwizard__action testwizard__action-create" onClick={handleCreateTest}>
+					<div
+						className={cn('testwizard__action testwizard__action-create', {
+							'testwizard__action-create--disabled': !tasks.length,
+						})}
+						onClick={handleCreateTest}
+					>
 						Создать
 					</div>
 				</div>
