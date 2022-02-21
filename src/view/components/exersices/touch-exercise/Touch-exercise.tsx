@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 import './Touch-exercise.css';
-import { IChemicalReaction } from '../../../../subjects/chemistry/types';
+import { IChemicalReaction } from '../../../../data/chemistry/types';
 import {
 	generateAnswerTemplateArray,
 	getListOfReactionParts,
 	shuffleChemArray,
-} from '../../../../subjects/chemistry/controls_ex_touch';
+} from '../../../../data/chemistry/controls_ex_touch';
 
 interface ExerciseTouchProps {
 	title: String;

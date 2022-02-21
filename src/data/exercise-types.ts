@@ -1,4 +1,4 @@
-import { IChemicalReaction } from '../subjects/chemistry/types';
+import { IChemicalReaction } from './chemistry/types';
 
 export enum ExerciseType {
 	button = 'button',

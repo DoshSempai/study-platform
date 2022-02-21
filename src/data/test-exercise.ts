@@ -1,7 +1,7 @@
 import { ExerciseType, ITestExerciseAll } from './exercise-types';
-import { testSalt1 } from '../subjects/chemistry/testdata/test-salt';
-import { testBase1 } from '../subjects/chemistry/testdata/test-base';
-import { testAcids1 } from '../subjects/chemistry/testdata/test-acids';
+import { testSalt1 } from './chemistry/testdata/test-salt';
+import { testBase1 } from './chemistry/testdata/test-base';
+import { testAcids1 } from './chemistry/testdata/test-acids';
 
 const testButtonExercise: Array<ITestExerciseAll> = [
 	{

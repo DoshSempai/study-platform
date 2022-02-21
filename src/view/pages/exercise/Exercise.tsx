@@ -10,7 +10,7 @@ import { ResultHint } from '../../components/resultHint/ResultHint';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
 import { ExerciseTouch } from '../../components/exersices/touch-exercise/Touch-exercise';
 import { ITestData } from '../../../data/dashboard-data';
-import { createReactionLine } from '../../../subjects/chemistry/controls_ex_touch';
+import { createReactionLine } from '../../../data/chemistry/controls_ex_touch';
 
 type TestMode = 'test' | 'train';
 

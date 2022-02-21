@@ -1,4 +1,4 @@
-import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
+import { ExerciseType, ITestExerciseAll } from '../../exercise-types';
 
 export const testAcids1: Array<ITestExerciseAll> = [
 	{
