@@ -5,11 +5,12 @@ import { Navigation } from '../../components/navigation/Navigation';
 
 interface CommonLayoutProps {
 	children?: ReactNode;
+	onCreateTestClick?: () => void;
 }
 
-export const CommonLayout = ({ children }: CommonLayoutProps): JSX.Element => (
+export const CommonLayout = ({ children, onCreateTestClick }: CommonLayoutProps): JSX.Element => (
 	<>
-		<Navigation />
+		<Navigation onCreateTestClick={onCreateTestClick} />
 		<div className="app_right">
 			<Header />
 			<Content>{children}</Content>

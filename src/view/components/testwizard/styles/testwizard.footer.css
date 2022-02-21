@@ -1,0 +1,38 @@
+@import '../../../../assets/palette.css';
+
+.testwizard__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.testwizard__action {
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  cursor: pointer;
+}
+.testwizard__action-cancel {
+  color: var(--stplatform-black-60);
+}
+.testwizard__action-cancel:hover {
+  color: var(--stplatform-black-80);
+}
+.testwizard__action-create {
+  background-color: var(--stplatform-primary-80);
+  color: var(--stplatform-white);
+}
+.testwizard__action-create:hover {
+  background-color: var(--stplatform-primary);
+}
+
+.testwizard__action-create--disabled {
+  background-color: var(--stplatform-primary-30) !important;
+  color: var(--stplatform-white) !important;
+  cursor: not-allowed;
+}
+.testwizard__action-create--disabled:hover {
+  background-color: var(--stplatform-primary-30) !important;
+  color: var(--stplatform-white) !important;
+}

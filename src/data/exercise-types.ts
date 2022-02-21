@@ -1,4 +1,4 @@
-import { IChemicalReaction } from '../subjects/chemistry/types';
+import { IChemicalReaction } from './chemistry/types';
 
 export enum ExerciseType {
 	button = 'button',
@@ -19,9 +19,7 @@ export interface ITestExerciseButton extends ITestExercise {
 
 export interface ITestExerciseTouch extends ITestExercise {
 	type: ExerciseType.touch;
-	uId: string;
 	question: IChemicalReaction;
-	getAnwerElement: (reaction: IChemicalReaction) => JSX.Element;
 }
 
 export type ITestExerciseAll = ITestExerciseButton | ITestExerciseTouch;

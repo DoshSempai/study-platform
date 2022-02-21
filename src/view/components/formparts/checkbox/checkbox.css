@@ -1,0 +1,14 @@
+.st-checkbox {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  font-family: 'Open Sans';
+  font-size: 13px;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.st-checkbox__input {
+  margin-right: 5px;
+}

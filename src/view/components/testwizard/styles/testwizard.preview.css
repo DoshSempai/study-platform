@@ -1,0 +1,34 @@
+@import '../../../../assets/palette.css';
+
+.testwizard__preview {
+  width: 100%;
+  flex-grow: 2;
+  padding: 5px;
+  box-sizing: border-box;
+  border: 2px solid var(--stplatform-black-16);
+
+  overflow-y: auto;
+}
+
+.testwizard__preview::-webkit-scrollbar {
+  width: 0.5em;
+}
+.testwizard__preview::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px var(--stplatform-black-20);
+}
+.testwizard__preview::-webkit-scrollbar-thumb {
+  background-color: var(--stplatform-gray);
+  border-radius: 4px;
+}
+
+.testwizard__preview-task-wrap {
+  padding: 5px;
+}
+
+.testwizard__preview-task {
+  padding: 5px;
+  max-width: 90%;
+  margin: auto;
+  box-sizing: border-box;
+  border: 1px solid var(--stplatform-black-16);
+}

@@ -1,0 +1,22 @@
+@import '../../../../assets/palette.css';
+
+.st-input {
+  width: 100%;
+  border: 1px solid var(--stplatform-gray);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.st-input:focus {
+  border-color: var(--stplatform-primary);
+  outline: 1px solid var(--stplatform-primary);
+}
+
+.st-input--error {
+  border-color: var(--stplatform-hint-title-wrong);
+  outline: 1px solid var(--stplatform-hint-title-wrong);
+}

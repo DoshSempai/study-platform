@@ -32,13 +32,13 @@
 }
 
 .ex-check__button--not-ready button {
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--stplatform-black-08);
   background: var(--stplatform-white);
-  color: rgba(0, 0, 0, 0.3);
+  color: var(--stplatform-black-30);
 }
 
 .ex-check__button--ready button {
   background: var(--stplatform-primary-80);
+  color: var(--stplatform-white-90);
   border: none;
-  color: rgba(255, 255, 255, 0.9);
 }

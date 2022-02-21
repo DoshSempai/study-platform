@@ -1,11 +1,13 @@
+@import '../../../assets/palette.css';
+
 .card {
     width: 300px;
     height: 180px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #ffffff;
-    box-shadow: 1px 4px 9px rgba(0, 0, 0, 0.25);
+    background: var(--stplatform-white);
+    box-shadow: 1px 4px 9px var(--stplatform-black-25);
     border-radius: 10px;
     margin: 20px;
 }
@@ -20,7 +22,7 @@
     position: relative;
     width: 34px;
     height: 100%;
-    background: #56D1BB;
+    background: var(--stplatform-primary);
     border-bottom-right-radius: 10px;
     border-top-right-radius: 10px;
 }
@@ -31,7 +33,7 @@
     top: calc(50% + 5px);
     left: 50%;
     transform: translate(-50%, -50%) rotate(40deg);
-    background: white;
+    background: var(--stplatform-white);
     width: 4px;
     height: 16px;
     border-radius: 2px;
@@ -43,7 +45,7 @@
     top: calc(50% - 5px);
     left: 50%;
     transform: translate(-50%, -50%) rotate(-40deg);
-    background: white;
+    background: var(--stplatform-white);
     width: 4px;
     height: 16px;
     border-radius: 2px;
