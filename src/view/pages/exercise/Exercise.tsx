@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import cn from 'classnames';
-import { exerciseList } from '../../../data/test-exercise';
 import { CheckButton } from '../../components/checkbutton/CheckButton';
 import { ExerciseButton } from '../../components/exersices/button-exersice/Button-exersice';
 import { ExerciseWrap } from '../../components/exersices/exercise-wrap/Exercise-wrap';
@@ -10,16 +9,16 @@ import { CommonLayout } from '../common/CommonLayout';
 import { ResultHint } from '../../components/resultHint/ResultHint';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
 import { ExerciseTouch } from '../../components/exersices/touch-exercise/Touch-exercise';
-import { IDashboardCardData } from '../../../data/dashboard-data';
+import { ITestData } from '../../../data/dashboard-data';
 import { createReactionLine } from '../../../subjects/chemistry/controls_ex_touch';
 
 type TestMode = 'test' | 'train';
 
 export const Exercise = (): JSX.Element => {
 	const { state } = useLocation();
-	const locationData = (state as any).data as IDashboardCardData;
-	const { testId, isTestActive, isTrainActive } = locationData;
-	const initialExerciseList = exerciseList[testId] || [];
+	const locationData = (state as any).data as ITestData;
+	const { test, testMode, trainMode } = locationData;
+	const initialExerciseList = test || [];
 
 	const [counter, setCounter] = useState<number>(0);
 	const [mode, setMode] = useState<TestMode>();
@@ -62,18 +61,18 @@ export const Exercise = (): JSX.Element => {
 			<div className="exercise__title">Выберите режим:</div>
 			<button
 				className={cn('ex-button__button', {
-					'ex-button__button--disabled': !isTestActive,
+					'ex-button__button--disabled': !testMode,
 				})}
-				disabled={!isTestActive}
+				disabled={!testMode}
 				onClick={(): void => setMode('test')}
 			>
 				Тестирование
 			</button>
 			<button
 				className={cn('ex-button__button', {
-					'ex-button__button--disabled': !isTrainActive,
+					'ex-button__button--disabled': !trainMode,
 				})}
-				disabled={!isTrainActive}
+				disabled={!trainMode}
 				onClick={(): void => setMode('train')}
 			>
 				Тренировка

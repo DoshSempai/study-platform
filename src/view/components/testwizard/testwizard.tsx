@@ -26,6 +26,7 @@ const typeMapper = {
 
 export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const [counter, setCounter] = useState<number>(0);
+	// const [testSettings, setTestSettings] = useState
 	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
 	const [currentTask, setCurrentTask] = useState<ITestExerciseAll>();
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);

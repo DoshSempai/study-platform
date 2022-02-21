@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { Checkbox } from '../formparts/checkbox/checkbox';
 import { Input } from '../formparts/textinput/textinput';
 
+export interface ITestCommonSettingsData {
+	title: string;
+	testMode: boolean;
+	trainMode: boolean;
+	parole?: string;
+}
+
 // interface ITestWizardSettingsCommon {}
 
 export const TestWizardSettingsCommon = (): JSX.Element => {

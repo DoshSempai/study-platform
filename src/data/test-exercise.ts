@@ -81,7 +81,7 @@ export const exerciseList: { [k: string]: ITestExerciseAll[] } = {
 	'1': testButtonExercise,
 	'2': testTouchExercise,
 	'3': [testButtonExercise[0], testTouchExercise[0]],
-	'5': testSalt1,
-	'6': testBase1,
-	'7': testAcids1,
+	'4': testSalt1,
+	'5': testBase1,
+	'6': testAcids1,
 };

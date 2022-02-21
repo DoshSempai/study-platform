@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '../../components/card/Сard';
-import { dashboardCardData } from '../../../data/dashboard-data';
+import { dashboardTestLocalData } from '../../../data/dashboard-data';
 import { CommonLayout } from '../common/CommonLayout';
 import { TestWizard } from '../../components/testwizard/testwizard';
 
@@ -10,14 +10,14 @@ const Dashboard = (): JSX.Element => {
 	return (
 		<>
 			<CommonLayout onCreateTestClick={(): void => setShowTestWizardModal(true)}>
-				{dashboardCardData.map((cardData) => (
+				{dashboardTestLocalData.map((testData) => (
 					<Link
-						key={cardData.title}
+						key={testData.title}
 						to="/exercise"
-						state={{ data: cardData }}
+						state={{ data: testData }}
 						className="stplatform-link card_wrap"
 					>
-						<Card title={cardData.title} />
+						<Card title={testData.title} />
 					</Link>
 				))}
 			</CommonLayout>
