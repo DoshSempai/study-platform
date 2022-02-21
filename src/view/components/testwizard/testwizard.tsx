@@ -5,7 +5,6 @@ import { TestWizardDataButton } from './testwizard.data.button';
 import { TestWizardDataTouch } from './testwizard.data.touch';
 import { TestWizardPreview } from './testwizard.preview';
 import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
-import { exerciseList } from '../../../data/test-exercise';
 import { truncateString } from '../../../utils';
 import './styles/testwizard.css';
 import './styles/testwizard.header.css';
@@ -35,6 +34,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const onCreateNewTask = (): void => {
 		setCurrentTask(undefined);
 		setCurrentTaskType(undefined);
+		setCounter(counter + 1);
 	};
 
 	const onRemoveTask = (index: number): void => {
@@ -83,7 +83,7 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const settingsBlock = (): JSX.Element => (
 		<div className="testwizard__setting">
 			<TestWizardSettingsCommon />
-			<TestWizardSettingsTask setType={onSetTypeInSettings} />
+			<TestWizardSettingsTask key={`${counter}`} setType={onSetTypeInSettings} />
 		</div>
 	);
 
