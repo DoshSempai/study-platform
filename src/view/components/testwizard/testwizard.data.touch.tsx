@@ -6,7 +6,7 @@ import { ReactionEditor } from '../formparts/reactioneditor/reactioneditor';
 
 interface ITestWizardDataTouch {
 	setTestData: (data: ITestExerciseAll) => void;
-	addTask: () => boolean;
+	addTask: (data: ITestExerciseAll) => boolean;
 }
 
 export const TestWizardDataTouch = ({
@@ -32,7 +32,17 @@ export const TestWizardDataTouch = ({
 	};
 
 	const handleAddTaskToTest = (): void => {
-		const result = addTask();
+		const resReaction = parseHTMLReaction(reactionHTML);
+		if (resReaction instanceof Error) {
+			setErrorMessage('Ошибка в уравнении');
+			return;
+		}
+		const result = addTask({
+			type: ExerciseType.touch,
+			title: 'Составьте реакцию',
+			answer: '',
+			question: resReaction,
+		});
 		if (!result) {
 			setErrorMessage('Заполните корректно все поля');
 		}
@@ -54,7 +64,7 @@ export const TestWizardDataTouch = ({
 		<div className="testwizard__data_block">
 			<div className="testwizard__data_block-row-label">Уравнение</div>
 			<ReactionEditor
-				onInputHandler={(value) => {
+				onInputHandler={(value): void => {
 					setReactionHTML(value);
 				}}
 				onFocusHandler={(): void => setErrorMessage(undefined)}

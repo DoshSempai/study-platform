@@ -7,7 +7,7 @@ import { Button } from '../formparts/button/button';
 
 interface ITestWizardDataButton {
 	setTestData: (data: ITestExerciseAll) => void;
-	addTask: () => boolean;
+	addTask: (data: ITestExerciseAll) => boolean;
 }
 
 interface Option {
@@ -42,7 +42,6 @@ export const TestWizardDataButton = ({
 
 	const handlePreviewClick = (): void => {
 		if (!question || !variantsValue.length || !answerValue) {
-			console.log('gg');
 			setErrorMessage('Заполните все поля');
 			return;
 		}
@@ -57,7 +56,17 @@ export const TestWizardDataButton = ({
 	};
 
 	const handleAddTaskToTest = (): void => {
-		const result = addTask();
+		if (!question || !variantsValue.length || !answerValue) {
+			setErrorMessage('Заполните все поля');
+			return;
+		}
+		const result = addTask({
+			type: ExerciseType.button,
+			title: 'Выберите правильный ответ',
+			question: question,
+			answer: answerValue.value,
+			variants: variantsValue.map((el) => el.value),
+		});
 		if (!result) {
 			setErrorMessage('Заполните корректно все поля');
 		}

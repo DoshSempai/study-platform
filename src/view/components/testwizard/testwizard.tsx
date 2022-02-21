@@ -28,7 +28,6 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 	const [counter, setCounter] = useState<number>(0);
 	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
 	const [currentTask, setCurrentTask] = useState<ITestExerciseAll>();
-	// const [tasks, setTasks] = useState<ITestExerciseAll[]>(exerciseList['3']);
 	const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
 
 	const onCreateNewTask = (): void => {
@@ -43,16 +42,23 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 		setTasks(tasksCopy);
 	};
 
+	const onOpenTaskSettings = (taskIndex: number): void => {
+		const chosenTask = tasks[taskIndex];
+		setCurrentTaskType(chosenTask.type);
+		setCurrentTask(chosenTask);
+		setCounter(counter + 1);
+	};
+
 	const onSetTypeInSettings = (type: ExerciseType): void => {
 		setCurrentTask(undefined);
 		setCurrentTaskType(type);
 	};
 
-	const onAddTaskToTest = (): boolean => {
-		if (!currentTask) {
+	const onAddTaskToTest = (taskData: ITestExerciseAll): boolean => {
+		if (!taskData) {
 			return false;
 		}
-		setTasks([...tasks, currentTask]);
+		setTasks([...tasks, taskData]);
 		return true;
 	};
 
@@ -65,14 +71,18 @@ export const TestWizard = ({ onCloseModal }: ITestWizard): JSX.Element => {
 			<div className="testwizard__exircise_list-divider"></div>
 			<div className="testwizard__exircise-list">
 				{tasks.map((task, index) => (
-					<div className="testwizard__list-item">
+					<div className="testwizard__list-item" onClick={(): void => onOpenTaskSettings(index)}>
 						<div className="testwizard__list-item-data">
 							<div className="testwizard__list-item-title">{truncateString(task.title, 16)}</div>
 							<div className="testwizard__list-item-type">{typeMapper[task.type]}</div>
 						</div>
 						<div
 							className="testwizard__list-item-remove"
-							onClick={(): void => onRemoveTask(index)}
+							onClick={(e): void => {
+								e.preventDefault();
+								e.stopPropagation();
+								onRemoveTask(index);
+							}}
 						></div>
 					</div>
 				))}
