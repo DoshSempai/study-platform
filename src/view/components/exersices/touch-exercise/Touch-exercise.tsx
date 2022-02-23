@@ -9,8 +9,9 @@ import {
 } from '../../../../data/chemistry/controls_ex_touch';
 
 interface ExerciseTouchProps {
-	title: String;
-	answer: String;
+	title: string;
+	answer: string;
+	notes?: string;
 	question: IChemicalReaction;
 	setUserAnswer: (userAnswer: string) => void;
 }
@@ -19,6 +20,7 @@ type ChosenElementsType = { el: string; index: string };
 
 export const ExerciseTouch = ({
 	title,
+	notes,
 	question,
 	setUserAnswer,
 }: ExerciseTouchProps): JSX.Element => {
@@ -138,6 +140,7 @@ export const ExerciseTouch = ({
 	return (
 		<div className="exercise">
 			<div className="exercise__title">{title}</div>
+			{notes && <div className="exercise__question">{notes}</div>}
 			<div className="ex-touch__body-wrap">
 				<div className="ex-touch__answer_template_line">{answerBloc()}</div>
 			</div>

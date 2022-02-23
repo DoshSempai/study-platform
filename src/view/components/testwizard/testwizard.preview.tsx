@@ -28,6 +28,7 @@ export const TestWizardPreview = ({ task }: ITestWizardPreview): JSX.Element => 
 				return (
 					<ExerciseTouch
 						key={`${task.type}`}
+						notes={task.notes}
 						title={task.title}
 						answer={task.answer}
 						question={task.question}

@@ -96,6 +96,7 @@ export const Exercise = (): JSX.Element => {
 				return (
 					<ExerciseTouch
 						key={`${currentExercise.type}-${counter}`}
+						notes={currentExercise.notes}
 						title={currentExercise.title}
 						answer={currentExercise.answer}
 						question={currentExercise.question}

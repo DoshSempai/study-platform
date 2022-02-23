@@ -15,7 +15,7 @@ const Dashboard = (): JSX.Element => {
 	const updateList = (): void => {
 		const storageData = api.getData();
 		console.log('~~ storageData', storageData);
-		setTestList([...testList, ...storageData]);
+		setTestList([...testList, ...storageData].reverse());
 	};
 
 	useEffect(() => {

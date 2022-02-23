@@ -36,6 +36,12 @@
   font-weight: normal;
   font-size: 13px;
 }
+.testwizard__data_block-row-label--optional {
+  color: var(--stplatform-black-40);
+}
 .testwizard__data_block-row-control {
   width: 100%;
+}
+.testwizard__data_block-row-control--offset {
+  margin: 5px 0;
 }

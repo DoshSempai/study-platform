@@ -32,6 +32,7 @@ const testTouchExercise: Array<ITestExerciseAll> = [
 		type: ExerciseType.touch,
 		title: 'Составьте реакцию',
 		answer: '',
+		notes: 'получение воды',
 		question: {
 			reactants: [
 				{
