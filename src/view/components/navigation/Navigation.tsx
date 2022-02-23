@@ -11,9 +11,11 @@ export const Navigation = ({ onCreateTestClick }: INavigation): JSX.Element => {
 	};
 	return (
 		<div className="navigation">
-			<div className="navigation__item">
-				<div className="navigation__create" onClick={handleCreateClick}></div>
-			</div>
+			{onCreateTestClick && (
+				<div className="navigation__item">
+					<div className="navigation__create" onClick={handleCreateClick}></div>
+				</div>
+			)}
 			{/* <div className="navigation__item"></div>
 			<div className="navigation__item"></div> */}
 		</div>

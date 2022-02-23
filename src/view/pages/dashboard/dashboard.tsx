@@ -9,6 +9,7 @@ import { ApiLocalStorage } from '../../../service/api.localstorage';
 const Dashboard = (): JSX.Element => {
 	const [showTestWIzardModal, setShowTestWizardModal] = useState<boolean>(false);
 	const [testList, setTestList] = useState<ITestData[]>(dashboardTestLocalData);
+	const [searchValue, setSearchValue] = useState<string>('');
 	const [api] = useState(new ApiLocalStorage());
 
 	const updateList = (): void => {
@@ -31,17 +32,23 @@ const Dashboard = (): JSX.Element => {
 
 	return (
 		<>
-			<CommonLayout onCreateTestClick={(): void => setShowTestWizardModal(true)}>
-				{testList.map((testData) => (
-					<Link
-						key={testData.title}
-						to="/exercise"
-						state={{ data: testData }}
-						className="stplatform-link card_wrap"
-					>
-						<Card title={testData.title} />
-					</Link>
-				))}
+			<CommonLayout
+				searchValue={searchValue}
+				setSearchValue={setSearchValue}
+				onCreateTestClick={(): void => setShowTestWizardModal(true)}
+			>
+				{testList
+					.filter((el) => el.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+					.map((testData) => (
+						<Link
+							key={testData.title}
+							to="/exercise"
+							state={{ data: testData }}
+							className="stplatform-link card_wrap"
+						>
+							<Card title={testData.title} />
+						</Link>
+					))}
 			</CommonLayout>
 			{showTestWIzardModal && (
 				<TestWizard

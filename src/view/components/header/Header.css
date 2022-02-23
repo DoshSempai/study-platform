@@ -10,6 +10,16 @@
     background-color: var(--stplatform-white);
 }
 
+.header__part--right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.header__search {
+    margin-right: 8px;
+}
+
 .header__title {
     font-family: 'Roboto', sans-serif;
     font-style: normal;

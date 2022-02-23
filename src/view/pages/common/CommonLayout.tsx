@@ -5,14 +5,21 @@ import { Navigation } from '../../components/navigation/Navigation';
 
 interface CommonLayoutProps {
 	children?: ReactNode;
+	searchValue?: string;
+	setSearchValue?: (data: string) => void;
 	onCreateTestClick?: () => void;
 }
 
-export const CommonLayout = ({ children, onCreateTestClick }: CommonLayoutProps): JSX.Element => (
+export const CommonLayout = ({
+	children,
+	onCreateTestClick,
+	searchValue,
+	setSearchValue,
+}: CommonLayoutProps): JSX.Element => (
 	<>
 		<Navigation onCreateTestClick={onCreateTestClick} />
 		<div className="app_right">
-			<Header />
+			<Header searchValue={searchValue} setSearchValue={setSearchValue} />
 			<Content>{children}</Content>
 		</div>
 	</>
