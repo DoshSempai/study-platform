@@ -1,32 +1,28 @@
 import React from 'react';
-import { DeleteIcon, SettingsIcon, StatisticsIcon } from '../../../assets/svg';
 import './Card.css';
 
-interface CardProps {
-	title: String;
+interface ICardActionsMeta {
+	icon: JSX.Element;
+	action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
-export const Card = ({ title }: CardProps): JSX.Element => {
-	const handleActionClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
-		e.preventDefault();
-		e.stopPropagation();
-		console.log(`action !!`);
-	};
+interface ICard {
+	title: String;
+	actionsMeta?: ICardActionsMeta[];
+}
 
+export const Card = ({ title, actionsMeta }: ICard): JSX.Element => {
 	return (
 		<div className="card">
 			<div className="card__content">
 				<div className="card__title">{title}</div>
 				<div className="card__actions">
-					<div className="card__action" onClick={handleActionClick}>
-						<StatisticsIcon />
-					</div>
-					<div className="card__action" onClick={handleActionClick}>
-						<SettingsIcon />
-					</div>
-					<div className="card__action" onClick={handleActionClick}>
-						<DeleteIcon />
-					</div>
+					{actionsMeta &&
+						actionsMeta.map((meta, index) => (
+							<div key={`actionMeta-${index}`} className="card__action" onClick={meta.action}>
+								{meta.icon}
+							</div>
+						))}
 				</div>
 			</div>
 			<div className="card__navigation"></div>
