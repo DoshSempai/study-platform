@@ -7,6 +7,7 @@
 - [x] access to test by password
 - [x] test card - settings & statistics
 - [ ] statistics page
+- [ ] open test settings in testwizard (show data in all inputs, different action button name - change, not create)
 - [ ] server template
 - [ ] DB - users & roles
 - [ ] DB - tests by user
