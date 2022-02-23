@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card } from '../../components/card/Сard';
 import { dashboardTestLocalData, ITestData } from '../../../data/dashboard-data';
 import { CommonLayout } from '../common/CommonLayout';
@@ -11,6 +11,8 @@ const Dashboard = (): JSX.Element => {
 	const [testList, setTestList] = useState<ITestData[]>(dashboardTestLocalData);
 	const [searchValue, setSearchValue] = useState<string>('');
 	const [api] = useState(new ApiLocalStorage());
+
+	const navigate = useNavigate();
 
 	const updateList = (): void => {
 		const storageData = api.getData();
@@ -30,6 +32,12 @@ const Dashboard = (): JSX.Element => {
 		setShowTestWizardModal(false);
 	};
 
+	const handleNavigation = (testData: ITestData): void => {
+		navigate('/exercise', {
+			state: { data: testData },
+		});
+	};
+
 	return (
 		<>
 			<CommonLayout
@@ -40,14 +48,9 @@ const Dashboard = (): JSX.Element => {
 				{testList
 					.filter((el) => el.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
 					.map((testData) => (
-						<Link
-							key={testData.title}
-							to="/exercise"
-							state={{ data: testData }}
-							className="stplatform-link card_wrap"
-						>
+						<div onClick={(): void => handleNavigation(testData)}>
 							<Card title={testData.title} />
-						</Link>
+						</div>
 					))}
 			</CommonLayout>
 			{showTestWIzardModal && (

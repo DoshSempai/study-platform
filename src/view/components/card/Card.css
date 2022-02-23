@@ -10,6 +10,12 @@
     box-shadow: 1px 4px 9px var(--stplatform-black-25);
     border-radius: 10px;
     margin: 20px;
+
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+
+    cursor: pointer;
 }
 
 .card__content {

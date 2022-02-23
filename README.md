@@ -2,7 +2,8 @@
 
 ## TODO
 
-- [ ] search (by name) in Header
+- [x] search (by name) in Header
+- [x] notes for reaction tasks
 - [ ] access to test by password
 - [ ] test card - settings & statistics
 - [ ] statistics page
