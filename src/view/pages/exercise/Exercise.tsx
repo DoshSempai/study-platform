@@ -17,8 +17,11 @@ type TestMode = 'test' | 'train';
 export const Exercise = (): JSX.Element => {
 	const { state } = useLocation();
 	const locationData = (state as any).data as ITestData;
-	const { test, testMode, trainMode } = locationData;
+	const userName = (state as any).userName as string;
+	const { test, testMode, trainMode, parole } = locationData;
 	const initialExerciseList = test || [];
+
+	console.log(`EXERCISE`, 'userName', userName, 'parole', parole);
 
 	const [counter, setCounter] = useState<number>(0);
 	const [mode, setMode] = useState<TestMode>();
@@ -56,7 +59,7 @@ export const Exercise = (): JSX.Element => {
 		showHint(false);
 	};
 
-	const modeSelectionNode = (): JSX.Element => (
+	const modeSelectionStep = (): JSX.Element => (
 		<div>
 			<div className="exercise__title">Выберите режим:</div>
 			<button
@@ -128,7 +131,7 @@ export const Exercise = (): JSX.Element => {
 		<CommonLayout>
 			{mode && <ProgressBar progressPercent={progressValue} />}
 			<ExerciseWrap disabled={hintVisible}>
-				{!mode && modeSelectionNode()}
+				{!mode && modeSelectionStep()}
 				{mode && currentExercise && getExerciseItem()}
 				{mode && !currentExercise && (
 					<div className="exercise__title">

@@ -4,8 +4,8 @@
 
 - [x] search (by name) in Header
 - [x] notes for reaction tasks
-- [ ] access to test by password
-- [ ] test card - settings & statistics
+- [x] access to test by password
+- [x] test card - settings & statistics
 - [ ] statistics page
 - [ ] server template
 - [ ] DB - users & roles

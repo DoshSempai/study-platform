@@ -1,4 +1,5 @@
 import React from 'react';
+import { LockIcon } from '../../../assets/svg';
 import './Card.css';
 
 interface ICardActionsMeta {
@@ -8,14 +9,22 @@ interface ICardActionsMeta {
 
 interface ICard {
 	title: String;
+	hasParole?: boolean;
 	actionsMeta?: ICardActionsMeta[];
 }
 
-export const Card = ({ title, actionsMeta }: ICard): JSX.Element => {
+export const Card = ({ title, hasParole, actionsMeta }: ICard): JSX.Element => {
 	return (
 		<div className="card">
 			<div className="card__content">
-				<div className="card__title">{title}</div>
+				<div className="card__title">
+					{hasParole && (
+						<span className="card__title-icon">
+							<LockIcon />
+						</span>
+					)}
+					{title}
+				</div>
 				<div className="card__actions">
 					{actionsMeta &&
 						actionsMeta.map((meta, index) => (

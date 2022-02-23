@@ -112,6 +112,16 @@
 
 /* CONTENT */
 
+.modal__error_message {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  color: var(--stplatform-hint-title-wrong);
+}
+
 .modal__content {
   padding: 10px;
 }
+
+
