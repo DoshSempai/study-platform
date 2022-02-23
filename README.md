@@ -6,7 +6,7 @@
 - [x] notes for reaction tasks
 - [x] access to test by password
 - [x] test card - settings & statistics
-- [ ] statistics page
+- [x] statistics page
 - [ ] open test settings in testwizard (show data in all inputs, different action button name - change, not create)
 - [ ] server template
 - [ ] DB - users & roles

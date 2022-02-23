@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { AvatarIcon } from '../../../assets/svg';
 import { Input } from '../formparts/textinput/textinput';
 import './Header.css';
 
@@ -26,6 +27,9 @@ export const Header = ({ searchValue, setSearchValue }: IHeader): JSX.Element =>
 				</div>
 			)}
 			<div className="header__settings">crimson15dream</div>
+			<div className="header__avatar">
+				<AvatarIcon />
+			</div>
 		</div>
 	</div>
 );

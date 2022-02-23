@@ -29,8 +29,35 @@
 }
 
 .st-h2 {
-  margin-bottom: 10px;
   font-family: "Open Sans";
   font-size: 18px;
-  line-height: 22px;
+}
+
+.header-with-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.st-tabs {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.st-tab {
+  font-family: "Open Sans";
+  font-size: 15px;
+  padding: 8px;
+  cursor: pointer;
+
+  background-color: var(--stplatform-black-03);
+  border-bottom: 3px solid var(--stplatform-primary-30);
+}
+.st-tab:hover {
+  background-color: var(--stplatform-black-06);
+}
+
+.st-tab--active {
+  border-bottom-color: var(--stplatform-primary);
 }

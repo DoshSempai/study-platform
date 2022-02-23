@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import cn from 'classnames';
+import React from 'react';
 import './table.css';
 
 const tableData = [
