@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, ICardActionsMeta } from '../../components/card/Сard';
-import { dashboardTestLocalData, ITestData } from '../../../data/dashboard-data';
+import { dashboardTestLocalData, ITestCommonData, ITestData } from '../../../data/dashboard-data';
 import { CommonLayout } from '../common/CommonLayout';
 import { TestWizard } from '../../components/testwizard/testwizard';
 import { ApiLocalStorage } from '../../../service/api.localstorage';
@@ -113,6 +113,16 @@ export const Dashboard = (): JSX.Element => {
 				<TestWizard
 					mode={chosenWizardTest ? 'update' : 'create'}
 					initTestData={chosenWizardTest ? chosenWizardTest.test : []}
+					initTestSettings={
+						chosenWizardTest
+							? ({
+									title: chosenWizardTest.title,
+									testMode: chosenWizardTest.testMode,
+									trainMode: chosenWizardTest.trainMode,
+									parole: chosenWizardTest.parole,
+							  } as ITestCommonData)
+							: undefined
+					}
 					onCreateTest={chosenWizardTest ? onUpdateTest : onCreateTest}
 					onCloseModal={(): void => {
 						setShowTestWizardModal(false);

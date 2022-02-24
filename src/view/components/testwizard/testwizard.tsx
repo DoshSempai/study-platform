@@ -135,7 +135,11 @@ export const TestWizard = ({
 				testSettings={testSettings}
 				setTestSettings={setTestSettings}
 			/>
-			<TestWizardSettingsTask key={`${counter}`} setType={onSetTypeInSettings} />
+			<TestWizardSettingsTask
+				key={`${counter}`}
+				initType={currentTaskType}
+				setType={onSetTypeInSettings}
+			/>
 		</div>
 	);
 
