@@ -8,3 +8,14 @@
     display: flex;
     flex-wrap: wrap;
 }
+
+.content::-webkit-scrollbar {
+    width: 0.5em;
+}
+.content::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px var(--stplatform-black-20);
+}
+.content::-webkit-scrollbar-thumb {
+    background-color: var(--stplatform-gray);
+    border-radius: 4px;
+}

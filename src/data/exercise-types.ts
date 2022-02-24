@@ -19,6 +19,7 @@ export interface ITestExerciseButton extends ITestExercise {
 
 export interface ITestExerciseTouch extends ITestExercise {
 	type: ExerciseType.touch;
+	notes?: string;
 	question: IChemicalReaction;
 }
 

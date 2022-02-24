@@ -1,0 +1,127 @@
+@import '../../../assets/palette.css';
+
+.modal-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: var(--stplatform-black-60);
+  z-index: 6;
+}
+.modal {
+  min-width: 24vw;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--stplatform-white);
+  border-radius: 10px;
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* HEADER */
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+.modal__title {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+}
+.modal__close {
+  position: relative;
+  padding: 12px;
+  cursor: pointer;
+}
+.modal__close::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 18px;
+  height: 2px;
+  background-color: var(--stplatform-black-80);
+  border-radius: 2px;
+}
+.modal__close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  width: 18px;
+  height: 2px;
+  background-color: var(--stplatform-black-80);
+  border-radius: 2px;
+}
+.modal__close:hover::before, .modal__close:hover::after {
+  background-color: var(--stplatform-black-50);
+}
+
+/* FOOTER */
+
+.modal__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal__action {
+  padding: 10px;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  cursor: pointer;
+}
+.modal__action-cancel {
+  color: var(--stplatform-black-60);
+}
+.modal__action-cancel:hover {
+  color: var(--stplatform-black-80);
+}
+.modal__action-main {
+  background-color: var(--stplatform-primary-80);
+  color: var(--stplatform-white);
+}
+.modal__action-main:hover {
+  background-color: var(--stplatform-primary);
+}
+
+.modal__action-main--disabled {
+  background-color: var(--stplatform-primary-30) !important;
+  color: var(--stplatform-white) !important;
+  cursor: not-allowed;
+}
+.modal__action-main--disabled:hover {
+  background-color: var(--stplatform-primary-30) !important;
+  color: var(--stplatform-white) !important;
+}
+
+/* CONTENT */
+
+.modal__error_message {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  color: var(--stplatform-hint-title-wrong);
+}
+
+.modal__content {
+  padding: 10px;
+}
+
+

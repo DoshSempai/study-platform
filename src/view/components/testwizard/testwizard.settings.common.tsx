@@ -16,11 +16,11 @@ export const TestWizardSettingsCommon = ({
 	testSettings,
 	setTestSettings,
 }: ITestWizardSettingsCommon): JSX.Element => {
-	const [testName, setTestName] = useState<string>('');
-	const [modeTestActive, setModeTestActive] = useState<boolean>(true);
-	const [modeTrainActive, setModeTrainActive] = useState<boolean>(false);
-	const [hasParole, setHasParole] = useState<boolean>(false);
-	const [parole, setParole] = useState<string>('');
+	const [testName, setTestName] = useState<string>(testSettings.title);
+	const [modeTestActive, setModeTestActive] = useState<boolean>(testSettings.testMode ?? false);
+	const [modeTrainActive, setModeTrainActive] = useState<boolean>(testSettings.trainMode ?? false);
+	const [hasParole, setHasParole] = useState<boolean>(testSettings.parole ? true : false);
+	const [parole, setParole] = useState<string>(testSettings.parole || '');
 
 	return (
 		<div className="testwizard__setting_part">

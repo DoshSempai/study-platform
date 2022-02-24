@@ -10,6 +10,16 @@
     background-color: var(--stplatform-white);
 }
 
+.header__part--right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.header__search {
+    margin-right: 8px;
+}
+
 .header__title {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
@@ -27,3 +37,19 @@
     line-height: 14px;
     color: var(--stplatform-black);
 }
+
+.header__avatar {
+    display: none;
+}
+
+@media screen and (max-width: 480px) {
+    .header__settings {
+        display: none;
+    }
+    .header__avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+

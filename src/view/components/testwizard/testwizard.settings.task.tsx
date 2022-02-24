@@ -3,6 +3,7 @@ import Select from 'react-select';
 import { ExerciseType } from '../../../data/exercise-types';
 
 interface ITestWizardSettingsTask {
+	initType?: ExerciseType;
 	setType: (type: ExerciseType) => void;
 }
 
@@ -11,14 +12,31 @@ const typeOptions = [
 	{ value: ExerciseType.touch, label: 'Конструктор' },
 ];
 
-export const TestWizardSettingsTask = ({ setType }: ITestWizardSettingsTask): JSX.Element => {
+const typeMapper = {
+	[ExerciseType.button]: 'Кнопки',
+	[ExerciseType.touch]: 'Конструктор',
+};
+
+export const TestWizardSettingsTask = ({
+	initType,
+	setType,
+}: ITestWizardSettingsTask): JSX.Element => {
 	const [taskType, setTaskType] = useState<{ value: ExerciseType; label: string }>();
 	return (
 		<div className="testwizard__setting_part">
 			<div className="testwizard__setting_part-title">Настройки задания</div>
 			<Select
 				placeholder="Тип задания"
+				isSearchable={false}
 				options={typeOptions}
+				defaultValue={
+					initType
+						? {
+								value: initType,
+								label: typeMapper[initType],
+						  }
+						: undefined
+				}
 				value={taskType}
 				onChange={(val): void => {
 					if (!val) return;

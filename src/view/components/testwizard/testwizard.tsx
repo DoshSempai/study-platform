@@ -17,7 +17,18 @@ import './styles/testwizard.settings.css';
 import './styles/testwizard.data.css';
 import './styles/testwizard.preview.css';
 
+type WizardMode = 'create' | 'update';
+
+const initialTestSettings: ITestCommonData = {
+	title: '',
+	testMode: true,
+	trainMode: false,
+};
+
 interface ITestWizard {
+	mode: WizardMode;
+	initTestSettings?: ITestCommonData;
+	initTestData: ITestExerciseAll[];
 	onCloseModal?: () => void;
 	onCreateTest: (data: ITestData) => void;
 }
@@ -27,17 +38,19 @@ const typeMapper = {
 	[ExerciseType.touch]: 'Конструктор',
 };
 
-export const TestWizard = ({ onCloseModal, onCreateTest }: ITestWizard): JSX.Element => {
+export const TestWizard = ({
+	mode,
+	onCloseModal,
+	onCreateTest,
+	initTestData,
+	initTestSettings = initialTestSettings,
+}: ITestWizard): JSX.Element => {
 	const [counter, setCounter] = useState<number>(0);
-	const [testSettings, setTestSettings] = useState<ITestCommonData>({
-		title: '',
-		testMode: true,
-		trainMode: false,
-	});
+	const [testSettings, setTestSettings] = useState<ITestCommonData>(initTestSettings);
 	const [settingsError, setSettingsError] = useState<boolean>();
 	const [currentTaskType, setCurrentTaskType] = useState<ExerciseType>();
 	const [currentTask, setCurrentTask] = useState<ITestExerciseAll>();
-	const [tasks, setTasks] = useState<ITestExerciseAll[]>([]);
+	const [tasks, setTasks] = useState<ITestExerciseAll[]>(initTestData);
 
 	const handleCreateTest = (): void => {
 		if (!tasks.length) return;
@@ -122,7 +135,11 @@ export const TestWizard = ({ onCloseModal, onCreateTest }: ITestWizard): JSX.Ele
 				testSettings={testSettings}
 				setTestSettings={setTestSettings}
 			/>
-			<TestWizardSettingsTask key={`${counter}`} setType={onSetTypeInSettings} />
+			<TestWizardSettingsTask
+				key={`${counter}`}
+				initType={currentTaskType}
+				setType={onSetTypeInSettings}
+			/>
 		</div>
 	);
 
@@ -147,7 +164,9 @@ export const TestWizard = ({ onCloseModal, onCreateTest }: ITestWizard): JSX.Ele
 			<div className="testwizard-wrap"></div>
 			<div className="testwizard">
 				<div className="testwizard__header">
-					<div className="testwizard__title">Создание нового теста</div>
+					<div className="testwizard__title">
+						{mode === 'create' ? 'Создание нового теста' : 'Редактирование теста'}
+					</div>
 					<div className="testwizard__close" onClick={onCloseModal}></div>
 				</div>
 				<div className="testwizard__content">
@@ -174,7 +193,7 @@ export const TestWizard = ({ onCloseModal, onCreateTest }: ITestWizard): JSX.Ele
 						})}
 						onClick={handleCreateTest}
 					>
-						Создать
+						{mode === 'create' ? 'Создать' : 'Изменить'}
 					</div>
 				</div>
 			</div>
