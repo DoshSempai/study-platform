@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '../../components/card/Сard';
+import { Card, ICardActionsMeta } from '../../components/card/Сard';
 import { dashboardTestLocalData, ITestData } from '../../../data/dashboard-data';
 import { CommonLayout } from '../common/CommonLayout';
 import { TestWizard } from '../../components/testwizard/testwizard';
@@ -17,6 +17,8 @@ export const Dashboard = (): JSX.Element => {
 	const [api] = useState(new ApiLocalStorage());
 
 	// -------------------------
+	const [chosenWizardTest, setChosenWizardTest] = useState<ITestData>();
+	// -------------------------
 	const [chosenParoledTest, setChosenParoledTest] = useState<ITestData>();
 	const [userName, setUserName] = useState<string>('');
 	const [userParole, setUserParole] = useState<string>('');
@@ -25,7 +27,7 @@ export const Dashboard = (): JSX.Element => {
 	const [showParoleModal, setShowParoleModal] = useState<boolean>(false);
 	// -------------------------
 
-	const cardActionsMetaData = [
+	const getCardActionsMetaData = (selectedTestData: ITestData): ICardActionsMeta[] => [
 		{
 			icon: <StatisticsIcon />,
 			action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
@@ -39,6 +41,7 @@ export const Dashboard = (): JSX.Element => {
 			action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
 				e.preventDefault();
 				e.stopPropagation();
+				setChosenWizardTest(selectedTestData);
 				setShowTestWizardModal(true);
 			},
 		},
@@ -72,6 +75,10 @@ export const Dashboard = (): JSX.Element => {
 		setShowTestWizardModal(false);
 	};
 
+	const onUpdateTest = (data: ITestData): void => {
+		console.log('onUpdateTest', data);
+	};
+
 	const handleNavigation = (testData: ITestData): void => {
 		if (testData.parole) {
 			setShowParoleModal(true);
@@ -97,15 +104,20 @@ export const Dashboard = (): JSX.Element => {
 							<Card
 								title={testData.title}
 								hasParole={!!testData.parole}
-								actionsMeta={cardActionsMetaData}
+								actionsMeta={getCardActionsMetaData(testData)}
 							/>
 						</div>
 					))}
 			</CommonLayout>
 			{showTestWIzardModal && (
 				<TestWizard
-					onCreateTest={onCreateTest}
-					onCloseModal={(): void => setShowTestWizardModal(false)}
+					mode={chosenWizardTest ? 'update' : 'create'}
+					initTestData={chosenWizardTest ? chosenWizardTest.test : []}
+					onCreateTest={chosenWizardTest ? onUpdateTest : onCreateTest}
+					onCloseModal={(): void => {
+						setShowTestWizardModal(false);
+						setChosenWizardTest(undefined);
+					}}
 				/>
 			)}
 			{showDeleteModal && (
@@ -125,10 +137,6 @@ export const Dashboard = (): JSX.Element => {
 					actionName="Войти"
 					onClose={(): void => setShowParoleModal(false)}
 					onAction={(): void => {
-						/* noop */
-						console.log(`userName:`, userName);
-						console.log(`userParole:`, userParole);
-
 						if (!userName || !userParole) {
 							setParoleValidationError(true);
 							return;

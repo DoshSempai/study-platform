@@ -2,7 +2,7 @@ import React from 'react';
 import { LockIcon } from '../../../assets/svg';
 import './Card.css';
 
-interface ICardActionsMeta {
+export interface ICardActionsMeta {
 	icon: JSX.Element;
 	action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
