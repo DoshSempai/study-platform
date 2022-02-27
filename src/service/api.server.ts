@@ -1,4 +1,4 @@
-import { ITestData } from '../data/dashboard-data';
+// import { ITestData } from '../data/dashboard-data';
 import { ILoginProps, ILogin, IRegister, IRegisterProps } from './api.server.interface';
 
 export class ApiServer {
@@ -7,6 +7,27 @@ export class ApiServer {
 	static testsRoute = 'tests';
 
 	async login(data: ILoginProps): Promise<ILogin | null> {
+		// return fetch(`${ApiServer.url}/${ApiServer.usersRoute}/login`, {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		'Content-Type': 'application/json',
+		// 	},
+		// 	body: JSON.stringify(data),
+		// })
+		// 	.then((response) => {
+		// 		return response.json();
+		// 	})
+		// 	.then((result) => {
+		// 		return {
+		// 			id: result.id,
+		// 			email: result.email,
+		// 			jwt: result.jwt,
+		// 		};
+		// 	})
+		// 	.catch((e) => {
+		// 		console.error('[API] (login)', e);
+		// 		return null;
+		// 	});
 		try {
 			const response = await fetch(`${ApiServer.url}/${ApiServer.usersRoute}/login`, {
 				method: 'POST',

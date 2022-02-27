@@ -5,7 +5,8 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.tsx',
+    // entry: './src/index.tsx',
+    entry: ['@babel/polyfill', './src/index.tsx'],
     output: {
         filename: 'index.js',
         path: path.resolve(__dirname, 'build')

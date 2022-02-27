@@ -4,7 +4,7 @@ export interface ILoginProps {
 }
 
 export interface ILogin {
-	id: string;
+	id: number;
 	email: string;
 	jwt: string;
 }
@@ -16,6 +16,6 @@ export interface IRegisterProps {
 }
 
 export interface IRegister {
-	id: string;
+	id: number;
 	email: string;
 }
