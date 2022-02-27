@@ -52,10 +52,7 @@ export const LoginModal = ({ onClose }: ILoginModal): JSX.Element => {
 	};
 
 	const loginFn = async (data: ILoginProps): Promise<void> => {
-		console.log(`loginFn - data`, data);
 		return apiServer.login(data).then((res: any) => {
-			console.log(`loginFn - res`, res);
-
 			if (!res) {
 				setNetworkError('Ошибка авторизации');
 				return;
@@ -75,10 +72,7 @@ export const LoginModal = ({ onClose }: ILoginModal): JSX.Element => {
 	};
 
 	const registerFn = async (data: IRegisterProps): Promise<void> => {
-		console.log(`registerFn`, data);
 		return await apiServer.register(data).then((res: any) => {
-			console.log(`registerFn - res`, res);
-
 			if (!res) {
 				setNetworkError('Ошибка при регистрации');
 				return;

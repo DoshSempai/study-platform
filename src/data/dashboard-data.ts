@@ -10,9 +10,14 @@ export interface ITestCommonData {
 	parole?: string;
 }
 
+export interface IResult {
+	name: string;
+	result: string;
+}
+
 export interface ITestData extends ITestCommonData {
 	test: ITestExerciseAll[];
-	results?: string;
+	results?: IResult[];
 }
 
 export const dashboardTestLocalData: ITestData[] = [

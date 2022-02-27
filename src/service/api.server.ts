@@ -27,7 +27,6 @@ export class ApiServer {
 				return null;
 			}
 			const result = await response.json();
-			console.log(`login:`, result);
 			return {
 				id: result.id,
 				email: result.email,
@@ -68,6 +67,7 @@ export class ApiServer {
 				...data,
 				parole: data.parole || null,
 				test: JSON.stringify(data.test),
+				results: JSON.stringify(data.results || []),
 			};
 			const response = await fetch(`${ApiServer.url}/${ApiServer.testsRoute}/tests`, {
 				method: 'POST',
@@ -76,12 +76,10 @@ export class ApiServer {
 				},
 				body: JSON.stringify(mappedData),
 			});
-			console.log('[createTest] response', response);
 			if (!response.ok) {
 				return null;
 			}
 			const result = await response.json();
-			console.log('[createTest] result', result);
 			return {
 				id: result.id,
 				authorId: result.authorId,
@@ -106,11 +104,11 @@ export class ApiServer {
 			}
 			const jsonData = await response.json();
 			const result = jsonData.tests as ITestReadInit[];
-			console.log(`[readTests] result`, result);
 			const typedRes: ITestData[] = result.map((el) => ({
 				...el,
 				parole: el.parole ?? undefined,
 				test: JSON.parse(el.test),
+				results: JSON.parse(el.results),
 			}));
 			return typedRes;
 		} catch (e) {
@@ -127,6 +125,7 @@ export class ApiServer {
 					...testData,
 					parole: testData.parole || null,
 					test: JSON.stringify(testData.test),
+					results: JSON.stringify(testData.results),
 				},
 			};
 			const response = await fetch(`${ApiServer.url}/${ApiServer.testsRoute}/tests`, {
@@ -136,12 +135,10 @@ export class ApiServer {
 				},
 				body: JSON.stringify(mappedData),
 			});
-			console.log('[updateTest] response', response);
 			if (!response.ok) {
 				return null;
 			}
 			const result = await response.json();
-			console.log('[updateTest] result', result);
 			return {
 				id: result.id,
 				authorId: result.authorId,
@@ -161,6 +158,7 @@ export class ApiServer {
 					...testData,
 					parole: testData.parole || null,
 					test: JSON.stringify(testData.test),
+					results: JSON.stringify(testData.results),
 				},
 			};
 			const response = await fetch(`${ApiServer.url}/${ApiServer.testsRoute}/tests`, {
@@ -170,12 +168,10 @@ export class ApiServer {
 				},
 				body: JSON.stringify(mappedData),
 			});
-			console.log('[deleteTest] response', response);
 			if (!response.ok) {
 				return null;
 			}
 			const result = await response.json();
-			console.log('[deleteTest] result', result);
 			return {
 				id: result.id,
 				authorId: result.authorId,

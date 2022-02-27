@@ -29,6 +29,7 @@ export const Dashboard = (): JSX.Element => {
 	const [paroleValidationError, setParoleValidationError] = useState<boolean>(false);
 	const [showParoleModal, setShowParoleModal] = useState<boolean>(false);
 	// -------------------------
+	const navigate = useNavigate();
 
 	const getCardActionsMetaData = ({
 		selectedTestData,
@@ -62,7 +63,9 @@ export const Dashboard = (): JSX.Element => {
 					action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
 						e.preventDefault();
 						e.stopPropagation();
-						navigate('/statistics');
+						navigate('/statistics', {
+							state: { data: selectedTestData },
+						});
 					},
 				},
 				...metaData,
@@ -71,25 +74,20 @@ export const Dashboard = (): JSX.Element => {
 		return metaData;
 	};
 
-	const navigate = useNavigate();
-
 	const updateList = async (): Promise<void> => {
 		const serverData = await apiServer.readTests();
-		console.log(`[serverData]`, serverData);
 
 		setTestList([...testList, ...serverData].reverse());
 	};
 
 	useEffect(() => {
-		console.log('>> dashboard mount');
 		updateList();
 	}, []);
 
 	const onCreateTest = async (data: ITestData): Promise<void> => {
-		const sendData: ITestData = { ...data, parole: data.parole ?? undefined, results: '[]' };
+		const sendData: ITestData = { ...data, parole: data.parole ?? undefined, results: [] };
 
-		const serverData = await apiServer.createTest(sendData);
-		console.log('[onCreateTest] serverData', serverData);
+		await apiServer.createTest(sendData);
 
 		updateList();
 		setShowTestWizardModal(false);
@@ -97,12 +95,10 @@ export const Dashboard = (): JSX.Element => {
 
 	const onUpdateTest = async (data: ITestData): Promise<void> => {
 		const sendData: ITestData = { ...data, parole: data.parole ?? undefined };
-		console.log('[onUpdateTest] sendData', sendData.id, sendData);
 
 		if (!sendData.id) return;
 
-		const serverData = await apiServer.updateTest(sendData.id, { ...sendData, id: undefined });
-		console.log('[onUpdateTest] serverData', serverData);
+		await apiServer.updateTest(sendData.id, { ...sendData, id: undefined });
 
 		updateList();
 		setShowTestWizardModal(false);
@@ -121,8 +117,7 @@ export const Dashboard = (): JSX.Element => {
 
 		if (!id) return;
 
-		const serverData = await apiServer.deleteTest(id, sendData);
-		console.log('[onDeleteTest] serverData', serverData);
+		await apiServer.deleteTest(id, sendData);
 
 		updateList();
 		setShowDeleteModal(false);

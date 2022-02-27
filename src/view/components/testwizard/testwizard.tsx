@@ -49,7 +49,6 @@ export const TestWizard = ({
 	const handleCreateTest = (): void => {
 		if (!tasks.length) return;
 
-		console.log('- tasks & testSettings', tasks.length, testSettings);
 		if (!testSettings || !testSettings.title) {
 			setSettingsError(true);
 			return;
