@@ -4,11 +4,11 @@ import { Card, ICardActionsMeta } from '../../components/card/Сard';
 import { dashboardTestLocalData, ITestCommonData, ITestData } from '../../../data/dashboard-data';
 import { CommonLayout } from '../common/CommonLayout';
 import { TestWizard } from '../../components/testwizard/testwizard';
-import { ApiLocalStorage } from '../../../service/api.localstorage';
 import { DeleteIcon, SettingsIcon, StatisticsIcon } from '../../../assets/svg';
 import { ActionModal } from '../../components/modal/modal';
 import { Input } from '../../components/formparts/textinput/textinput';
 import { AuthContext } from '../../../context/authContext';
+import { ApiServer } from '../../../service/api.server';
 
 export const Dashboard = (): JSX.Element => {
 	const { authData } = useContext(AuthContext);
@@ -17,7 +17,7 @@ export const Dashboard = (): JSX.Element => {
 	const [showTestWIzardModal, setShowTestWizardModal] = useState<boolean>(false);
 	const [testList, setTestList] = useState<ITestData[]>(dashboardTestLocalData);
 	const [searchValue, setSearchValue] = useState<string>('');
-	const [api] = useState(new ApiLocalStorage());
+	const [apiServer] = useState(new ApiServer());
 
 	// -------------------------
 	const [chosenWizardTest, setChosenWizardTest] = useState<ITestData>();
@@ -30,40 +30,53 @@ export const Dashboard = (): JSX.Element => {
 	const [showParoleModal, setShowParoleModal] = useState<boolean>(false);
 	// -------------------------
 
-	const getCardActionsMetaData = (selectedTestData: ITestData): ICardActionsMeta[] => [
-		{
-			icon: <StatisticsIcon />,
-			action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
-				e.preventDefault();
-				e.stopPropagation();
-				navigate('/statistics');
+	const getCardActionsMetaData = ({
+		selectedTestData,
+	}: {
+		selectedTestData: ITestData;
+	}): ICardActionsMeta[] => {
+		let metaData = [
+			{
+				icon: <SettingsIcon />,
+				action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+					e.preventDefault();
+					e.stopPropagation();
+					setChosenWizardTest(selectedTestData);
+					setShowTestWizardModal(true);
+				},
 			},
-		},
-		{
-			icon: <SettingsIcon />,
-			action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
-				e.preventDefault();
-				e.stopPropagation();
-				setChosenWizardTest(selectedTestData);
-				setShowTestWizardModal(true);
+			{
+				icon: <DeleteIcon />,
+				action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+					e.preventDefault();
+					e.stopPropagation();
+					setShowDeleteModal(true);
+				},
 			},
-		},
-		{
-			icon: <DeleteIcon />,
-			action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
-				e.preventDefault();
-				e.stopPropagation();
-				setShowDeleteModal(true);
-			},
-		},
-	];
+		];
+		if (selectedTestData.parole) {
+			metaData = [
+				{
+					icon: <StatisticsIcon />,
+					action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+						e.preventDefault();
+						e.stopPropagation();
+						navigate('/statistics');
+					},
+				},
+				...metaData,
+			];
+		}
+		return metaData;
+	};
 
 	const navigate = useNavigate();
 
-	const updateList = (): void => {
-		const storageData = api.getData();
-		console.log('~~ storageData', storageData);
-		setTestList([...testList, ...storageData].reverse());
+	const updateList = async (): Promise<void> => {
+		const serverData = await apiServer.readTests();
+		console.log(`[serverData]`, serverData);
+
+		setTestList([...testList, ...serverData].reverse());
 	};
 
 	useEffect(() => {
@@ -71,9 +84,13 @@ export const Dashboard = (): JSX.Element => {
 		updateList();
 	}, []);
 
-	const onCreateTest = (data: ITestData): void => {
-		console.log('onCreateTest', data);
-		api.writeData(data);
+	const onCreateTest = async (data: ITestData): Promise<void> => {
+		const sendData: ITestData = { ...data, parole: data.parole ?? undefined, results: '[]' };
+		console.log('[onCreateTest] sendData', sendData);
+
+		const serverData = await apiServer.createTest(sendData);
+		console.log('[onCreateTest] serverData', serverData);
+
 		updateList();
 		setShowTestWizardModal(false);
 	};
@@ -109,7 +126,11 @@ export const Dashboard = (): JSX.Element => {
 							<Card
 								title={testData.title}
 								hasParole={!!testData.parole}
-								actionsMeta={getCardActionsMetaData(testData)}
+								actionsMeta={
+									authData.id === testData.authorId
+										? getCardActionsMetaData({ selectedTestData: testData })
+										: undefined
+								}
 							/>
 						</div>
 					))}
@@ -126,7 +147,12 @@ export const Dashboard = (): JSX.Element => {
 									trainMode: chosenWizardTest.trainMode,
 									parole: chosenWizardTest.parole,
 							  } as ITestCommonData)
-							: undefined
+							: {
+									title: '',
+									testMode: true,
+									trainMode: false,
+									authorId: authData.id,
+							  }
 					}
 					onCreateTest={chosenWizardTest ? onUpdateTest : onCreateTest}
 					onCloseModal={(): void => {

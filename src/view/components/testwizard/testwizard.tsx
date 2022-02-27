@@ -19,15 +19,9 @@ import './styles/testwizard.preview.css';
 
 type WizardMode = 'create' | 'update';
 
-const initialTestSettings: ITestCommonData = {
-	title: '',
-	testMode: true,
-	trainMode: false,
-};
-
 interface ITestWizard {
 	mode: WizardMode;
-	initTestSettings?: ITestCommonData;
+	initTestSettings: ITestCommonData;
 	initTestData: ITestExerciseAll[];
 	onCloseModal?: () => void;
 	onCreateTest: (data: ITestData) => void;
@@ -43,7 +37,7 @@ export const TestWizard = ({
 	onCloseModal,
 	onCreateTest,
 	initTestData,
-	initTestSettings = initialTestSettings,
+	initTestSettings,
 }: ITestWizard): JSX.Element => {
 	const [counter, setCounter] = useState<number>(0);
 	const [testSettings, setTestSettings] = useState<ITestCommonData>(initTestSettings);
