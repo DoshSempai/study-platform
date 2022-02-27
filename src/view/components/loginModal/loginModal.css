@@ -1,0 +1,32 @@
+@import '../../../assets/palette.css';
+
+.tabs-wrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.login-body {
+  margin: 20px 0;
+}
+
+.input-wrap {
+  margin: 10px 0;
+}
+
+.login-body-haslogined {
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  color: var(--stplatform-black-80);
+}

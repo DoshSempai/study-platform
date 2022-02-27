@@ -11,6 +11,7 @@ import { ExerciseType, ITestExerciseAll } from '../../../data/exercise-types';
 import { ExerciseTouch } from '../../components/exersices/touch-exercise/Touch-exercise';
 import { ITestData } from '../../../data/dashboard-data';
 import { createReactionLine } from '../../../data/chemistry/controls_ex_touch';
+import { ApiServer } from '../../../service/api.server';
 
 type TestMode = 'test' | 'train';
 
@@ -21,8 +22,7 @@ export const Exercise = (): JSX.Element => {
 	const { test, testMode, trainMode, parole } = locationData;
 	const initialExerciseList = test || [];
 
-	console.log(`EXERCISE`, 'userName', userName, 'parole', parole);
-
+	const [apiServer] = useState(new ApiServer());
 	const [counter, setCounter] = useState<number>(0);
 	const [mode, setMode] = useState<TestMode>();
 	const [numberOfCorrect, setNumberOfCorrect] = useState<number>(0);
@@ -41,11 +41,31 @@ export const Exercise = (): JSX.Element => {
 		}
 
 		const isCorrect = getIsAnswerCorrect();
-		isCorrect && setNumberOfCorrect(numberOfCorrect + 1);
+		const newNumOfCorrect = isCorrect ? numberOfCorrect + 1 : numberOfCorrect;
+		isCorrect && setNumberOfCorrect(newNumOfCorrect);
+
 		const newExerciseArray = exerciseArray.slice(1);
 		setCounter(counter + 1);
 		setExerciseArray(newExerciseArray);
 		setUserAnswer(undefined);
+
+		if (!newExerciseArray.length && mode === 'test' && parole && userName) {
+			const resultData = {
+				name: userName,
+				result: `${newNumOfCorrect} / ${initialExerciseList.length}`,
+			};
+			const newSendData: ITestData = {
+				...locationData,
+				results: [...(locationData.results || []), resultData],
+			};
+			onUpdateTestResults(newSendData);
+		}
+	};
+
+	const onUpdateTestResults = async (data: ITestData): Promise<void> => {
+		const sendData: ITestData = { ...data, parole: data.parole ?? undefined };
+		if (!sendData.id) return;
+		await apiServer.updateTest(sendData.id, { ...sendData, id: undefined });
 	};
 
 	const handleHintNextExercise = (): void => {

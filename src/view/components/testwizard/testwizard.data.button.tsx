@@ -45,7 +45,6 @@ export const TestWizardDataButton = ({
 			setErrorMessage('Заполните все поля');
 			return;
 		}
-		console.log('yay');
 		setTestData({
 			type: ExerciseType.button,
 			title: 'Выберите правильный ответ',

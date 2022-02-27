@@ -5,6 +5,7 @@ import { Navigation } from '../../components/navigation/Navigation';
 
 interface CommonLayoutProps {
 	children?: ReactNode;
+	canLogin?: boolean;
 	searchValue?: string;
 	setSearchValue?: (data: string) => void;
 	onCreateTestClick?: () => void;
@@ -12,6 +13,7 @@ interface CommonLayoutProps {
 
 export const CommonLayout = ({
 	children,
+	canLogin = false,
 	onCreateTestClick,
 	searchValue,
 	setSearchValue,
@@ -19,7 +21,7 @@ export const CommonLayout = ({
 	<>
 		<Navigation onCreateTestClick={onCreateTestClick} />
 		<div className="app_right">
-			<Header searchValue={searchValue} setSearchValue={setSearchValue} />
+			<Header searchValue={searchValue} setSearchValue={setSearchValue} canLogin={canLogin} />
 			<Content>{children}</Content>
 		</div>
 	</>

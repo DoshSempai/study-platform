@@ -19,18 +19,12 @@ import './styles/testwizard.preview.css';
 
 type WizardMode = 'create' | 'update';
 
-const initialTestSettings: ITestCommonData = {
-	title: '',
-	testMode: true,
-	trainMode: false,
-};
-
 interface ITestWizard {
 	mode: WizardMode;
-	initTestSettings?: ITestCommonData;
+	initTestSettings: ITestCommonData;
 	initTestData: ITestExerciseAll[];
 	onCloseModal?: () => void;
-	onCreateTest: (data: ITestData) => void;
+	onCreateUpdateTest: (data: ITestData) => void;
 }
 
 const typeMapper = {
@@ -41,9 +35,9 @@ const typeMapper = {
 export const TestWizard = ({
 	mode,
 	onCloseModal,
-	onCreateTest,
+	onCreateUpdateTest,
 	initTestData,
-	initTestSettings = initialTestSettings,
+	initTestSettings,
 }: ITestWizard): JSX.Element => {
 	const [counter, setCounter] = useState<number>(0);
 	const [testSettings, setTestSettings] = useState<ITestCommonData>(initTestSettings);
@@ -55,13 +49,12 @@ export const TestWizard = ({
 	const handleCreateTest = (): void => {
 		if (!tasks.length) return;
 
-		console.log('- tasks & testSettings', tasks.length, testSettings);
 		if (!testSettings || !testSettings.title) {
 			setSettingsError(true);
 			return;
 		}
 
-		onCreateTest({
+		onCreateUpdateTest({
 			...testSettings,
 			test: tasks,
 		});
@@ -108,7 +101,11 @@ export const TestWizard = ({
 			<div className="testwizard__exircise_list-divider"></div>
 			<div className="testwizard__exircise-list">
 				{tasks.map((task, index) => (
-					<div className="testwizard__list-item" onClick={(): void => onOpenTaskSettings(index)}>
+					<div
+						key={`${task.title}-${task.answer}`}
+						className="testwizard__list-item"
+						onClick={(): void => onOpenTaskSettings(index)}
+					>
 						<div className="testwizard__list-item-data">
 							<div className="testwizard__list-item-title">{truncateString(task.title, 16)}</div>
 							<div className="testwizard__list-item-type">{typeMapper[task.type]}</div>

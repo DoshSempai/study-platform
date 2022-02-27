@@ -31,7 +31,6 @@ export const TestWizardDataTouch = ({
 			notes: notes || undefined,
 			question: resReaction,
 		});
-		console.log('preview', resReaction);
 	};
 
 	const handleAddTaskToTest = (): void => {

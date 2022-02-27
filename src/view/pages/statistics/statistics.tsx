@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import { CSVLink } from 'react-csv';
 import { Table } from '../../components/table/table';
 import { CommonLayout } from '../common/CommonLayout';
 import { Histogram } from '../../components/histogram/histogram';
 import { DownloadIcon } from '../../../assets/svg';
+import { IResult, ITestData } from '../../../data/dashboard-data';
 
 enum Tabs {
 	Table,
 	Hist,
 }
 
-const csvData = [
-	['firstname', 'lastname', 'email'],
-	['Ahmed', 'Tomi', 'ah@smthing.co.com'],
-	['Raed', 'Labes', 'rl@smthing.co.com'],
-	['Yezzi', 'Min l3b', 'ymin@cocococo.com'],
-];
-
 export const Statistics = (): JSX.Element => {
+	const { state } = useLocation();
+	const locationData = (state as any).data as ITestData;
+	const results: IResult[] = locationData.results || [];
+	const csvData = results.map((el) => Object.values(el));
+
 	const [activeTab, setActiveTab] = useState<Tabs>(Tabs.Table);
 
 	const handleTabClick = (data: Tabs): void => {
@@ -55,7 +55,7 @@ export const Statistics = (): JSX.Element => {
 						</div>
 					</div>
 				</div>
-				{activeTab === Tabs.Table ? <Table /> : <Histogram />}
+				{activeTab === Tabs.Table ? <Table results={results} /> : <Histogram results={results} />}
 			</div>
 		</CommonLayout>
 	);

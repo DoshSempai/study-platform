@@ -6,6 +6,7 @@ interface IDeleteModal {
 	onClose: () => void;
 	onAction: () => void;
 	content: ReactNode;
+	disableAction?: boolean;
 	title: string;
 	actionName: string;
 }
@@ -15,6 +16,7 @@ export const ActionModal = ({
 	onAction,
 	content,
 	title,
+	disableAction = false,
 	actionName,
 }: IDeleteModal): JSX.Element => {
 	return (
@@ -32,7 +34,7 @@ export const ActionModal = ({
 					</div>
 					<div
 						className={cn('modal__action modal__action-main', {
-							'modal__action-main--disabled': false,
+							'modal__action-main--disabled': disableAction,
 						})}
 						onClick={onAction}
 					>
