@@ -8,7 +8,7 @@ interface ITable {
 }
 
 const getXData = (results: IResult[]): string[] => {
-	const firstResult = results[0]?.result;
+	const firstResult = results[0] && results[0].result;
 	return firstResult
 		? Array.from({ length: Number(firstResult.split('/')[1]) + 1 }, (_, index) => `${index}`)
 		: [];
