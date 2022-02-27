@@ -4,7 +4,6 @@ import { AvatarIcon, LoginIcon } from '../../../assets/svg';
 import { AuthContext } from '../../../context/authContext';
 import { Input } from '../formparts/textinput/textinput';
 import { LoginModal } from '../loginModal/loginModal';
-import { ActionModal } from '../modal/modal';
 import './Header.css';
 
 interface IHeader {

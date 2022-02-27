@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, ICardActionsMeta } from '../../components/card/Сard';
 import { dashboardTestLocalData, ITestCommonData, ITestData } from '../../../data/dashboard-data';
@@ -8,8 +8,11 @@ import { ApiLocalStorage } from '../../../service/api.localstorage';
 import { DeleteIcon, SettingsIcon, StatisticsIcon } from '../../../assets/svg';
 import { ActionModal } from '../../components/modal/modal';
 import { Input } from '../../components/formparts/textinput/textinput';
+import { AuthContext } from '../../../context/authContext';
 
 export const Dashboard = (): JSX.Element => {
+	const { authData } = useContext(AuthContext);
+
 	const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
 	const [showTestWIzardModal, setShowTestWizardModal] = useState<boolean>(false);
 	const [testList, setTestList] = useState<ITestData[]>(dashboardTestLocalData);
@@ -95,7 +98,9 @@ export const Dashboard = (): JSX.Element => {
 			<CommonLayout
 				searchValue={searchValue}
 				setSearchValue={setSearchValue}
-				onCreateTestClick={(): void => setShowTestWizardModal(true)}
+				onCreateTestClick={
+					authData.authenticated ? (): void => setShowTestWizardModal(true) : undefined
+				}
 			>
 				{testList
 					.filter((el) => el.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)

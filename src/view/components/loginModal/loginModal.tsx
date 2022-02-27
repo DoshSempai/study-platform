@@ -4,8 +4,9 @@ import { ActionModal } from '../modal/modal';
 import { Input } from '../formparts/textinput/textinput';
 import { ILoginProps, IRegisterProps } from '../../../service/api.server.interface';
 import { ApiServer } from '../../../service/api.server';
-import { AuthContext } from '../../../context/authContext';
+import { AuthContext, IAuthContext } from '../../../context/authContext';
 import './loginModal.css';
+import { ApiLocalStorage } from '../../../service/api.localstorage';
 
 interface ILoginModal {
 	onClose: () => void;
@@ -25,7 +26,8 @@ export const LoginModal = ({ onClose }: ILoginModal): JSX.Element => {
 	const [inputError, setInputError] = useState<boolean>(false);
 	const [networkError, setNetworkError] = useState<string>();
 	const [hasLogined, setHasLogined] = useState<boolean>(false);
-	const [api] = useState(new ApiServer());
+	const [apiServer] = useState(new ApiServer());
+	const [apiLocal] = useState(new ApiLocalStorage());
 
 	const onSubmit = (): void => {
 		if (!userEmail || !userPass) {
@@ -51,7 +53,7 @@ export const LoginModal = ({ onClose }: ILoginModal): JSX.Element => {
 
 	const loginFn = async (data: ILoginProps): Promise<void> => {
 		console.log(`loginFn - data`, data);
-		return api.login(data).then((res) => {
+		return apiServer.login(data).then((res: any) => {
 			console.log(`loginFn - res`, res);
 
 			if (!res) {
@@ -59,11 +61,14 @@ export const LoginModal = ({ onClose }: ILoginModal): JSX.Element => {
 				return;
 			}
 
-			setAuthData({
+			const auth: IAuthContext = {
 				id: res.id,
 				email: res.email,
 				authenticated: true,
-			});
+			};
+
+			setAuthData(auth);
+			apiLocal.writeUser(auth);
 
 			setHasLogined(true);
 		});
@@ -71,7 +76,7 @@ export const LoginModal = ({ onClose }: ILoginModal): JSX.Element => {
 
 	const registerFn = async (data: IRegisterProps): Promise<void> => {
 		console.log(`registerFn`, data);
-		return await api.register(data).then((res) => {
+		return await apiServer.register(data).then((res: any) => {
 			console.log(`registerFn - res`, res);
 
 			if (!res) {
@@ -79,11 +84,14 @@ export const LoginModal = ({ onClose }: ILoginModal): JSX.Element => {
 				return;
 			}
 
-			setAuthData({
+			const auth: IAuthContext = {
 				id: res.id,
 				email: res.email,
 				authenticated: true,
-			});
+			};
+
+			setAuthData(auth);
+			apiLocal.writeUser(auth);
 
 			setHasLogined(true);
 		});
