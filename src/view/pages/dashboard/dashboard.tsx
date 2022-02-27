@@ -50,6 +50,7 @@ export const Dashboard = (): JSX.Element => {
 				action: (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
 					e.preventDefault();
 					e.stopPropagation();
+					setChosenWizardTest(selectedTestData);
 					setShowDeleteModal(true);
 				},
 			},
@@ -86,7 +87,6 @@ export const Dashboard = (): JSX.Element => {
 
 	const onCreateTest = async (data: ITestData): Promise<void> => {
 		const sendData: ITestData = { ...data, parole: data.parole ?? undefined, results: '[]' };
-		console.log('[onCreateTest] sendData', sendData);
 
 		const serverData = await apiServer.createTest(sendData);
 		console.log('[onCreateTest] serverData', serverData);
@@ -95,8 +95,38 @@ export const Dashboard = (): JSX.Element => {
 		setShowTestWizardModal(false);
 	};
 
-	const onUpdateTest = (data: ITestData): void => {
-		console.log('onUpdateTest', data);
+	const onUpdateTest = async (data: ITestData): Promise<void> => {
+		const sendData: ITestData = { ...data, parole: data.parole ?? undefined };
+		console.log('[onUpdateTest] sendData', sendData.id, sendData);
+
+		if (!sendData.id) return;
+
+		const serverData = await apiServer.updateTest(sendData.id, { ...sendData, id: undefined });
+		console.log('[onUpdateTest] serverData', serverData);
+
+		updateList();
+		setShowTestWizardModal(false);
+		setChosenWizardTest(undefined);
+	};
+
+	const onDeleteTest = async (): Promise<void> => {
+		if (!chosenWizardTest) return;
+
+		const id = chosenWizardTest?.id;
+		const sendData: ITestData = {
+			...chosenWizardTest,
+			parole: chosenWizardTest.parole ?? undefined,
+			id: undefined,
+		};
+
+		if (!id) return;
+
+		const serverData = await apiServer.deleteTest(id, sendData);
+		console.log('[onDeleteTest] serverData', serverData);
+
+		updateList();
+		setShowDeleteModal(false);
+		setChosenWizardTest(undefined);
 	};
 
 	const handleNavigation = (testData: ITestData): void => {
@@ -142,6 +172,7 @@ export const Dashboard = (): JSX.Element => {
 					initTestSettings={
 						chosenWizardTest
 							? ({
+									id: chosenWizardTest?.id,
 									title: chosenWizardTest.title,
 									testMode: chosenWizardTest.testMode,
 									trainMode: chosenWizardTest.trainMode,
@@ -154,7 +185,7 @@ export const Dashboard = (): JSX.Element => {
 									authorId: authData.id,
 							  }
 					}
-					onCreateTest={chosenWizardTest ? onUpdateTest : onCreateTest}
+					onCreateUpdateTest={chosenWizardTest ? onUpdateTest : onCreateTest}
 					onCloseModal={(): void => {
 						setShowTestWizardModal(false);
 						setChosenWizardTest(undefined);
@@ -165,11 +196,16 @@ export const Dashboard = (): JSX.Element => {
 				<ActionModal
 					title="Удаление теста"
 					actionName="Удалить"
-					content={<>work in progress</>}
-					onClose={(): void => setShowDeleteModal(false)}
-					onAction={(): void => {
-						/* noop */
+					content={
+						<div className="delete-modal-body-text">
+							Вы уверены, что хотите удалить тест "{chosenWizardTest?.title}"
+						</div>
+					}
+					onClose={(): void => {
+						setShowDeleteModal(false);
+						setChosenWizardTest(undefined);
 					}}
+					onAction={onDeleteTest}
 				/>
 			)}
 			{showParoleModal && (

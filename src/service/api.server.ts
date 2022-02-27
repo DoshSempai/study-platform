@@ -5,7 +5,6 @@ import {
 	ILogin,
 	IRegister,
 	IRegisterProps,
-	ITestRead,
 	ITestReadInit,
 	ICreate,
 } from './api.server.interface';
@@ -117,6 +116,74 @@ export class ApiServer {
 		} catch (e) {
 			console.error('[API] (readTests)', e);
 			return [];
+		}
+	}
+
+	async updateTest(id: number, testData: ITestData): Promise<ICreate | null> {
+		try {
+			const mappedData = {
+				id,
+				test: {
+					...testData,
+					parole: testData.parole || null,
+					test: JSON.stringify(testData.test),
+				},
+			};
+			const response = await fetch(`${ApiServer.url}/${ApiServer.testsRoute}/tests`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(mappedData),
+			});
+			console.log('[updateTest] response', response);
+			if (!response.ok) {
+				return null;
+			}
+			const result = await response.json();
+			console.log('[updateTest] result', result);
+			return {
+				id: result.id,
+				authorId: result.authorId,
+				title: result.title,
+			};
+		} catch (e) {
+			console.error('[API] (updateTest)', e);
+			return null;
+		}
+	}
+
+	async deleteTest(id: number, testData: ITestData): Promise<ICreate | null> {
+		try {
+			const mappedData = {
+				id,
+				test: {
+					...testData,
+					parole: testData.parole || null,
+					test: JSON.stringify(testData.test),
+				},
+			};
+			const response = await fetch(`${ApiServer.url}/${ApiServer.testsRoute}/tests`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(mappedData),
+			});
+			console.log('[deleteTest] response', response);
+			if (!response.ok) {
+				return null;
+			}
+			const result = await response.json();
+			console.log('[deleteTest] result', result);
+			return {
+				id: result.id,
+				authorId: result.authorId,
+				title: result.title,
+			};
+		} catch (e) {
+			console.error('[API] (deleteTest)', e);
+			return null;
 		}
 	}
 }

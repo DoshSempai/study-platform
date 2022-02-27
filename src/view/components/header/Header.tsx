@@ -16,7 +16,6 @@ export const Header = ({ searchValue, setSearchValue }: IHeader): JSX.Element =>
 	const { authData } = useContext(AuthContext);
 	const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
 
-	console.log(`authData`, authData);
 	return (
 		<>
 			<div className="header">

@@ -3,6 +3,7 @@ import { exerciseList } from './test-exercise';
 
 export interface ITestCommonData {
 	title: string;
+	id?: number;
 	authorId: number;
 	testMode: boolean;
 	trainMode: boolean;
