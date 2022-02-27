@@ -10,7 +10,7 @@ import {
 } from './api.server.interface';
 
 export class ApiServer {
-	static url = 'http://localhost:8000';
+	static url = 'https://st-platform-server.herokuapp.com';
 	static usersRoute = 'users';
 	static testsRoute = 'tests';
 
