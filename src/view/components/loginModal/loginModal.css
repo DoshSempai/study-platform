@@ -1,0 +1,14 @@
+
+.tabs-wrap {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.login-body {
+  margin: 20px 0;
+}
+
+.input-wrap {
+  margin: 10px 0;
+}

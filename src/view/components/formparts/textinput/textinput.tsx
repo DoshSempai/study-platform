@@ -3,6 +3,7 @@ import cn from 'classnames';
 import './textinput.css';
 
 interface IInput {
+	type?: string;
 	value: string;
 	placeholder?: string;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -17,6 +18,7 @@ export const Input = ({
 	onChange,
 	label,
 	disabled,
+	type = 'text',
 	error = false,
 	className = '',
 	placeholder = '',
@@ -28,7 +30,8 @@ export const Input = ({
 				className={cn('st-input', {
 					'st-input--error': error,
 				})}
-				type="text"
+				type={type}
+				// type="password"
 				value={value}
 				onChange={onChange}
 				disabled={disabled}
