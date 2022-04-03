@@ -1,3 +1,3 @@
 # study-platform
 
-* [презентация](presentation/Presentation.pptx)
+* [презентация](presentation/Presentation.pdf)
